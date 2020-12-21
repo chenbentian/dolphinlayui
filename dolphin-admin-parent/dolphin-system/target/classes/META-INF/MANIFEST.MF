@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: dolphin-system
+Implementation-Version: 1.0.0
+Built-By: cbt-34201
+Implementation-Vendor-Id: com.bt.dolphin
+Build-Jdk: 1.8.0_162
+Implementation-URL: http://maven.apache.org
+Created-By: Maven Integration for Eclipse
+

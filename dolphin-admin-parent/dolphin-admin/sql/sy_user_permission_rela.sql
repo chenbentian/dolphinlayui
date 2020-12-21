@@ -1,0 +1,13 @@
+CREATE TABLE `sy_user_permission_rela` (
+  `USER_ID` varchar(40) NOT NULL COMMENT '账户ID',
+  `USER_NO` varchar(64) DEFAULT NULL COMMENT '账户',
+  `PERMISSION_ID` varchar(40) NOT NULL COMMENT '权限ID',
+  `PERMISSION_NAME` varchar(32) DEFAULT NULL COMMENT '权限名称',
+  `PERMISSION_PATH` varchar(128) DEFAULT NULL COMMENT '权限路径',
+  `PERMISSION_TYPE` varchar(1) DEFAULT NULL COMMENT '权限类型',
+  `APP_ID` varchar(40) DEFAULT NULL COMMENT '权限项所属APP_ID',
+  PRIMARY KEY (`ACCOUNT_ID`,`PERMISSION_ID`),
+  KEY `idx_accountname` (`ACCOUNT_NAME`) USING BTREE,
+  KEY `idx_perssionpath` (`PERMISSION_PATH`) USING BTREE,
+  KEY `idx_permissionId` (`PERMISSION_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='账户和权限对照关系表'

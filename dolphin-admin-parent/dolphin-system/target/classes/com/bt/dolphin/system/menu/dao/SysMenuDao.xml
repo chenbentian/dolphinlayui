@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bt.dolphin.system.menu.dao.SysMenuDao">
+	
+		
+	<select id="getChildMenuByAppIds" resultType="com.bt.dolphin.system.menu.vo.SysMenuVo" parameterType="com.bt.dolphin.system.menu.vo.SysMenuVo">
+		SELECT
+		menu_id, menu_parentid, menu_seq, menu_index, menu_title,menu_title_lang_id, menu_path,menu_icon,
+	    menu_kind, obj_id,obj_path, obj_app_id, menu_app_id, menu_state, action_app_context,
+		action_authorized, action_normal,action_systemic, action_safe, action_audit ,open_position,
+		(SELECT count(1) FROM sy_menu b WHERE b.menu_parentid=a.menu_id) isLeaf
+		FROM
+		sy_menu a
+		<where>
+		    <if test="parentId ==null">
+				and ISNULL(a.menu_parentid)
+			</if>
+			<if test="parentId !=null">
+				and a.menu_parentid = #{parentId}
+			</if>
+			<if test="appIds !=null">
+				and a.menu_app_name in
+				<foreach collection="appIds" item="appId" open="(" separator="," close=")">
+					 #{appId}
+				</foreach>
+			</if>
+		</where>
+		order by a.menu_index
+	</select>
+	
+</mapper>

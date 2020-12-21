@@ -1,0 +1,7 @@
+CREATE TABLE `sy_user_role_rela` (
+  `USER_ID` varchar(40) NOT NULL COMMENT '账户ID',
+  `ROLE_ID` varchar(40) NOT NULL COMMENT '角色ID',
+  `ROLE_RANGE` varchar(1) NOT NULL COMMENT '角色类型 0业务1授权',
+  PRIMARY KEY (`USER_ID`,`ROLE_ID`),
+  KEY `INDEX_ROLE_ID` (`ROLE_ID`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户与角色对照关系表'

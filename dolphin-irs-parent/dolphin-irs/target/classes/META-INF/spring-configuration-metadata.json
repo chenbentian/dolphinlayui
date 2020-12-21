@@ -1,0 +1,87 @@
+{
+  "groups": [
+    {
+      "name": "spring.datasource.ondb",
+      "type": "com.bt.dolphin.irs.config.OndbOracleProperties",
+      "sourceType": "com.bt.dolphin.irs.config.OndbOracleProperties"
+    },
+    {
+      "name": "zhongzly",
+      "type": "com.bt.dolphin.irs.newenergy.job.ZhongzlyProperties",
+      "sourceType": "com.bt.dolphin.irs.newenergy.job.ZhongzlyProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.datasource.ondb.borrow-connection-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.bt.dolphin.irs.config.OndbOracleProperties"
+    },
+    {
+      "name": "spring.datasource.ondb.drive-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.bt.dolphin.irs.config.OndbOracleProperties"
+    },
+    {
+      "name": "spring.datasource.ondb.login-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.bt.dolphin.irs.config.OndbOracleProperties"
+    },
+    {
+      "name": "spring.datasource.ondb.maintenance-interval",
+      "type": "java.lang.Integer",
+      "sourceType": "com.bt.dolphin.irs.config.OndbOracleProperties"
+    },
+    {
+      "name": "spring.datasource.ondb.max-idle-time",
+      "type": "java.lang.Integer",
+      "sourceType": "com.bt.dolphin.irs.config.OndbOracleProperties"
+    },
+    {
+      "name": "spring.datasource.ondb.max-lifetime",
+      "type": "java.lang.Integer",
+      "sourceType": "com.bt.dolphin.irs.config.OndbOracleProperties"
+    },
+    {
+      "name": "spring.datasource.ondb.max-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.bt.dolphin.irs.config.OndbOracleProperties"
+    },
+    {
+      "name": "spring.datasource.ondb.min-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.bt.dolphin.irs.config.OndbOracleProperties"
+    },
+    {
+      "name": "spring.datasource.ondb.password",
+      "type": "java.lang.String",
+      "sourceType": "com.bt.dolphin.irs.config.OndbOracleProperties"
+    },
+    {
+      "name": "spring.datasource.ondb.test-query",
+      "type": "java.lang.String",
+      "sourceType": "com.bt.dolphin.irs.config.OndbOracleProperties"
+    },
+    {
+      "name": "spring.datasource.ondb.url",
+      "type": "java.lang.String",
+      "sourceType": "com.bt.dolphin.irs.config.OndbOracleProperties"
+    },
+    {
+      "name": "spring.datasource.ondb.username",
+      "type": "java.lang.String",
+      "sourceType": "com.bt.dolphin.irs.config.OndbOracleProperties"
+    },
+    {
+      "name": "zhongzly.public-key",
+      "type": "java.lang.String",
+      "sourceType": "com.bt.dolphin.irs.newenergy.job.ZhongzlyProperties"
+    },
+    {
+      "name": "zhongzly.rest-url",
+      "type": "java.lang.String",
+      "sourceType": "com.bt.dolphin.irs.newenergy.job.ZhongzlyProperties"
+    }
+  ],
+  "hints": []
+}

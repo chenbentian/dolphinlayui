@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bt.dolphin.system.user.dao.SysUserDao">
+	
+	<select id="getUserByUserNo" parameterType="String" resultType="com.bt.dolphin.system.user.vo.SysUserVo">
+		select u.USER_ID,u.USER_NO,u.USER_NAME,u.USER_PASSWORD,u.USER_TYPE,u.USER_STATUS,u.USER_org,u.direct_org_code,u.salt
+		from sy_user u 
+		where u.USER_NO = #{userNo}
+	</select>
+	
+	<select id="queryUserList" resultType="com.bt.dolphin.system.user.vo.SysUserVo" 
+    parameterType="com.bt.dolphin.system.user.vo.SysUserCondition">
+	   select u.USER_ID,u.USER_NO,u.USER_NAME,u.USER_PASSWORD,u.USER_TYPE,u.USER_STATUS,u.USER_org,u.direct_org_code,u.salt
+		from sy_user u 
+		where 1=1
+	    <if test="userNo!=null and userNo!=''">
+				and u.USER_NO = #{userNo,jdbcType=VARCHAR}
+		</if>
+	    <if test="userName!=null and userName!=''">
+				and u.USER_NAME = #{userName,jdbcType=VARCHAR}
+		</if>
+		 <if test="userStatus!=null and userStatus!=''">
+				and u.USER_STATUS = #{userStatus,jdbcType=VARCHAR}
+		</if>
+
+    </select>
+</mapper>

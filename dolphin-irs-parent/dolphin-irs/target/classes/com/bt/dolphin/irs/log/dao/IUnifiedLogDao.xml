@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bt.dolphin.irs.log.dao.IUnifiedLogDao">
+	<insert  id="saveLog" parameterType="java.util.Map">
+		INSERT INTO WS_INTERFACE_LOG
+		(LOG_ID,INTER_SERVICENAME,INTER_NAME,APP_NO,TASK_ID,REQUEST_TYPE,REQUEST_TIME,OUT_PARAM,SUC_FLAG,END_TIME,IN_PARAM)
+		VALUES
+		(#{logId, jdbcType=VARCHAR},#{interServiceName, jdbcType=VARCHAR},#{interName, jdbcType=VARCHAR},#{appNo, jdbcType=VARCHAR},
+		#{taskId, jdbcType=VARCHAR},#{requestType, jdbcType=VARCHAR},to_date(#{requestTime, jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss'),
+		#{outParam, jdbcType=VARCHAR},#{sucFlag, jdbcType=VARCHAR},to_date(#{endTime, jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss'),
+		#{inParam, jdbcType=VARCHAR})
+	</insert>
+</mapper>

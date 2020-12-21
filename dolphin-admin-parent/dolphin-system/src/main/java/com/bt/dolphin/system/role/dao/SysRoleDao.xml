@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bt.dolphin.system.role.dao.SysRoleDao">
+	
+	<select id="getUserRoleByUserNoAndRoleCode" parameterType="String" resultType="com.bt.dolphin.system.role.vo.SysRoleVo">
+		SELECT r.role_id,r.app_id,r.role_name,r.role_code,u.user_no FROM `sy_role` r, sy_user u,sy_user_role_rela l
+			WHERE  r.role_id = l.role_id AND u.user_id = l.user_id AND r.role_code = #{roleCode}  AND u.user_no = #{userNo}
+	</select>
+</mapper>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/dolphin/desk/common/template :: header(~{::title},~{::link},~{::style})">
+    <title>[[${#params.value("system_name")}]]后台主页</title>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!-- 导航栏 -->
+    <div class="layui-header">
+        <a href="#" class="layui-logo">
+            <span class="layui-logo-mini">TIMO</span>
+            <span class="layui-logo-lg">[[${#params.value("system_name")}]] 后台</span>
+        </a>
+        <a class="side-toggle layui-layout-left" href="#">
+            <i class="layui-icon layui-icon-shrink-right"></i>
+            <i class="layui-icon layui-icon-spread-left"></i>
+        </a>
+        <ul class="layui-nav layui-layout-right">
+            <!--<li class="layui-nav-item timo-search">
+              <input class="timo-search-input" type="search" placeholder="搜索">
+              <button class="timo-search-button"><i class="fa fa-search"></i></button>
+            </li>-->
+            <li class="layui-nav-item">
+                <a href="javascript:;" class="log" >
+                    <i class="layui-icon layui-icon-log" style="font-size: 20px"></i>
+                </a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/" target="_blank" >
+                    <!--<i class="fa fa-bell-o fa-lg"></i>-->
+                    GO前台
+                </a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="#">
+                    <i class="fa fa-bell-o fa-lg"></i>
+                </a>
+            </li>
+            <li class="layui-nav-item">
+                <a class="timo-screen-full" href="#">
+                    <i class="fa layui-icon layui-icon-screen-full"></i>
+                </a>
+            </li>
+            <li class="layui-nav-item timo-nav-user">
+                <a class="timo-header-nickname" th:text="${user.userName}">[[${#params.value("system_name")}]]</a>
+                <div class="layui-nav-child">
+                    <div class="timo-nav-child-box">
+                        <div><a class="open-popup" data-title="个人信息" th:attr="data-url=@{/system/main/userInfo}"
+                                data-size="680,464"><!--
+              --><i class="fa fa-user-o"></i>个人信息</a></div>
+                        <div><a class="open-popup" data-title="修改密码" th:attr="data-url=@{/system/main/editPwd}"
+                                data-size="456,296"><!--
+              --><i class="fa fa-lock" style="font-size:17px;width:12px;"></i>修改密码</a></div>
+                        <div><a th:href="@{/logout}"><i class="fa fa-power-off"></i>退出登录</a></div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 侧边栏 -->
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <div class="layui-side-user">
+                <img class="layui-side-user-avatar open-popup" th:attr="data-url=@{/system/main/userInfo}" data-size="680,464"
+                     th:src="@{'/dolpin/desk/picture?p='+${user.picture}}" alt="头像">
+                <div>
+                    <p class="layui-side-user-name" th:text="${user.userName}">[[${#params.value("system_name")}]]</p>
+                    <p class="layui-side-user-designation">在线</p>
+                </div>
+            </div>
+            <!-- 导航区域 -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="layui-nav-side">
+                <li class="layui-nav-item" th:each="item:${treeMenu}">
+                    <a href="javascript:;" th:attr="lay-url=${item.value.href},lay-menuId=${item.value.menuId},lay-menuKind=${item.value.menuKind}"><i th:class="${item.value.menuIcon}"></i><span class="layui-nav-title" th:text="${item.value.menuTitle}">一级菜单</span></a>
+                    <dl class="layui-nav-child" th:if="${item.value.subMenu.size()}">
+                        <dd th:each="sItem:${item.value.subMenu}">
+                            <a href="javascript:;" th:attr="lay-url=${sItem.value.href},lay-menuId=${sItem.value.menuId},lay-menuKind=${sItem.value.menuKind}"><span class="layui-nav-title" th:text="${sItem.value.menuTitle}">二级菜单</span></a>
+                            <dl class="layui-nav-child" th:if="${sItem.value.subMenu.size()}">
+                                <dd th:each="tItem:${sItem.value.subMenu}">
+                                    <a href="javascript:;" th:attr="lay-url=${tItem.value.href},lay-menuId=${tItem.value.menuId},lay-menuKind=${tItem.value.menuKind}"><span class="layui-nav-title" th:text="${tItem.value.menuTitle}">三级菜单</span></a>
+                                </dd>
+                            </dl>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- 主体区域 -->
+    <div class="layui-body layui-tab layui-tab-brief" lay-allowclose="true" lay-filter="iframe-tabs">
+        <!-- 标签栏 -->
+        <ul class="layui-tab-title"></ul>
+        <!-- 内容区域 -->
+        <div class="layui-tab-content"></div>
+    </div>
+</div>
+<script th:replace="/dolphin/desk/common/template :: script"></script>
+<script>
+    window.main = 111;
+    var str = '';
+    layui.use(['laydate','carousel','element'], function() {
+        var laydate = layui.laydate;
+        var $ = layui.$;
+        var element = layui.element;
+
+        /* 最大化窗口 */
+        $(".log").on("click", function (e) {
+            layer.open({
+                title: '日志查看',
+                type: 1,
+                closeBtn: 1, //不显示关闭按钮
+                anim: 2,
+                shadeClose: false, //开启遮罩关闭
+                content: str,
+                area: ['1000px', '600px']
+            });
+
+        });
+
+
+    });
+    var websocket = null;
+
+
+    //判断当前浏览器是否支持WebSocket
+    if('WebSocket' in window){
+        //连接WebSocket节点
+        websocket = new WebSocket("wss://"+document.domain+":443/websocketHandle/002");
+    }
+    else{
+        alert('Not support websocket')
+    }
+
+
+    //连接发生错误的回调方法
+    websocket.onerror = function(){
+        setMessageInnerHTML("error");
+    };
+
+
+    //连接成功建立的回调方法
+    websocket.onopen = function(event){
+        setMessageInnerHTML("open");
+    }
+
+
+    //接收到消息的回调方法
+    websocket.onmessage = function(event){
+
+        setMessageInnerHTML(event.data);
+    }
+
+
+    //连接关闭的回调方法
+    websocket.onclose = function(){
+        setMessageInnerHTML("close");
+    }
+
+
+    //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+    window.onbeforeunload = function(){
+        websocket.close();
+    }
+    //将消息显示在网页上
+    function setMessageInnerHTML(innerHTML){
+     // console.log(innerHTML);
+       str +='<p style="font-size: 20px;padding: 2px">'+innerHTML + '</p>';
+    }
+</script>
+</body>
+</html>

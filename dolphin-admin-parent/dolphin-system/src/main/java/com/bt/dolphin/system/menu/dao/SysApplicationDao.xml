@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bt.dolphin.system.menu.dao.SysApplicationDao">
+	
+	<select id="getAllApplication" parameterType="String" resultType="com.bt.dolphin.system.menu.vo.SysApplicationVo">
+		SELECT p.app_id,p.`APP_NAME`,p.`APP_PARENTID`,p.`APP_STATUS`,p.`APP_TITLE`,p.`APP_TYPE`,p.`APP_WEBPATH`,
+			p.`APP_COMMENT` FROM `sy_application` p where p.APP_STATUS = '1'
+	</select>
+	
+		
+	<select id="getAppByAppId" parameterType="String" resultType="com.bt.dolphin.system.menu.vo.SysApplicationVo">
+		SELECT p.app_id,p.`APP_NAME`,p.`APP_PARENTID`,p.`APP_STATUS`,p.`APP_TITLE`,p.`APP_TYPE`,p.`APP_WEBPATH`,
+			p.`APP_COMMENT` FROM `sy_application` p  where p.app_id = #{appId}
+	</select>
+</mapper>

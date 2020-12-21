@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bt.dolphin.irs.newenergy.dao.NewEnergyDao">
+
+	<select id="getTest" resultType="String">
+		select 66669 from dual
+	</select>
+	<!-- 获取当天发电量 -->
+	<select id="getDayElec" parameterType="String" resultType="Double">
+		select nvl(sum(m.p1),0)+nvl(sum(m.p2),0)+nvl(sum(m.p3),0)+nvl(sum(m.p4),0)+
+				 nvl(sum(m.p5),0)+nvl(sum(m.p6),0)+nvl(sum(m.p7),0)+
+				 nvl(sum(m.p8),0)+nvl(sum(m.p9),0)+nvl(sum(m.p10),0)+
+				 nvl(sum(m.p11),0)+nvl(sum(m.p12),0)+nvl(sum(m.p13),0)+
+				 nvl(sum(m.p14),0)+nvl(sum(m.p15),0)+nvl(sum(m.p16),0)+
+				 nvl(sum(m.p17),0)+nvl(sum(m.p18),0)+nvl(sum(m.p19),0)+
+				 nvl(sum(m.p20),0)+nvl(sum(m.p21),0)+nvl(sum(m.p22),0)+
+				 nvl(sum(m.p23),0)+nvl(sum(m.p24),0)+nvl(sum(m.p25),0)+
+				 nvl(sum(m.p26),0)+nvl(sum(m.p27),0)+nvl(sum(m.p28),0)+
+				 nvl(sum(m.p29),0)+nvl(sum(m.p30),0)+nvl(sum(m.p31),0)+
+				 nvl(sum(m.p32),0)+nvl(sum(m.p33),0)+nvl(sum(m.p34),0)+nvl(sum(m.p35),0)+
+				 nvl(sum(m.p36),0)+nvl(sum(m.p37),0)+nvl(sum(m.p38),0)+nvl(sum(m.p39),0)+
+				 nvl(sum(m.p40),0)+nvl(sum(m.p41),0)+nvl(sum(m.p42),0)+nvl(sum(m.p43),0)+
+				 nvl(sum(m.p44),0)+nvl(sum(m.p45),0)+nvl(sum(m.p46),0)+nvl(sum(m.p47),0)+
+				 nvl(sum(m.p44),0)+nvl(sum(m.p45),0)+nvl(sum(m.p46),0)+nvl(sum(m.p47),0)+
+				 nvl(sum(m.p52),0)+nvl(sum(m.p53),0)+nvl(sum(m.p54),0)+nvl(sum(m.p55),0)+
+				 nvl(sum(m.p56),0)+nvl(sum(m.p57),0)+nvl(sum(m.p58),0)+nvl(sum(m.p59),0)+
+				 nvl(sum(m.p60),0)+nvl(sum(m.p61),0)+nvl(sum(m.p62),0)+nvl(sum(m.p63),0)+
+				 nvl(sum(m.p64),0)+nvl(sum(m.p65),0)+nvl(sum(m.p66),0)+nvl(sum(m.p67),0)+
+				 nvl(sum(m.p68),0)+nvl(sum(m.p69),0)+nvl(sum(m.p70),0)+nvl(sum(m.p71),0)+
+				 nvl(sum(m.p72),0)+nvl(sum(m.p73),0)+nvl(sum(m.p74),0)+nvl(sum(m.p75),0)+
+				 nvl(sum(m.p76),0)+nvl(sum(m.p77),0)+nvl(sum(m.p78),0)+nvl(sum(m.p79),0)+
+				 nvl(sum(m.p80),0)+nvl(sum(m.p81),0)+nvl(sum(m.p82),0)+nvl(sum(m.p83),0)+
+				 nvl(sum(m.p84),0)+nvl(sum(m.p85),0)+nvl(sum(m.p86),0)+nvl(sum(m.p87),0)+
+				 nvl(sum(m.p88),0)+nvl(sum(m.p89),0)+nvl(sum(m.p90),0)+nvl(sum(m.p91),0)+
+				 nvl(sum(m.p92),0)+nvl(sum(m.p93),0)+nvl(sum(m.p94),0)+nvl(sum(m.p95),0)+nvl(sum(m.p96),0)
+		 from m_proj_curve_96p m
+		 where m.data_code = 06
+		 and m.data_date = #{currentDate,jdbcType=VARCHAR} 
+	</select>
+	<!-- 获取当月发电量 -->
+	<select id="getMonthElec" parameterType="String" resultType="Double">	
+		select nvl(sum(m.p1),0)+nvl(sum(m.p2),0)+nvl(sum(m.p3),0)+nvl(sum(m.p4),0)+
+		 	   nvl(sum(m.p5),0)+nvl(sum(m.p6),0)+nvl(sum(m.p7),0)+nvl(sum(m.p8),0)+
+		 	   nvl(sum(m.p9),0)+nvl(sum(m.p10),0)+nvl(sum(m.p11),0)+nvl(sum(m.p12),0)+
+		 	   nvl(sum(m.p13),0)+nvl(sum(m.p14),0)+nvl(sum(m.p15),0)+nvl(sum(m.p16),0)+
+		 	   nvl(sum(m.p17),0)+nvl(sum(m.p18),0)+nvl(sum(m.p19),0)+nvl(sum(m.p20),0)+
+		 	   nvl(sum(m.p21),0)+nvl(sum(m.p22),0)+nvl(sum(m.p23),0)+nvl(sum(m.p24),0)+
+		 	   nvl(sum(m.p25),0)+nvl(sum(m.p26),0)+nvl(sum(m.p27),0)+nvl(sum(m.p28),0)+
+		 	   nvl(sum(m.p29),0)+nvl(sum(m.p30),0)+nvl(sum(m.p31),0)
+		from m_proj_curve_31p m
+		where m.data_code = 06
+		and m.data_date = #{curYM,jdbcType=VARCHAR} 
+	</select>
+	<!-- 获取当年发电量 -->
+	<select id="getYearElec" parameterType="String" resultType="Double">	
+		select nvl(sum(m.p1),0)+nvl(sum(m.p2),0)+nvl(sum(m.p3),0)+nvl(sum(m.p4),0)+
+			   nvl(sum(m.p5),0)+nvl(sum(m.p6),0)+nvl(sum(m.p7),0)+nvl(sum(m.p8),0)+
+			   nvl(sum(m.p9),0)+nvl(sum(m.p10),0)+nvl(sum(m.p11),0)+nvl(sum(m.p12),0)
+		from m_proj_curve_12p m
+		where m.data_code = 06
+		and m.data_date = #{curY,jdbcType=VARCHAR} 
+	</select>
+	
+	
+	<!-- 获取一天内，太阳能、风能、生物质能每小时发电量 -->
+	<select id="getHourOutputByEnergyType" parameterType="String" resultType="Map">	
+		select nvl(sum(m.p1),0)+nvl(sum(m.p2),0)+nvl(sum(m.p3),0)+nvl(sum(m.p4),0) as p1,
+		       nvl(sum(m.p5),0)+nvl(sum(m.p6),0)+nvl(sum(m.p7),0)+nvl(sum(m.p8),0) as p2,
+		       nvl(sum(m.p9),0)+nvl(sum(m.p10),0)+nvl(sum(m.p11),0)+nvl(sum(m.p12),0) as p3,
+		       nvl(sum(m.p13),0)+nvl(sum(m.p14),0)+nvl(sum(m.p15),0)+nvl(sum(m.p16),0) as p4,
+		       nvl(sum(m.p17),0)+nvl(sum(m.p18),0)+nvl(sum(m.p19),0)+nvl(sum(m.p20),0) as p5,
+		       nvl(sum(m.p21),0)+nvl(sum(m.p22),0)+nvl(sum(m.p23),0)+nvl(sum(m.p24),0) as p6,
+		       nvl(sum(m.p25),0)+nvl(sum(m.p26),0)+nvl(sum(m.p27),0)+nvl(sum(m.p28),0) as p7,
+		       nvl(sum(m.p29),0)+nvl(sum(m.p30),0)+nvl(sum(m.p31),0)+nvl(sum(m.p32),0) as p8,
+		       nvl(sum(m.p33),0)+nvl(sum(m.p34),0)+nvl(sum(m.p35),0)+nvl(sum(m.p36),0) as p9,
+		       nvl(sum(m.p37),0)+nvl(sum(m.p38),0)+nvl(sum(m.p39),0)+nvl(sum(m.p40),0) as p10,
+		       nvl(sum(m.p41),0)+nvl(sum(m.p42),0)+nvl(sum(m.p43),0)+nvl(sum(m.p44),0) as p11,
+		       nvl(sum(m.p45),0)+nvl(sum(m.p46),0)+nvl(sum(m.p47),0)+nvl(sum(m.p48),0) as p12,
+		       nvl(sum(m.p49),0)+nvl(sum(m.p50),0)+nvl(sum(m.p51),0)+nvl(sum(m.p52),0) as p13,
+		       nvl(sum(m.p53),0)+nvl(sum(m.p54),0)+nvl(sum(m.p55),0)+nvl(sum(m.p56),0) as p14,
+		       nvl(sum(m.p57),0)+nvl(sum(m.p58),0)+nvl(sum(m.p59),0)+nvl(sum(m.p60),0) as p15,
+		       nvl(sum(m.p61),0)+nvl(sum(m.p62),0)+nvl(sum(m.p63),0)+nvl(sum(m.p64),0) as p16,
+		       nvl(sum(m.p65),0)+nvl(sum(m.p66),0)+nvl(sum(m.p67),0)+nvl(sum(m.p68),0) as p17,
+		       nvl(sum(m.p69),0)+nvl(sum(m.p70),0)+nvl(sum(m.p71),0)+nvl(sum(m.p72),0) as p18,
+		       nvl(sum(m.p73),0)+nvl(sum(m.p74),0)+nvl(sum(m.p75),0)+nvl(sum(m.p76),0) as p19,
+		       nvl(sum(m.p77),0)+nvl(sum(m.p78),0)+nvl(sum(m.p79),0)+nvl(sum(m.p80),0) as p20,
+		       nvl(sum(m.p81),0)+nvl(sum(m.p82),0)+nvl(sum(m.p83),0)+nvl(sum(m.p84),0) as p21,
+		       nvl(sum(m.p85),0)+nvl(sum(m.p86),0)+nvl(sum(m.p87),0)+nvl(sum(m.p88),0) as p22,
+		       nvl(sum(m.p89),0)+nvl(sum(m.p90),0)+nvl(sum(m.p91),0)+nvl(sum(m.p92),0) as p23,
+		       nvl(sum(m.p93),0)+nvl(sum(m.p94),0)+nvl(sum(m.p95),0)+nvl(sum(m.p96),0) as p24
+		  from m_proj_curve_96p m ,
+		       p_project_info p
+		 where p.proj_id = m.proj_id
+		   and m.data_code = 06
+		   and m.data_date = #{date,jdbcType=VARCHAR}
+		   <!-- 太阳能 -->
+		   <if test="elecType!=null and elecType == '0102'">
+		   		and p.elec_type between 1 and 2 
+		   </if>
+		   <!-- 风能-->
+		    <if test="elecType!=null and elecType == '03'">
+		    	and p.elec_type = 3
+		   </if>
+		   <!-- 生物质能 -->
+		    <if test="elecType!=null and elecType == '0506'">
+		    	 and p.elec_type between 5 and 6 
+		   </if>
+	</select>
+	<!--本月每日分类累计发电量（光伏，风电，生物质  -->
+	<select id="getDayOutputByEnergyType" parameterType="String" resultType="Map">	
+		select nvl(sum(m.p1),0) as p1,nvl(sum(m.p2),0) as p2,nvl(sum(m.p3),0) as p3,nvl(sum(m.p4),0) as p4,
+		 	   nvl(sum(m.p5),0) as p5,nvl(sum(m.p6),0) as p6,nvl(sum(m.p7),0) as p7,nvl(sum(m.p8),0) as p8,
+		 	   nvl(sum(m.p9),0) as p9,nvl(sum(m.p10),0) as p10,nvl(sum(m.p11),0) as p11,nvl(sum(m.p12),0) as p12,
+		 	   nvl(sum(m.p13),0) as p13,nvl(sum(m.p14),0) as p14,nvl(sum(m.p15),0) as p15,nvl(sum(m.p16),0) as p16,
+		 	   nvl(sum(m.p17),0) as p17,nvl(sum(m.p18),0) as p18,nvl(sum(m.p19),0) as p19,nvl(sum(m.p20),0) as p20,
+		 	   nvl(sum(m.p21),0) as p21,nvl(sum(m.p22),0) as p22,nvl(sum(m.p23),0) as p23,nvl(sum(m.p24),0) as p24,
+		 	   nvl(sum(m.p25),0) as p25,nvl(sum(m.p26),0) as p26,nvl(sum(m.p27),0) as p27,nvl(sum(m.p28),0) as p28,
+		 	   nvl(sum(m.p29),0) as p29,nvl(sum(m.p30),0) as p30,nvl(sum(m.p31),0) as p31
+		from M_PROJ_CURVE_31P m ,
+		       p_project_info p
+		 where p.proj_id = m.proj_id
+		 and m.data_code = 06
+		 and m.data_date = #{curYM,jdbcType=VARCHAR} 
+		 <!-- 太阳能 -->
+	   <if test="elecType!=null and elecType == '0102'">
+	   		and p.elec_type between 1 and 2 
+	   </if>
+	   <!-- 风能-->
+	    <if test="elecType!=null and elecType == '03'">
+	    	and p.elec_type = 3
+	   </if>
+	   <!-- 生物质能 -->
+	    <if test="elecType!=null and elecType == '0506'">
+	    	 and p.elec_type between 5 and 6 
+	   </if>
+	</select>
+	
+	<!-- 本年度每月分类累计发电量(光伏，风电，生物质) -->
+	<select id="getMonthOutputByEnergyType" parameterType="String" resultType="Map">	
+		select nvl(sum(m.p1),0) as p1,nvl(sum(m.p2),0) as p2,nvl(sum(m.p3),0) as p3,nvl(sum(m.p4),0) as p4,
+		 	   nvl(sum(m.p5),0) as p5,nvl(sum(m.p6),0) as p6,nvl(sum(m.p7),0) as p7,nvl(sum(m.p8),0) as p8,
+		 	   nvl(sum(m.p9),0) as p9,nvl(sum(m.p10),0) as p10,nvl(sum(m.p11),0) as p11,nvl(sum(m.p12),0) as p12
+		from M_PROJ_CURVE_12P m ,
+		       p_project_info p
+		 where p.proj_id = m.proj_id
+		 and m.data_code = 06
+		 and m.data_date = #{curY,jdbcType=VARCHAR} 
+		 <!-- 太阳能 -->
+	   <if test="elecType!=null and elecType == '0102'">
+	   		and p.elec_type between 1 and 2 
+	   </if>
+	   <!-- 风能-->
+	    <if test="elecType!=null and elecType == '03'">
+	    	and p.elec_type = 3
+	   </if>
+	   <!-- 生物质能 -->
+	    <if test="elecType!=null and elecType == '0506'">
+	    	 and p.elec_type between 5 and 6 
+	   </if>
+	</select>
+	
+	<!--历年各分类发电量(光伏，风电，生物质) -->
+	<select id="getHisYearOutputByEnergyType" resultType="Map">	
+		select d.data_date as "year",nvl(c.cpvYearElec,0) as "cpv",nvl(w.winPowerYearElec,0) as "windPower",nvl(b.biomassYearElec,0) as "biomass" from 
+(select distinct(data_date) 
+    from M_PROJ_CURVE_12P m ,
+           p_project_info p
+     where p.proj_id = m.proj_id
+    and m.data_code = 06
+    order by data_date) d
+    left join  
+    (select data_date,(nvl(sum(m.p1),0)+nvl(sum(m.p2),0)+nvl(sum(m.p3),0)+nvl(sum(m.p4),0)+
+         nvl(sum(m.p5),0)+nvl(sum(m.p6),0)+nvl(sum(m.p7),0)+nvl(sum(m.p8),0)+
+         nvl(sum(m.p9),0)+nvl(sum(m.p10),0)+nvl(sum(m.p11),0)+nvl(sum(m.p12),0))/10000000 as cpvYearElec 
+         from  M_PROJ_CURVE_12P m , p_project_info p where p.proj_id = m.proj_id and m.data_code = 06 and p.elec_type between 1 and 2  group by data_date) c on d.data_date = c.data_date
+     left join  
+      (select data_date,(nvl(sum(m.p1),0)+nvl(sum(m.p2),0)+nvl(sum(m.p3),0)+nvl(sum(m.p4),0)+
+         nvl(sum(m.p5),0)+nvl(sum(m.p6),0)+nvl(sum(m.p7),0)+nvl(sum(m.p8),0)+
+         nvl(sum(m.p9),0)+nvl(sum(m.p10),0)+nvl(sum(m.p11),0)+nvl(sum(m.p12),0))/10000000 as winPowerYearElec 
+         from  M_PROJ_CURVE_12P m , p_project_info p where p.proj_id = m.proj_id and m.data_code = 06 and p.elec_type = 3 group by data_date) w on d.data_date = w.data_date
+       left join  
+      (select data_date,(nvl(sum(m.p1),0)+nvl(sum(m.p2),0)+nvl(sum(m.p3),0)+nvl(sum(m.p4),0)+
+         nvl(sum(m.p5),0)+nvl(sum(m.p6),0)+nvl(sum(m.p7),0)+nvl(sum(m.p8),0)+
+         nvl(sum(m.p9),0)+nvl(sum(m.p10),0)+nvl(sum(m.p11),0)+nvl(sum(m.p12),0))/10000000 as biomassYearElec 
+         from  M_PROJ_CURVE_12P m , p_project_info p where p.proj_id = m.proj_id and m.data_code = 06 and p.elec_type between 5 and 6  group by data_date) b on d.data_date = b.data_date
+    order by d.data_date desc
+	</select>
+	<!-- 当年发电量（光伏，风电，生物质） -->
+	<select id="getCurYearOutputByEnergyType" parameterType="String" resultType="Double">	
+	    select (nvl(sum(m.p1),0)+nvl(sum(m.p2),0)+nvl(sum(m.p3),0)+nvl(sum(m.p4),0)+
+         nvl(sum(m.p5),0)+nvl(sum(m.p6),0)+nvl(sum(m.p7),0)+nvl(sum(m.p8),0)+
+         nvl(sum(m.p9),0)+nvl(sum(m.p10),0)+nvl(sum(m.p11),0)+nvl(sum(m.p12),0))/10000000 as "yearElec"
+		from M_PROJ_CURVE_12P m ,
+		       p_project_info p
+		 where p.proj_id = m.proj_id
+		 and m.data_code = 06
+		 and m.data_date = #{curY,jdbcType=VARCHAR} 
+		 <!-- 太阳能 -->
+	   <if test="elecType!=null and elecType == '0102'">
+	   		and p.elec_type between 1 and 2 
+	   </if>
+	   <!-- 风能-->
+	    <if test="elecType!=null and elecType == '03'">
+	    	and p.elec_type = 3
+	   </if>
+	   <!-- 生物质能 -->
+	    <if test="elecType!=null and elecType == '0506'">
+	    	 and p.elec_type between 5 and 6 
+	   </if>
+	</select>
+	
+	<!-- 本年各区发电量 -->
+	<select id="getYearAreaElec" parameterType="String" resultType="Double">	
+		select (nvl(sum(m.p1),0) + nvl(sum(m.p2),0)+ nvl(sum(m.p3),0)+ nvl(sum(m.p4),0)+
+			   nvl(sum(m.p5),0)+ nvl(sum(m.p6),0)+ nvl(sum(m.p7),0)+ nvl(sum(m.p8),0)+ 
+			   nvl(sum(m.p9),0)+ nvl(sum(m.p10),0)+ nvl(sum(m.p11),0)+ nvl(sum(m.p12),0))/10000000 as "yearAreaElec" 
+		from m_proj_curve_12p m,  p_project_info p  
+		where  p.proj_id = m.proj_id      
+		and m.data_code = '06'     
+		and m.data_date = #{curY,jdbcType=VARCHAR}
+		and p.area_id = #{areaId,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 本月各区发电量 -->
+	<select id="getMonthAreaElec" parameterType="String" resultType="Double">	
+		select (nvl(sum(m.p1),0)+nvl(sum(m.p2),0)+nvl(sum(m.p3),0)+nvl(sum(m.p4),0)+
+		 	   nvl(sum(m.p5),0)+nvl(sum(m.p6),0)+nvl(sum(m.p7),0)+nvl(sum(m.p8),0)+
+		 	   nvl(sum(m.p9),0)+nvl(sum(m.p10),0)+nvl(sum(m.p11),0)+nvl(sum(m.p12),0)+
+		 	   nvl(sum(m.p13),0)+nvl(sum(m.p14),0)+nvl(sum(m.p15),0)+nvl(sum(m.p16),0)+
+		 	   nvl(sum(m.p17),0)+nvl(sum(m.p18),0)+nvl(sum(m.p19),0)+nvl(sum(m.p20),0)+
+		 	   nvl(sum(m.p21),0)+nvl(sum(m.p22),0)+nvl(sum(m.p23),0)+nvl(sum(m.p24),0)+
+		 	   nvl(sum(m.p25),0)+nvl(sum(m.p26),0)+nvl(sum(m.p27),0)+nvl(sum(m.p28),0)+
+		 	   nvl(sum(m.p29),0)+nvl(sum(m.p30),0)+nvl(sum(m.p31),0))/10000000 as "monthAreaElec"
+		from m_proj_curve_31p m,
+		p_project_info p
+		where p.proj_id = m.proj_id  
+			and m.data_code = 06
+			and m.data_date = #{curYM,jdbcType=VARCHAR}
+			and p.area_id = #{areaId,jdbcType=VARCHAR}
+	</select>
+	<!-- 本日各区发电量 -->
+	<select id="getDayAreaElec" parameterType="String" resultType="Double">	
+	select (nvl(sum(m.p1),0)+nvl(sum(m.p2),0)+nvl(sum(m.p3),0)+nvl(sum(m.p4),0)+
+				 nvl(sum(m.p5),0)+nvl(sum(m.p6),0)+nvl(sum(m.p7),0)+
+				 nvl(sum(m.p8),0)+nvl(sum(m.p9),0)+nvl(sum(m.p10),0)+
+				 nvl(sum(m.p11),0)+nvl(sum(m.p12),0)+nvl(sum(m.p13),0)+
+				 nvl(sum(m.p14),0)+nvl(sum(m.p15),0)+nvl(sum(m.p16),0)+
+				 nvl(sum(m.p17),0)+nvl(sum(m.p18),0)+nvl(sum(m.p19),0)+
+				 nvl(sum(m.p20),0)+nvl(sum(m.p21),0)+nvl(sum(m.p22),0)+
+				 nvl(sum(m.p23),0)+nvl(sum(m.p24),0)+nvl(sum(m.p25),0)+
+				 nvl(sum(m.p26),0)+nvl(sum(m.p27),0)+nvl(sum(m.p28),0)+
+				 nvl(sum(m.p29),0)+nvl(sum(m.p30),0)+nvl(sum(m.p31),0)+
+				 nvl(sum(m.p32),0)+nvl(sum(m.p33),0)+nvl(sum(m.p34),0)+nvl(sum(m.p35),0)+
+				 nvl(sum(m.p36),0)+nvl(sum(m.p37),0)+nvl(sum(m.p38),0)+nvl(sum(m.p39),0)+
+				 nvl(sum(m.p40),0)+nvl(sum(m.p41),0)+nvl(sum(m.p42),0)+nvl(sum(m.p43),0)+
+				 nvl(sum(m.p44),0)+nvl(sum(m.p45),0)+nvl(sum(m.p46),0)+nvl(sum(m.p47),0)+
+				 nvl(sum(m.p44),0)+nvl(sum(m.p45),0)+nvl(sum(m.p46),0)+nvl(sum(m.p47),0)+
+				 nvl(sum(m.p52),0)+nvl(sum(m.p53),0)+nvl(sum(m.p54),0)+nvl(sum(m.p55),0)+
+				 nvl(sum(m.p56),0)+nvl(sum(m.p57),0)+nvl(sum(m.p58),0)+nvl(sum(m.p59),0)+
+				 nvl(sum(m.p60),0)+nvl(sum(m.p61),0)+nvl(sum(m.p62),0)+nvl(sum(m.p63),0)+
+				 nvl(sum(m.p64),0)+nvl(sum(m.p65),0)+nvl(sum(m.p66),0)+nvl(sum(m.p67),0)+
+				 nvl(sum(m.p68),0)+nvl(sum(m.p69),0)+nvl(sum(m.p70),0)+nvl(sum(m.p71),0)+
+				 nvl(sum(m.p72),0)+nvl(sum(m.p73),0)+nvl(sum(m.p74),0)+nvl(sum(m.p75),0)+
+				 nvl(sum(m.p76),0)+nvl(sum(m.p77),0)+nvl(sum(m.p78),0)+nvl(sum(m.p79),0)+
+				 nvl(sum(m.p80),0)+nvl(sum(m.p81),0)+nvl(sum(m.p82),0)+nvl(sum(m.p83),0)+
+				 nvl(sum(m.p84),0)+nvl(sum(m.p85),0)+nvl(sum(m.p86),0)+nvl(sum(m.p87),0)+
+				 nvl(sum(m.p88),0)+nvl(sum(m.p89),0)+nvl(sum(m.p90),0)+nvl(sum(m.p91),0)+
+				 nvl(sum(m.p92),0)+nvl(sum(m.p93),0)+nvl(sum(m.p94),0)+nvl(sum(m.p95),0)+nvl(sum(m.p96),0))/10000 as "dayAreaElec"
+		 from m_proj_curve_96p m,
+		 p_project_info p
+		 where p.proj_id = m.proj_id  
+			and m.data_code = 06
+			and m.data_date = #{currentDate,jdbcType=VARCHAR}
+			and p.area_id = #{areaId,jdbcType=VARCHAR}
+	</select>
+	<!-- 获取区域 -->
+	<select id="getAreaIdList" resultType="Map">	
+		select p.name as "name",p.value as "value" from p_code p where code_type='areaNameCode' and p.value != '1110' order by p.value
+	</select>
+	
+	<select id="getYearGovernment" parameterType="String" resultType="Double">
+		select nvl(sum(f.gov_invest),0) from fund_data f where substr(f.time_stamp,0,4) = #{curY,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getAllHisYearGovernment" resultType="Map">	
+	select d.year as "year",b.gov_invest  as "government_val",b.social_invest as "society_val" from 
+		(select distinct(substr(f.time_stamp,0,4)) as year from fund_data f)d left join
+		(select substr(f.time_stamp,0,4) as year,sum(nvl(f.gov_invest,0)) as gov_invest ,sum(nvl(f.social_invest,0)) as social_invest 
+		from fund_data f group by substr(f.time_stamp,0,4)) b on d.year = b.year 
+	</select>
+</mapper>	

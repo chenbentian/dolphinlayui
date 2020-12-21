@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bt.dolphin.system.menu.dao.SysPermissionDao">
+	
+	<select id="getAppByAppName" parameterType="String" resultType="com.bt.dolphin.system.menu.vo.SysPermissionVo">
+		SELECT up.PERMISSION_ID,up.PERMISSION_NAME,up.PERMISSION_PATH,up.PERMISSION_TYPE FROM `sy_user_permission_rela` up
+		 <where>
+		 	<if test="accountName!=null  and accountName!=''">
+		 		up.USER_NO =  #{accountName}
+		 	</if>
+		 	<if test="appId!=null  and appId!=''">
+		 		 and up.APP_ID = #{appId}
+		 	</if>
+		 </where>
+	</select>
+	
+</mapper>

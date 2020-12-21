@@ -1,0 +1,16 @@
+CREATE TABLE `sy_param` (
+  `PARAM_ID` varchar(32) NOT NULL COMMENT '参数标识',
+  `PARAM_SORT_CODE` varchar(32) NOT NULL COMMENT '参数分类编码',
+  `PARAM_CODE` varchar(192) NOT NULL COMMENT '参数编码',
+  `PARAM_NAME` varchar(1000) NOT NULL COMMENT '参数名称',
+  `PARAM_VALUE_TYPE` varchar(2) NOT NULL COMMENT '参数值类型：0，数字型；1，字符串型；2，日期型；3，密文型',
+  `DEFAULT_VALUE` varchar(1024) NOT NULL COMMENT '默认参数值',
+  `VALUE_UPPER_LIMIT` varchar(32) DEFAULT NULL COMMENT '参数值上限',
+  `VALUE_LOWER_LIMIT` varchar(32) DEFAULT NULL COMMENT '参数值下限',
+  `VALUE_SOURCE` varchar(1024) DEFAULT NULL COMMENT '参数值来源',
+  `IS_USE` int(11) DEFAULT NULL COMMENT '是否启用：1，是；0，否',
+  `PARAM_DESC` varchar(256) DEFAULT NULL COMMENT '参数说明',
+  PRIMARY KEY (`PARAM_ID`),
+  KEY `AK_Key_2` (`PARAM_CODE`) USING BTREE,
+  KEY `Param_Key_3` (`PARAM_SORT_CODE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8

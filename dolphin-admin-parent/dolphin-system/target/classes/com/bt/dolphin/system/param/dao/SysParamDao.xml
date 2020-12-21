@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bt.dolphin.system.param.dao.SysParamDao">
+	
+	<select id="getParamByParamCode" parameterType="String" resultType="com.bt.dolphin.system.param.vo.SysParamVo">
+	SELECT p.param_sort_code,p.param_code,p.param_name,p.default_value FROM  sy_param p where p.param_code = #{paramCode}
+	</select>
+</mapper>

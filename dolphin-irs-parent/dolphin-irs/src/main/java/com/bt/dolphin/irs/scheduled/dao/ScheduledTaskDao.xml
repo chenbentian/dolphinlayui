@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bt.dolphin.irs.scheduled.dao.ScheduledTaskDao">
+
+	<select id="getByKey" parameterType="String" resultType="com.bt.dolphin.irs.scheduled.vo.ScheduledTaskBean">
+		select task_key as taskKey,task_desc as taskDesc,task_cron as taskCron,init_start_flag as initStartFlag  
+			from isr_scheduled_task where task_key = #{taskKey,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getAllNeedStartTask" parameterType="String" resultType="com.bt.dolphin.irs.scheduled.vo.ScheduledTaskBean">
+		select task_key as taskKey,task_desc as taskDesc,task_cron as taskCron,init_start_flag as initStartFlag from isr_scheduled_task where init_start_flag=1 
+	</select>
+	
+	<select id="getAllTask" parameterType="String" resultType="com.bt.dolphin.irs.scheduled.vo.ScheduledTaskBean">
+		select task_key as taskKey,task_desc as taskDesc,task_cron as taskCron,init_start_flag as initStartFlag  from isr_scheduled_task 
+	</select>
+	
+</mapper>	
