@@ -26,7 +26,9 @@ public class SysUserVo {
     private String userName;
     private String userPassword;
     private String userType;
+    private String userTypeName;
     private String userStatus;
+    private String userStatusName;
     private Date userCreatetime;
     private String userOrg;
     private String directOrgCode;
@@ -97,6 +99,18 @@ public class SysUserVo {
 	}
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+	public String getUserTypeName() {
+		return userTypeName;
+	}
+	public void setUserTypeName(String userTypeName) {
+		this.userTypeName = userTypeName;
+	}
+	public String getUserStatusName() {
+		return userStatusName;
+	}
+	public void setUserStatusName(String userStatusName) {
+		this.userStatusName = userStatusName;
 	}
     
     

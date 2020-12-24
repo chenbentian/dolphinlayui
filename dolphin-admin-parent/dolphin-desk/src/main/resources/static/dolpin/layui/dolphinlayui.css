@@ -33,3 +33,18 @@
 	border-radius: 2px
 }
 
+.layui-form-label {
+	margin-top:3px;
+}
+
+.layui-input-block {
+	margin-left: 110px;
+	margin-top:4px;
+	min-height: 30px
+}
+
+ .layui-table-click {
+     background-color:cadetblue !important;
+     color:white;
+}
+

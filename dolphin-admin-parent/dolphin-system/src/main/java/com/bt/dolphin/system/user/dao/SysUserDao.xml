@@ -10,8 +10,13 @@
 		where u.USER_NO = #{userNo}
 	</select>
 	
-	<select id="queryUserList" resultType="com.bt.dolphin.system.user.vo.SysUserVo" 
-    parameterType="com.bt.dolphin.system.user.vo.SysUserCondition">
+	<select id="getUserByUserId" parameterType="String" resultType="com.bt.dolphin.system.user.vo.SysUserVo">
+		select u.USER_ID,u.USER_NO,u.USER_NAME,u.USER_PASSWORD,u.USER_TYPE,u.USER_STATUS,u.USER_org,u.direct_org_code,u.salt
+		from sy_user u 
+		where u.USER_ID = #{userId}
+	</select>
+	
+	<select id="queryUserList" resultType="com.bt.dolphin.system.user.vo.SysUserVo" parameterType="com.bt.dolphin.system.user.vo.SysUserCondition">
 	   select u.USER_ID,u.USER_NO,u.USER_NAME,u.USER_PASSWORD,u.USER_TYPE,u.USER_STATUS,u.USER_org,u.direct_org_code,u.salt
 		from sy_user u 
 		where 1=1
@@ -24,6 +29,29 @@
 		 <if test="userStatus!=null and userStatus!=''">
 				and u.USER_STATUS = #{userStatus,jdbcType=VARCHAR}
 		</if>
-
     </select>
+    
+    <insert id="insertSysUser" parameterType="com.bt.dolphin.system.user.vo.SysUserVo">
+    	insert into sy_user(USER_ID,USER_NO,USER_NAME,USER_PASSWORD,USER_TYPE,USER_STATUS,USER_org,direct_org_code,salt,USER_CREATETIME)
+    			VALUES(#{userId,jdbcType=VARCHAR},#{userNo,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},
+    			#{userPassword,jdbcType=VARCHAR},#{userType,jdbcType=VARCHAR},#{userStatus,jdbcType=VARCHAR},
+    			#{userOrg,jdbcType=VARCHAR},#{directOrgCode,jdbcType=VARCHAR},#{salt,jdbcType=VARCHAR},#{userCreatetime,jdbcType=VARCHAR})
+    </insert>
+    
+    <update id="updateSysUser" parameterType="com.bt.dolphin.system.user.vo.SysUserVo">
+		update sy_user
+		 <set>
+		 	 USER_NO = #{userNo,jdbcType=VARCHAR},
+		 	 USER_NAME = #{userName,jdbcType=VARCHAR},
+		 	 USER_PASSWORD = #{userPassword,jdbcType=VARCHAR},
+		 	 salt = #{salt,jdbcType=VARCHAR}
+		 </set>
+		 where USER_ID = #{userId}
+    </update>
+    
+    <delete id="deleteByUserId" parameterType="String">
+        delete
+        FROM sy_user
+        where USER_ID = #{userId}
+    </delete>
 </mapper>

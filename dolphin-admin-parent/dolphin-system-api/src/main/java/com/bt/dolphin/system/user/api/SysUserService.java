@@ -9,6 +9,8 @@
 
 package com.bt.dolphin.system.user.api;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.bt.dolphin.common.vo.QueryResultObject;
 import com.bt.dolphin.system.user.vo.SysUserCondition;
 import com.bt.dolphin.system.user.vo.SysUserVo;
@@ -37,6 +39,12 @@ public interface SysUserService {
 	 *
 	 */
 	public SysUserVo getUserByUserNo(String userNo);
+	public SysUserVo getUserByUserId(String userId);
 	
 	public QueryResultObject queryUserList(SysUserCondition condition);
+	
+	public void saveSysUser(SysUserVo vo);
+	public void deleteByUserId(String userId);
+
+	
 }

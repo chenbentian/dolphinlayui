@@ -39,7 +39,8 @@ public interface SysUserDao {
 	 *
 	 */
 	public SysUserVo getUserByUserNo(@Param("userNo") String userNo);
-	
+	public SysUserVo getUserByUserId(@Param("userId") String userId);
+
 	/**
 	 * 
 	 * 方法说明：列表查询
@@ -53,6 +54,22 @@ public interface SysUserDao {
 	 *
 	 */
 	public List<SysUserVo> queryUserList(SysUserCondition condition);
+	/**
+	 * 
+	 * 方法说明：保存用户
+	 *
+	 * Author：        cbt               
+	 * Create Date：   2020年12月23日 上午10:57:29
+	 * History:  2020年12月23日 上午10:57:29   cbt-34201   Created.
+	 *
+	 * @param vo
+	 *
+	 */
+	public void insertSysUser(SysUserVo vo);
+	
+	public void updateSysUser(SysUserVo vo);
+	public void deleteByUserId(@Param("userId") String userId);
+
 
 
 }

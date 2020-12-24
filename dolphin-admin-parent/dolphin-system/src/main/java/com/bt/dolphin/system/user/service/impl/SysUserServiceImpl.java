@@ -15,14 +15,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bt.dolphin.common.util.CoreSeqUtil;
 import com.bt.dolphin.common.util.ResultUtils;
 import com.bt.dolphin.common.vo.QueryResultObject;
+import com.bt.dolphin.shiro.ShiroUtil;
+import com.bt.dolphin.system.code.api.SysCodeService;
+import com.bt.dolphin.system.code.vo.CodeVo;
 import com.bt.dolphin.system.user.api.SysUserService;
 import com.bt.dolphin.system.user.dao.SysUserDao;
 import com.bt.dolphin.system.user.vo.SysUserCondition;
 import com.bt.dolphin.system.user.vo.SysUserVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
+import cn.hutool.core.util.StrUtil;
 
 /**
  *  类描述：系统用户
@@ -35,6 +41,9 @@ import com.github.pagehelper.PageInfo;
  */
 @Service
 public class SysUserServiceImpl implements SysUserService{
+	
+	@Autowired
+	private SysCodeService sysCodeService;
 	
 	@Autowired
 	private SysUserDao sysUserDao;
@@ -56,6 +65,14 @@ public class SysUserServiceImpl implements SysUserService{
 	}
 	
 	@Override
+	public SysUserVo getUserByUserId(String userId) {
+		SysUserVo sysUserVo = sysUserDao.getUserByUserId(userId);
+		CodeVo codeVo = sysCodeService.getStandardCodes("userType",sysUserVo.getUserType());
+		sysUserVo.setUserTypeName(codeVo.getCodeName());
+		return sysUserVo;
+	}
+	
+	@Override
 	public QueryResultObject queryUserList(SysUserCondition condition){
 		int page = condition.getPageBegin()/condition.getRows()+1;
 		PageHelper.startPage(page, condition.getRows());
@@ -67,4 +84,28 @@ public class SysUserServiceImpl implements SysUserService{
 
 	}
 
+	
+	@Override
+	public void saveSysUser(SysUserVo vo) {
+		// TODO Auto-generated method stub
+		String userId = StrUtil.str(vo.getUserId());
+		String encryptpd= ShiroUtil.encrypt(vo.getUserPassword(), vo.getSalt());
+		vo.setUserPassword(encryptpd);
+		if(StrUtil.isNotEmpty(userId)) { //修改
+			sysUserDao.updateSysUser(vo);
+		}else {//新增
+			vo.setUserStatus("1");
+			vo.setUserId(CoreSeqUtil.getUuidS());
+			sysUserDao.insertSysUser(vo);
+		}
+	}
+
+	@Override
+	public void deleteByUserId(String userId) {
+		// TODO Auto-generated method stub
+		sysUserDao.deleteByUserId(userId);
+	}
+	
+	
+	
 }

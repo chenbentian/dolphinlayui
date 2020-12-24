@@ -1,0 +1,13 @@
+CREATE TABLE `sy_code_sort` (
+  `CODE_SORT_ID` varchar(32) NOT NULL COMMENT '代码分类标识',
+  `ACCESS_LEVEL` varchar(32) NOT NULL COMMENT '控制级别 ：0系统级； 1扩展级； 2自定义级；',
+  `CODE_SORT_CODE` varchar(32) NOT NULL COMMENT '代码分类编码',
+  `CODE_SORT_NAME` varchar(128) NOT NULL COMMENT '代码分类名称',
+  `P_CODE_SORT_CODE` varchar(32) DEFAULT NULL COMMENT '上级代码分类编码',
+  `CODE_SORT_CREATETIME` datetime DEFAULT NULL COMMENT '代码分类创建时间',
+  `TENANT_ID` varchar(38) NOT NULL DEFAULT 'LSPT' COMMENT '多租户ID',
+  `CODE_SORT_NAME_LANG_ID` varchar(32) DEFAULT NULL COMMENT 'code_sort_name所对应国际化资源表（pt_lang）的lang_id',
+  `SEQUENCE` int(8) NOT NULL DEFAULT '0' COMMENT '分类排序',
+  PRIMARY KEY (`CODE_SORT_ID`,`TENANT_ID`),
+  UNIQUE KEY `AK_Key_2` (`CODE_SORT_CODE`,`TENANT_ID`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8

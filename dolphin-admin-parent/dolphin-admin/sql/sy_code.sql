@@ -1,0 +1,23 @@
+CREATE TABLE `sy_code` (
+  `CODE_ID` varchar(32) NOT NULL COMMENT '代码标识',
+  `CODE_SORT_CODE` varchar(32) NOT NULL COMMENT '代码分类编码',
+  `P_CODE_VALUE` varchar(256) DEFAULT NULL COMMENT '上级代码值',
+  `CODE_VALUE` varchar(128) NOT NULL COMMENT '代码值',
+  `CODE_NAME` varchar(256) NOT NULL COMMENT '代码名称',
+  `ORG_NO` varchar(32) DEFAULT NULL COMMENT '组织编号',
+  `SHOW_SEQ` int(11) DEFAULT NULL COMMENT '显示序号',
+  `IS_USE` int(11) DEFAULT NULL COMMENT '是否启用 1启用 0未启用',
+  `IS_MAINTENANCE` int(11) DEFAULT NULL COMMENT '可否维护:1可维护0不可维护',
+  `EFFECT_TIME` datetime DEFAULT NULL COMMENT '生效时间',
+  `INVALID_TIME` datetime DEFAULT NULL COMMENT '失效时间',
+  `PRE_ATTR1` varchar(3000) DEFAULT NULL COMMENT '预留属性1',
+  `PRE_ATTR2` varchar(3000) DEFAULT NULL COMMENT '预留属性2',
+  `PRE_ATTR3` varchar(3000) DEFAULT NULL COMMENT '预留属性3',
+  `PRE_ATTR4` varchar(3000) DEFAULT NULL COMMENT '预留属性4',
+  `PRE_ATTR5` varchar(3000) DEFAULT '0' COMMENT '预留属性5(已启用为默认值，0：否 ；1：是；)',
+  `TENANT_ID` varchar(38) NOT NULL DEFAULT 'LSPT' COMMENT '多租户ID',
+  `CODE_NAME_LANG_ID` varchar(32) DEFAULT NULL COMMENT 'code_name所对应国际化资源表（pt_lang）的lang_id',
+  PRIMARY KEY (`CODE_ID`,`TENANT_ID`),
+  KEY `Code_Sort` (`CODE_SORT_CODE`,`TENANT_ID`),
+  KEY `Code_Value` (`CODE_SORT_CODE`,`CODE_VALUE`,`TENANT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
