@@ -373,11 +373,16 @@ a{
 .layui-layout-admin .layui-body .layui-tab-content .layui-layout-iframe
 {
 	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
+	top: 5px;
+	left: 3px;
+	right: 5px;
+	bottom: 5px;
 }
+
+.layui-layout-iframe{
+	 box-shadow: 0 1px 6px 0 rgba(0, 27, 52, 0.20);
+}
+    
 .layui-layout-admin .layui-body .layui-tab-content{
 	top: 40px;
 	padding: 0;

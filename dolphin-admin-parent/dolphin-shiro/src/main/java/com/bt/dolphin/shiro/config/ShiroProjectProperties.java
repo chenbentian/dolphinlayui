@@ -20,6 +20,9 @@ public class ShiroProjectProperties {
 
     /** Session会话检测间隔时间，默认15分钟 */
     private Integer sessionValidationInterval = 900;
+    
+    /** shiro集成缓存框架，redis或ehcache*/
+    private String cacheType = "ehcache";
 
     /** 忽略的路径规则，多个规则使用","逗号隔开 */
     private String excludes = "";
@@ -55,6 +58,15 @@ public class ShiroProjectProperties {
 	public void setExcludes(String excludes) {
 		this.excludes = excludes;
 	}
+
+	public String getCacheType() {
+		return cacheType;
+	}
+
+	public void setCacheType(String cacheType) {
+		this.cacheType = cacheType;
+	}
+
     
     
 }

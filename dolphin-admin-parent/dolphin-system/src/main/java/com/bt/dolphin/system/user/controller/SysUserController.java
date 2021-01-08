@@ -87,41 +87,26 @@ public class SysUserController extends QueryController<SysUserCondition> {
 	@RequestMapping(value = "/getUserByUserId")
 	public  @ResponseBody WrappedResult getUserByUserId(HttpServletResponse response, HttpServletRequest request,
 			@RequestParam  Map<String, String> param)  {
-		try{
-			String userId = StrUtil.toString(param.get("userId"));
-			SysUserVo sysUserVo = sysUserService.getUserByUserId(userId);
-			return WrappedResult.successWrapedResult(sysUserVo);
-		}catch (Exception e) {
-			logger.error("获取标准代码失败",e);
-			return  WrappedResult.failedWrappedResult("获取标准代码失败!");
-		}
+		String userId = StrUtil.toString(param.get("userId"));
+		SysUserVo sysUserVo = sysUserService.getUserByUserId(userId);
+		return WrappedResult.successWrapedResult(sysUserVo);
 	}
 	
 	@RequestMapping(value = "/saveUser")
 	public  @ResponseBody WrappedResult saveUser(HttpServletResponse response, HttpServletRequest request,
 			@RequestParam  Map<String, String> param)  {
-		try{
-			SysUserVo sysUserVo =  new SysUserVo();
-			BeanUtil.copyProperties(param, sysUserVo);
-			sysUserService.saveSysUser(sysUserVo);
-			return WrappedResult.successWrapedResult("保存成功！");
-		}catch (Exception e) {
-			logger.error("获取标准代码失败",e);
-			return  WrappedResult.failedWrappedResult("获取标准代码失败!");
-		}
+		SysUserVo sysUserVo =  new SysUserVo();
+		BeanUtil.copyProperties(param, sysUserVo);
+		sysUserService.saveSysUser(sysUserVo);
+		return WrappedResult.successWrapedResult("保存成功！");
 	}
 	
 	@RequestMapping(value = "/deleteByUserId")
 	public  @ResponseBody WrappedResult deleteByUserId(HttpServletResponse response, HttpServletRequest request,
 			@RequestParam  Map<String, String> param)  {
-		try{
-			String userId = StrUtil.nullToEmpty(param.get("userId"));
-			sysUserService.deleteByUserId(userId);
-			return WrappedResult.successWrapedResult("保存成功！");
-		}catch (Exception e) {
-			logger.error("获取标准代码失败",e);
-			return  WrappedResult.failedWrappedResult("获取标准代码失败!");
-		}
+		String userId = StrUtil.nullToEmpty(param.get("userId"));
+		sysUserService.deleteByUserId(userId);
+		return WrappedResult.successWrapedResult("保存成功！");
 	}
 
 	@Override

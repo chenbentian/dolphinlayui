@@ -19,7 +19,7 @@ import com.alibaba.druid.support.http.WebStatFilter;
 
 
 /**
- *  类描述：
+ *  类描述：druid
  * 
  *  @author:  cbt-34201
  *  @version  $Id: Exp$ 

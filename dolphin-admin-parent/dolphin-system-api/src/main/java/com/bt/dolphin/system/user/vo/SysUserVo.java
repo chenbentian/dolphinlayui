@@ -9,6 +9,7 @@
 
 package com.bt.dolphin.system.user.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -20,8 +21,9 @@ import java.util.Date;
  *  History:  2020年8月7日 下午5:22:13   cbt-34201   Created.
  *           
  */
-public class SysUserVo {
-    private String userId;
+public class SysUserVo implements Serializable{
+	
+	private String userId;
     private String userNo;
     private String userName;
     private String userPassword;

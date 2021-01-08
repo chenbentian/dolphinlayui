@@ -30,6 +30,14 @@ public class SysPermissionVo {
 	private String permissionIndex;
 	private String permissionComment;
 	private String isLeaf;
+	private String permissionStatus;
+	
+	private String perExId;
+	private String attrCode;
+	private String attrValue;
+	private Boolean normal;//普通业务项
+	private Boolean visible;//菜单业务项
+	private Boolean authorized;//授权业务项
 
 	public String getPermissionType() {
 		return permissionType;
@@ -109,6 +117,63 @@ public class SysPermissionVo {
 
 	public void setIsLeaf(String isLeaf) {
 		this.isLeaf = isLeaf;
+	}
+
+	public String getPermissionStatus() {
+		return permissionStatus;
+	}
+
+	public void setPermissionStatus(String permissionStatus) {
+		this.permissionStatus = permissionStatus;
+	}
+	
+
+	public Boolean getNormal() {
+		return normal;
+	}
+
+	public void setNormal(Boolean normal) {
+		this.normal = normal;
+	}
+
+	public Boolean getVisible() {
+		return visible;
+	}
+
+	public void setVisible(Boolean visible) {
+		this.visible = visible;
+	}
+
+	public Boolean getAuthorized() {
+		return authorized;
+	}
+
+	public void setAuthorized(Boolean authorized) {
+		this.authorized = authorized;
+	}
+
+	public String getAttrCode() {
+		return attrCode;
+	}
+
+	public void setAttrCode(String attrCode) {
+		this.attrCode = attrCode;
+	}
+
+	public String getAttrValue() {
+		return attrValue;
+	}
+
+	public void setAttrValue(String attrValue) {
+		this.attrValue = attrValue;
+	}
+
+	public String getPerExId() {
+		return perExId;
+	}
+
+	public void setPerExId(String perExId) {
+		this.perExId = perExId;
 	}
 	
 	

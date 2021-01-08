@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bt.dolphin.system.menu.dao.SysPermissionDao">
 	
-	<select id="getAppByAppName" parameterType="String" resultType="com.bt.dolphin.system.menu.vo.SysPermissionVo">
+	<select id="getPermissionByAccoutAndAppId" parameterType="String" resultType="com.bt.dolphin.system.menu.vo.SysPermissionVo">
 		SELECT up.PERMISSION_ID,up.PERMISSION_NAME,up.PERMISSION_PATH,up.PERMISSION_TYPE FROM `sy_user_permission_rela` up
 		 <where>
 		 	<if test="accountName!=null  and accountName!=''">
@@ -15,5 +15,59 @@
 		 	</if>
 		 </where>
 	</select>
+	
+	<select id="getPermissionById" parameterType="String" resultType="com.bt.dolphin.system.menu.vo.SysPermissionVo">
+		 SELECT p.APP_ID,p.APP_ID,p.PERMISSION_ID,p.PERMISSION_NAME,p.PERMISSION_PARENTID,p.PERMISSION_CODE,p.PERMISSION_TYPE,p.PERMISSION_PATH,p.PERMISSION_STATUS FROM `sy_permission` p
+		 where  p.PERMISSION_ID = #{permissionId}
+	</select>
+	
+	<select id="getSubPermissByPId" parameterType="String" resultType="com.bt.dolphin.system.menu.vo.SysPermissionVo">
+		SELECT p.APP_ID,p.PERMISSION_ID,p.PERMISSION_NAME,p.PERMISSION_PARENTID,p.PERMISSION_CODE,p.PERMISSION_TYPE FROM `sy_permission` p
+		 <where>
+		 	   p.PERMISSION_STATUS = '1' and p.PERMISSION_PARENTID = #{pId}
+		 </where>
+	</select>
+	
+	<insert id="insertSysPermission" parameterType="com.bt.dolphin.system.menu.vo.SysPermissionVo">
+    	insert into sy_permission(PERMISSION_ID,APP_ID,PERMISSION_PARENTID,PERMISSION_NAME,PERMISSION_CODE,PERMISSION_TYPE,PERMISSION_PATH,PERMISSION_STATUS)
+    			VALUES(#{permissionId,jdbcType=VARCHAR},#{appId,jdbcType=VARCHAR},#{permissionParentid,jdbcType=VARCHAR},
+    			#{permissionName,jdbcType=VARCHAR},#{permissionCode,jdbcType=VARCHAR},#{permissionType,jdbcType=VARCHAR},
+    			#{permissionPath,jdbcType=VARCHAR},#{permissionStatus,jdbcType=VARCHAR})
+    </insert>
+    
+     <update id="updateSysPermission" parameterType="com.bt.dolphin.system.menu.vo.SysPermissionVo">
+		update sy_permission
+		 <set>
+		 	 PERMISSION_NAME = #{permissionName,jdbcType=VARCHAR},
+		 	 PERMISSION_CODE = #{permissionCode,jdbcType=VARCHAR},
+		 	 PERMISSION_PATH = #{permissionPath,jdbcType=VARCHAR}
+		 </set>
+		 where PERMISSION_ID = #{permissionId}
+    </update>
+    
+     
+    <delete id="deleteBypermissionId" parameterType="String">
+        delete
+        FROM sy_permission
+        where PERMISSION_ID = #{permissionId}
+    </delete>
+    
+    <select id="getPermissionExtendById" parameterType="String" resultType="com.bt.dolphin.system.menu.vo.SysPermissionVo">
+		 SELECT p.PERMISSION_ID,p.ATTR_CODE,p.ATTR_VALUE FROM  sy_permission_extend p
+		 where  p.PERMISSION_ID = #{permissionId}
+	</select>
+	
+	<insert id="insertSysPermissionExtend" parameterType="com.bt.dolphin.system.menu.vo.SysPermissionVo">
+    	insert into sy_permission_extend(PER_EX_ID,PERMISSION_ID,ATTR_CODE,ATTR_VALUE)
+    			VALUES(#{perExId,jdbcType=VARCHAR},#{permissionId,jdbcType=VARCHAR},
+    			#{attrCode,jdbcType=VARCHAR},#{attrValue,jdbcType=VARCHAR})
+    </insert>
+    
+	 <delete id="delPermissionExtendById" parameterType="String">
+        delete
+        FROM sy_permission_extend
+        where PERMISSION_ID = #{permissionId}
+    </delete>
+    
 	
 </mapper>

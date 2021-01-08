@@ -40,4 +40,5 @@ public interface SysMenuDao {
 	public List<SysMenuVo> getChildMenuByAppIds(@Param("parentId") String paramString,
 			@Param("appIds") List<String> paramList);
 
+	public List<SysMenuVo> getSubMenuByPId(@Param("parentId") String parentId);
 }

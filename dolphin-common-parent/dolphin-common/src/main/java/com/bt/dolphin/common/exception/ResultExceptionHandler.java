@@ -21,7 +21,7 @@ import com.bt.dolphin.common.vo.ResultVo;
  * @author 小懒虫
  * @date 2018/8/14
  */
-@ControllerAdvice
+//@ControllerAdvice
 public class ResultExceptionHandler {
 	
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultExceptionHandler.class);

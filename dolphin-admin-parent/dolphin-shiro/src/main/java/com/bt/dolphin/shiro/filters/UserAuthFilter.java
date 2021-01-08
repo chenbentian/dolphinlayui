@@ -33,7 +33,9 @@ public class UserAuthFilter extends AccessControlFilter {
 
         if (httpRequest.getHeader("X-Requested-With") != null
                 && "XMLHttpRequest".equalsIgnoreCase(httpRequest.getHeader("X-Requested-With"))) {
-            httpResponse.sendError(HttpStatus.UNAUTHORIZED.value());
+          //  httpResponse.sendError(HttpStatus.UNAUTHORIZED.value());
+        	int status = httpResponse.getStatus();
+            httpResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
         } else {
             redirectToLogin(request, response);
         }

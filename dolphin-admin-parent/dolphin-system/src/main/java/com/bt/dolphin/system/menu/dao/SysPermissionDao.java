@@ -14,6 +14,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.bt.dolphin.system.menu.vo.SysPermissionVo;
+import com.bt.dolphin.system.user.vo.SysUserVo;
 
 /**
  *  类描述：系统权限项
@@ -39,5 +40,20 @@ public interface SysPermissionDao {
 	 * @return
 	 *
 	 */
-	public List<SysPermissionVo> getAppByAppName(@Param("accountName") String accountName,@Param("appId") String appId);
+	public List<SysPermissionVo> getPermissionByAccoutAndAppId(@Param("accountName") String accountName,@Param("appId") String appId);
+	
+	public SysPermissionVo getPermissionById(@Param("permissionId") String permissionId);
+	
+	public List<SysPermissionVo> getSubPermissByPId(@Param("pId") String pId);
+	
+	public void insertSysPermission(SysPermissionVo vo);
+	
+	public void updateSysPermission(SysPermissionVo vo);
+	
+	public void deleteBypermissionId(@Param("permissionId") String permissionId);
+	
+	public List<SysPermissionVo> getPermissionExtendById(@Param("permissionId") String permissionId);
+	public void insertSysPermissionExtend(SysPermissionVo vo);
+	public void delPermissionExtendById(@Param("permissionId") String permissionId);
+
 }

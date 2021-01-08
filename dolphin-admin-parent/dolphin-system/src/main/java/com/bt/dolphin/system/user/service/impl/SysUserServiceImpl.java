@@ -12,7 +12,11 @@ package com.bt.dolphin.system.user.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.cache.annotation.CacheKey;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.bt.dolphin.common.util.CoreSeqUtil;
@@ -40,6 +44,7 @@ import cn.hutool.core.util.StrUtil;
  *           
  */
 @Service
+@Transactional
 public class SysUserServiceImpl implements SysUserService{
 	
 	@Autowired
@@ -60,14 +65,16 @@ public class SysUserServiceImpl implements SysUserService{
 	 *
 	 */
 	@Override
+	@Cacheable(value = "param", key = "#userNo",unless="#result == null",cacheManager="redisCacheManager")
 	public SysUserVo getUserByUserNo(String userNo) {
+		System.out.println("进入查询数据");
 		return sysUserDao.getUserByUserNo(userNo);
 	}
 	
 	@Override
 	public SysUserVo getUserByUserId(String userId) {
 		SysUserVo sysUserVo = sysUserDao.getUserByUserId(userId);
-		CodeVo codeVo = sysCodeService.getStandardCodes("userType",sysUserVo.getUserType());
+		CodeVo codeVo = sysCodeService.getStandardCode("userType",sysUserVo.getUserType());
 		sysUserVo.setUserTypeName(codeVo.getCodeName());
 		return sysUserVo;
 	}

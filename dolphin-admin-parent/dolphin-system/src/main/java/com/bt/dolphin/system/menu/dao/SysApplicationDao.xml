@@ -14,4 +14,9 @@
 		SELECT p.app_id,p.`APP_NAME`,p.`APP_PARENTID`,p.`APP_STATUS`,p.`APP_TITLE`,p.`APP_TYPE`,p.`APP_WEBPATH`,
 			p.`APP_COMMENT` FROM `sy_application` p  where p.app_id = #{appId}
 	</select>
+	
+	<select id="getAppIdByAppName" parameterType="String" resultType="String">
+		SELECT p.app_id as "appId"  FROM `sy_application` p  where p.APP_NAME = #{appName}
+	</select>
+	
 </mapper>

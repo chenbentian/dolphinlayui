@@ -33,6 +33,9 @@
 	border-radius: 2px
 }
 
+.layui-form-select .layui-input {
+	padding-right:0px;
+}
 .layui-form-label {
 	margin-top:3px;
 }
@@ -46,5 +49,9 @@
  .layui-table-click {
      background-color:cadetblue !important;
      color:white;
+}
+
+.layui-form-select dl dd, .layui-form-select dl dt {
+	line-height: 24px;
 }
 

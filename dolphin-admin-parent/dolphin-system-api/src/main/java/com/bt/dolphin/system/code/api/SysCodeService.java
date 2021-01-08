@@ -40,5 +40,5 @@ public interface SysCodeService {
 	 */
 	public List<CodeVo> getStandardCodes(String codeType);
 	
-	public CodeVo getStandardCodes(String codeType,String codeValue);
+	public CodeVo getStandardCode(String codeType,String codeValue);
 }

@@ -38,5 +38,5 @@ public interface SysCodeDao {
 	 *
 	 */
 	public List<CodeVo> getStandardCodes(@Param("codeType") String codeType);
-	public CodeVo getStandardCodes(@Param("codeType") String codeType,@Param("codeValue") String codeValue);
+	public CodeVo getStandardCode(@Param("codeType") String codeType,@Param("codeValue") String codeValue);
 }

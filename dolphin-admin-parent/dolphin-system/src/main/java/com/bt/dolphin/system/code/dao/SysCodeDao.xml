@@ -8,7 +8,7 @@
 		SELECT code_value,code_name FROM `sy_code` WHERE code_sort_code = #{codeType}
 	</select>
 	
-	<select id="getStandardCodes" parameterType="String" resultType="com.bt.dolphin.system.code.vo.CodeVo">
+	<select id="getStandardCode" parameterType="String" resultType="com.bt.dolphin.system.code.vo.CodeVo">
 		SELECT code_value,code_name FROM `sy_code` WHERE code_sort_code = #{codeType} and code_value = #{codeValue}
 	</select>
 	

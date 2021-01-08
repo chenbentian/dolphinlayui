@@ -11,6 +11,8 @@ package com.bt.dolphin.system.menu.service.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,7 @@ import com.bt.dolphin.system.menu.vo.SysApplicationVo;
  *           
  */
 @Service
+@Transactional
 public class SysApplicationServiceImpl implements SysApplicationService{
 	@Autowired
 	private SysApplicationDao sysApplicationDao;

@@ -40,9 +40,9 @@ public class SysCodeServiceImpl implements SysCodeService{
 	}
 
 	@Override
-	public CodeVo getStandardCodes(String codeType, String codeValue) {
+	public CodeVo getStandardCode(String codeType, String codeValue) {
 		// TODO Auto-generated method stub
-		return sysCodeDao.getStandardCodes(codeType, codeValue);
+		return sysCodeDao.getStandardCode(codeType, codeValue);
 	}
 
 }

@@ -7,6 +7,7 @@ layui.use(['element','layer'], function () {
             layer.load(0);
         },
         complete: function (xhr) {
+        	debugger;
             layer.closeAll('loading');
             if (xhr.status === 401) {
                 layer.confirm('session连接超时，是否重新登录？', {
@@ -16,6 +17,8 @@ layui.use(['element','layer'], function () {
                         window.top.location = window.location.pathname + '/login';
                     }
                 });
+            }else if(xhr.status === 500) {
+            	
             }
         }
     });

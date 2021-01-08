@@ -3,10 +3,11 @@
          xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
 
     <!-- 磁盘缓存位置 -->
-    <diskStore path="java.io.tmpdir"/>
-
+   <!--  <diskStore path="java.io.tmpdir"/> -->
+    
+    <diskStore path="e:\\ehcache"/>
     <!-- 默认缓存 -->
-    <defaultCache
+    <defaultCache name="defaultCache"
             maxElementsInMemory="10000"
             eternal="false"
             timeToIdleSeconds="3600"

@@ -54,7 +54,7 @@ public class SysMenuServiceImpl implements SysMenuService{
 
 	@Override
 	public Map<String, SysMenuVo> getObjMenuByAccount(String accountName, List<String> appNames, String id) {
-		List<SysPermissionVo> permissionlist = sysPermissionService.getAppByAppName(accountName, null);
+		List<SysPermissionVo> permissionlist = sysPermissionService.getPermissionByAccoutAndAppId(accountName, null);
 		List<SysApplicationVo> allApplication = sysApplicationService.getAllApplication();
 		Map appsNameMap = new HashMap();
 	    Map appsIdMap = new HashMap();

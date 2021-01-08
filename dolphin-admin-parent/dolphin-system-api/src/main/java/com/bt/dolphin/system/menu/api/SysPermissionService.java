@@ -11,6 +11,8 @@ package com.bt.dolphin.system.menu.api;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.bt.dolphin.system.menu.vo.SysPermissionVo;
 
 /**
@@ -38,5 +40,16 @@ public interface SysPermissionService {
 	 * @return
 	 *
 	 */
-	public List<SysPermissionVo> getAppByAppName(String accountName,String appId);
+	public List<SysPermissionVo> getPermissionByAccoutAndAppId(String accountName,String appId);
+	public SysPermissionVo getPermissionById(String permissionId);
+	public SysPermissionVo getPermissionAndArrByAppId(String permissionId);
+	
+	public List<SysPermissionVo> getSubPermissByPId(String pId);
+	
+	public SysPermissionVo savePermissionType(SysPermissionVo vo);
+	public void deleteBypermissionId(String permissionId);
+	
+	public SysPermissionVo savePermission(SysPermissionVo vo);
+
+
 }

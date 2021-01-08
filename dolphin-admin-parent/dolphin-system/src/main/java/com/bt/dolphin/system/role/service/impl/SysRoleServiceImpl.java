@@ -9,6 +9,8 @@
 
 package com.bt.dolphin.system.role.service.impl;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,7 @@ import com.bt.dolphin.system.role.vo.SysRoleVo;
  *           
  */
 @Service
+@Transactional
 public class SysRoleServiceImpl implements SysRoleService{
 	@Autowired
 	private SysRoleDao sysRoleDao;

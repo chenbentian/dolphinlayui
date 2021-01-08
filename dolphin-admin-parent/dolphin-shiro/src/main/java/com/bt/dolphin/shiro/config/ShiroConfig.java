@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
 
+import com.bt.dolphin.shiro.config.redis.ShiroSpringCacheManager;
 import com.bt.dolphin.shiro.filters.UserAuthFilter;
 import com.bt.dolphin.shiro.realm.AuthRealm;
 import com.bt.dolphin.shiro.remember.RememberMeManager;
@@ -103,32 +104,53 @@ public class ShiroConfig {
     }
 
     /**
-     * 自定义的Realm
+     * 自定义的Realm  ehcache缓存
      */
-    @Bean
+   /* @Bean
     public AuthRealm getRealm(EhCacheManager ehCacheManager) {
         AuthRealm authRealm = new AuthRealm();
         authRealm.setCacheManager(ehCacheManager);
+        return authRealm;
+    }*/
+    
+    @Bean
+    public AuthRealm getRealm(ShiroSpringCacheManager redisCacheManager) {
+        AuthRealm authRealm = new AuthRealm();
+        authRealm.setCacheManager(redisCacheManager);
         return authRealm;
     }
 
     /**
      * 缓存管理器-使用Ehcache实现缓存
      */
-    @Bean
+   /* @Bean
     public EhCacheManager ehCacheManager(CacheManager cacheManager) {
         EhCacheManager ehCacheManager = new EhCacheManager();
         ehCacheManager.setCacheManager(cacheManager);
         return ehCacheManager;
-    }
-
+    }*/
+    
     /**
-     * session管理器
+     * session管理器  Ehcache缓存
      */
-    @Bean
+    /*@Bean
     public DefaultWebSessionManager getDefaultWebSessionManager(EhCacheManager cacheManager, ShiroProjectProperties properties) {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setCacheManager(cacheManager);
+        sessionManager.setGlobalSessionTimeout(properties.getGlobalSessionTimeout() * 1000);
+        sessionManager.setSessionValidationInterval(properties.getSessionValidationInterval() * 1000);
+        sessionManager.setDeleteInvalidSessions(true);
+        sessionManager.validateSessions();
+        // 去掉登录页面地址栏jsessionid
+        sessionManager.setSessionIdUrlRewritingEnabled(false);
+        return sessionManager;
+    }
+    */
+    
+    @Bean
+    public DefaultWebSessionManager getDefaultWebSessionManager(ShiroSpringCacheManager redisCacheManager, ShiroProjectProperties properties) {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        sessionManager.setCacheManager(redisCacheManager);
         sessionManager.setGlobalSessionTimeout(properties.getGlobalSessionTimeout() * 1000);
         sessionManager.setSessionValidationInterval(properties.getSessionValidationInterval() * 1000);
         sessionManager.setDeleteInvalidSessions(true);

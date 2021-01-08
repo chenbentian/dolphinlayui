@@ -30,4 +30,13 @@
 		order by a.menu_index
 	</select>
 	
+	
+	<select id="getSubMenuByPId" parameterType="String" resultType="com.bt.dolphin.system.menu.vo.SysMenuVo">
+		SELECT
+		menu_id, menu_parentid, menu_seq, menu_index, menu_title,menu_title_lang_id, menu_path,menu_icon,
+	    menu_kind, obj_id,obj_path, obj_app_id, menu_app_id, menu_state, action_app_context,
+		action_authorized, action_normal,action_systemic, action_safe, action_audit ,open_position 
+		FROM sy_menu a where  a.menu_parentid = #{parentId}
+	</select>
+	
 </mapper>
