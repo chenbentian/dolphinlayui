@@ -7,7 +7,6 @@ layui.use(['element','layer'], function () {
             layer.load(0);
         },
         complete: function (xhr) {
-        	debugger;
             layer.closeAll('loading');
             if (xhr.status === 401) {
                 layer.confirm('session连接超时，是否重新登录？', {
@@ -45,5 +44,21 @@ layui.use(['element','layer'], function () {
     $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
         e.stopPropagation();
     });
+    
+   
+    $.fn.openIframeWin = function(url,title,area,callback){
+    	 parent.layer.open({
+  	        type: 2
+  	        ,title: title //不显示标题栏
+  	        ,closeBtn: 2
+  	        ,area: area
+  	        ,shade: 0.3
+  	        ,btnAlign: 'c'
+  	        ,moveType: 1 //拖拽模式，0或者1
+  	        ,content: url
+  	        ,end: callback
+  	     });
+     };
+    
     
 });

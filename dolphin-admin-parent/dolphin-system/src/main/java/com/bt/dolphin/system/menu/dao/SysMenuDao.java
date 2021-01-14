@@ -14,6 +14,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.bt.dolphin.system.menu.vo.SysMenuVo;
+import com.bt.dolphin.system.menu.vo.SysPermissionVo;
 
 /**
  * 类描述：
@@ -41,4 +42,11 @@ public interface SysMenuDao {
 			@Param("appIds") List<String> paramList);
 
 	public List<SysMenuVo> getSubMenuByPId(@Param("parentId") String parentId);
+	
+	public SysMenuVo getMenuById(@Param("menuId") String menuId);
+	public void insertSysMenu(SysMenuVo vo);
+	
+	public void updateSysMenu(SysMenuVo vo);
+	
+	public void deleteByMenuId(@Param("menuId") String menuId);
 }

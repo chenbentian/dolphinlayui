@@ -15,13 +15,13 @@
 		sy_menu a
 		<where>
 		    <if test="parentId ==null">
-				and ISNULL(a.menu_parentid)
+				and a.menu_parentid = '8888'
 			</if>
-			<if test="parentId !=null">
+			<if test="parentId !=null and parentId !=''">
 				and a.menu_parentid = #{parentId}
 			</if>
-			<if test="appIds !=null">
-				and a.menu_app_name in
+			<if test="appIds !=null and appIds !=''">
+				and a.menu_app_id in
 				<foreach collection="appIds" item="appId" open="(" separator="," close=")">
 					 #{appId}
 				</foreach>
@@ -30,13 +30,45 @@
 		order by a.menu_index
 	</select>
 	
-	
 	<select id="getSubMenuByPId" parameterType="String" resultType="com.bt.dolphin.system.menu.vo.SysMenuVo">
 		SELECT
 		menu_id, menu_parentid, menu_seq, menu_index, menu_title,menu_title_lang_id, menu_path,menu_icon,
 	    menu_kind, obj_id,obj_path, obj_app_id, menu_app_id, menu_state, action_app_context,
-		action_authorized, action_normal,action_systemic, action_safe, action_audit ,open_position 
+		action_authorized, action_normal,action_systemic, action_safe, action_audit ,open_position,
+		(SELECT count(1) FROM sy_menu b WHERE b.menu_parentid=a.menu_id) isLeaf
 		FROM sy_menu a where  a.menu_parentid = #{parentId}
 	</select>
+	
+	<select id="getMenuById" parameterType="String" resultType="com.bt.dolphin.system.menu.vo.SysMenuVo">
+		SELECT
+		menu_id, menu_parentid, menu_seq, menu_index, menu_title,menu_title_lang_id, menu_path,menu_icon,
+	    menu_kind, obj_id,obj_path, obj_app_id, menu_app_id, menu_state, action_app_context,
+		action_authorized, action_normal,action_systemic, action_safe, action_audit ,open_position,
+		(SELECT count(1) FROM sy_menu b WHERE b.menu_parentid=a.menu_id) isLeaf
+		FROM sy_menu a where  a.menu_id = #{menuId}
+	</select>
+	
+	<insert id="insertSysMenu" parameterType="com.bt.dolphin.system.menu.vo.SysMenuVo">
+    	insert into sy_menu(menu_id,menu_parentid,menu_title,obj_path,menu_kind,obj_app_id,menu_app_id,menu_state,obj_id)
+    			VALUES(#{menuId,jdbcType=VARCHAR},#{menuParentid,jdbcType=VARCHAR},#{menuTitle,jdbcType=VARCHAR},
+    			#{objPath,jdbcType=VARCHAR},#{menuKind,jdbcType=VARCHAR},#{objAppId,jdbcType=VARCHAR},
+    			#{menuAppId,jdbcType=VARCHAR},#{menuStatus,jdbcType=VARCHAR},#{objId,jdbcType=VARCHAR})
+    </insert>
+    
+     <update id="updateSysMenu" parameterType="com.bt.dolphin.system.menu.vo.SysMenuVo">
+		update sy_menu
+		 <set>
+		 	 menu_title = #{menuTitle,jdbcType=VARCHAR},
+		 	 obj_path = #{objPath,jdbcType=VARCHAR},
+		 	 obj_app_id = #{objAppId,jdbcType=VARCHAR},
+		 	 menu_app_id = #{menuAppId,jdbcType=VARCHAR},
+		 	 obj_id = #{objId,jdbcType=VARCHAR}
+		 </set>
+		 where menu_id = #{menuId}
+    </update>
+    
+    <delete id="deleteByMenuId" parameterType="String">
+        delete FROM sy_menu where menu_id = #{menuId}
+    </delete>
 	
 </mapper>

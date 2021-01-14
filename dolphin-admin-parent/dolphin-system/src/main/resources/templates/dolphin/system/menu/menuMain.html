@@ -28,45 +28,87 @@ layui.extend({
 		, $ = layui.jquery
 		,dtree = layui.dtree;
 	
-	var paramUrl = utils.getParamUrl("/dolphin/system/sysPermission/getSubTree");
+	var paramUrl = utils.getParamUrl("/dolphin/system/sysMenu/getSubTree");
 	var toolbarExt = [{
 				toolbarId: "addMu",
 				icon:"dtree-icon-roundadd",
-				title:"新增分类",
+				title:"新增菜单目录",
 				handler: function(node,$div){
-				    var url = "dolphin/system/permission/permissionType.html?pId="+node.nodeId+"&editType=1";
+				    var url = "dolphin/system/menu/menuType.html?pId="+node.nodeId+"&editType=1";
 					url = utils.getAllUrl(url);
-				    openWin(url,'新增分类',['300px','260px'],$div);
+				    $.fn.openIframeWin(url,'新增分类',['300px','260px'],function (){
+						  debugger;
+						  var backParam = window.backParam;
+				        	var backObject = window.backObject;
+				        	if(backObject){
+				        		 if(backParam == "type1" || backParam == "menu1"){
+				        			 menuTree.partialRefreshAdd($div);
+				        		}else if(backParam == "type0" || backParam == "menu0"){
+				        			menuTree.partialRefreshEdit($div,backObject.menuTitle);
+				        		}
+				        	}
+					  });
 				}
 			},
 			{
 				toolbarId: "updMu",
 				icon:"dtree-icon-bianji",
-				title:"修改分类",
+				title:"修改菜单目录",
 				handler: function(node,$div){
-					var url = "dolphin/system/permission/permissionType.html?pId="+node.parentId+"&id="+node.nodeId+"&editType=0";
+					var url = "dolphin/system/menu/menuType.html?pId="+node.parentId+"&id="+node.nodeId+"&editType=0";
 					url = utils.getAllUrl(url);
-					openWin(url,'修改分类',['300px','260px'],$div);
+					 $.fn.openIframeWin(url,'修改分类',['300px','260px'],function (){
+						  debugger;
+						  var backParam = window.backParam;
+				        	var backObject = window.backObject;
+				        	if(backObject){
+				        		 if(backParam == "type1" || backParam == "menu1"){
+				        			 menuTree.partialRefreshAdd($div);
+				        		}else if(backParam == "type0" || backParam == "menu0"){
+				        			menuTree.partialRefreshEdit($div,backObject.menuTitle);
+				        		}
+				        	}
+					  });
 				}
 			},
 			{
-				toolbarId: "addPermis",
+				toolbarId: "addMenu",
 				icon:"dtree-icon-roundadd",
-				title:"新增权限",
+				title:"新增菜单",
 				handler: function(node,$div){
-					var url = "dolphin/system/permission/editPermission.html?pId="+node.nodeId+"&editType=1";
+					var url = "dolphin/system/menu/editMenu.html?pId="+node.nodeId+"&editType=1"+"&menuAppId="+node.recordData.appId;
 					url = utils.getAllUrl(url);
-				    openWin(url,'新增权限项',['660px','300px'],$div);
+					$.fn.openIframeWin(url,'新增菜单',['600px','300px'],function (){
+						  var backParam = window.backParam;
+				        	var backObject = window.backObject;
+				        	if(backObject){
+				        		 if(backParam == "type1" || backParam == "menu1"){
+				        			 menuTree.partialRefreshAdd($div);
+				        		}else if(backParam == "type0" || backParam == "menu0"){
+				        			menuTree.partialRefreshEdit($div,backObject.menuTitle);
+				        		}
+				        	}
+					  });
 				}
 			},
 			{
-				toolbarId: "updPermis",
+				toolbarId: "updMenu",
 				icon:"dtree-icon-bianji",
-				title:"修改权限",
+				title:"修改菜单",
 				handler: function(node,$div){
-					var url = "dolphin/system/permission/editPermission.html?pId="+node.parentId+"&id="+node.nodeId+"&editType=0";
+					var url = "dolphin/system/menu/editMenu.html?pId="+node.parentId+"&id="+node.nodeId+"&editType=0"+"&menuAppId="+node.recordData.appId;
 					url = utils.getAllUrl(url);
-					openWin(url,'修改权限项',['660px','300px'],$div);
+					$.fn.openIframeWin(url,'修改菜单',['600px','300px'],function (){
+						  var backParam = window.backParam;
+				        	var backObject = window.backObject;
+				        	if(backObject){
+				        		 if(backParam == "type1" || backParam == "menu1"){
+				        			 menuTree.partialRefreshAdd($div);
+				        		}else if(backParam == "type0" || backParam == "menu0"){
+				        			menuTree.partialRefreshEdit($div,backObject.menuTitle);
+				        		}
+				        	}
+					  });
 				}
 			},
 			{
@@ -76,9 +118,9 @@ layui.extend({
 				handler: function(node,$div){
 					layer.confirm('确认是否删除?', {icon: 3, title:'提示'}, function(index){
 			            layer.close(index);
-			            utils.post('/dolphin/system/sysPermission/deleteBypermissionId',{'id':node.nodeId},function(result,status,msg) {
+			            utils.post('/dolphin/system/sysMenu/deleteByMenuId',{'id':node.nodeId},function(result,status,msg) {
 			                if (status) {
-			               	 	premissTree.partialRefreshDel($div);
+			                	menuTree.partialRefreshDel($div);
 			                }else {
 			                	layer.msg(msg, {time: 10000, btn: ['确认!']});
 			                }
@@ -87,8 +129,8 @@ layui.extend({
 				}
 			}
 		]
-	var premissTree = dtree.render({
-	  	elem: "#perTree",
+	var menuTree = dtree.render({
+	  	elem: "#menuTree",
 	  	url: paramUrl, 
 	  	initLevel: 1,  // 指定初始展开节点级别
 	  	toolbar:true,
@@ -96,6 +138,7 @@ layui.extend({
 	//  ficon:"2",
 	 // icon:"2",
 	  	scroll:"#toolbarDiv",
+	  	record:true,
 	  //	toolbarShow:[], // 默认按钮制空
 	  	toolbarExt:toolbarExt,
 	//  	defaultRequest:{nodeId:"id",parentId:"pId"},
@@ -106,10 +149,6 @@ layui.extend({
 	 //	cache: false //当取消节点缓存时，则每次加载子节点都会往服务器发送请求
 	  	toolbarFun:{
 		    loadToolbarBefore: function(buttons, param, $div){
-		    	debugger;
-		      console.log(buttons);
-		      console.log(param);
-		      console.log($div);
 		     /*  if(param.leaf){ // 如果是叶子节点
 		         buttons.addMu = "";  
 		         buttons.updMu = "";
@@ -126,32 +165,6 @@ layui.extend({
 	 
 	});
 	
-	function openWin(url,title,area,div){
-   	  layer.open({
-	        type: 2
-	        ,title: title //不显示标题栏
-	        ,closeBtn: 2
-	        ,area: area
-	        ,shade: 0.3
-	        ,id: 'openWin' //设定一个id，防止重复弹出
-	       // ,btn: ['火速围观', '残忍拒绝']
-	        ,btnAlign: 'c'
-	        ,moveType: 1 //拖拽模式，0或者1
-	        ,content: url
-	        ,end: function(){
-	        	var backParam = window.backParam;
-	        	var backObject = window.backObject;
-	        	if(backObject){
-	        		 if(backParam == "type1" || backParam == "pers1"){
-	        			premissTree.partialRefreshAdd(div);
-	        		}else if(backParam == "type0" || backParam == "pers0"){
-	        			premissTree.partialRefreshEdit(div,backObject.permissionName);
-	        		}
-	        	}
-	        }
-	     });
-   }
-	    
 });
 </script>
 

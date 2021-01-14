@@ -22,7 +22,7 @@
 	</select>
 	
 	<select id="getSubPermissByPId" parameterType="String" resultType="com.bt.dolphin.system.menu.vo.SysPermissionVo">
-		SELECT p.APP_ID,p.PERMISSION_ID,p.PERMISSION_NAME,p.PERMISSION_PARENTID,p.PERMISSION_CODE,p.PERMISSION_TYPE FROM `sy_permission` p
+		SELECT p.APP_ID,p.PERMISSION_ID,p.PERMISSION_NAME,p.PERMISSION_PARENTID,p.PERMISSION_CODE,p.PERMISSION_TYPE,p.PERMISSION_PATH FROM `sy_permission` p
 		 <where>
 		 	   p.PERMISSION_STATUS = '1' and p.PERMISSION_PARENTID = #{pId}
 		 </where>
@@ -45,11 +45,8 @@
 		 where PERMISSION_ID = #{permissionId}
     </update>
     
-     
     <delete id="deleteBypermissionId" parameterType="String">
-        delete
-        FROM sy_permission
-        where PERMISSION_ID = #{permissionId}
+        delete FROM sy_permission where PERMISSION_ID = #{permissionId}
     </delete>
     
     <select id="getPermissionExtendById" parameterType="String" resultType="com.bt.dolphin.system.menu.vo.SysPermissionVo">

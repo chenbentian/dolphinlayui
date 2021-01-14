@@ -26,9 +26,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bt.dolphin.common.vo.TreeResult;
+import com.bt.dolphin.common.vo.WrappedResult;
 import com.bt.dolphin.system.menu.api.SysMenuService;
-import com.bt.dolphin.system.menu.vo.SysPermissionVo;
+import com.bt.dolphin.system.menu.vo.SysMenuVo;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 
 /**
@@ -52,40 +54,76 @@ public class SysMenuController {
 	public  @ResponseBody TreeResult getSubTree(HttpServletResponse response, HttpServletRequest request,
 			@RequestParam  Map<String, String> param)  {
 		String id = StrUtil.trimToEmpty(param.get("nodeId"));
-		String parentId = StrUtil.trimToEmpty(param.get("parentId"));
 		List<Map> resultList = new ArrayList<Map>();
 		if(id.equals("")) {
-			id = "8888";
+			id = "";
 			Map map = new HashMap();
-			map.put("id",id);
+			map.put("id","8888");
 			map.put("parentId","");
 			map.put("title","菜单管理");
 			map.put("last",false);
 			map.put("leaf",false);
 			resultList.add(map);
 		}else {
-			List<SysPermissionVo> list = sysPermissionService.getSubPermissByPId(id);
+			List<SysMenuVo> list = sysMenuService.getSubMenuByPId(id);
 			if(list != null && list.size() > 0) {
-				for(SysPermissionVo vo : list) {
+				for(SysMenuVo vo : list) {
 					Map map = new HashMap();
-					map.put("id",vo.getPermissionId());
-					map.put("parentId",vo.getPermissionParentid());
-					map.put("title",vo.getPermissionName());
+					map.put("id",vo.getMenuId());
+					map.put("parentId",vo.getMenuParentid());
+					map.put("title",vo.getMenuTitle());
 					map.put("isOpen",false);
-					String permissionType = vo.getPermissionType();
-					if("1".equals(permissionType)) {
-						map.put("last",false);//WebFolder
-						map.put("leaf",false);
-					}else {
+					map.put("leaf",vo.getIsLeaf());
+					String permissionType = vo.getMenuKind();
+					if("MenuItem".equals(permissionType)) {
 						map.put("last",true);
-						map.put("leaf",true);
+					}else {
+						map.put("last",false);//WebFolder
 					}
-				//	map.put("checked",false);
-					map.put("appId",vo.getAppId());
+					map.put("appId",vo.getMenuAppId());
+					map.put("dataType", permissionType);
 					resultList.add(map);
 				}
 			}
 		}
 		return TreeResult.successWrapedResult(resultList);
+	}
+	
+	@RequestMapping(value = "/getMenuById")
+	public  @ResponseBody WrappedResult getMenuById(HttpServletResponse response, HttpServletRequest request,
+			@RequestParam  Map<String, String> param)  {
+		String menuId = StrUtil.toString(param.get("menuId"));
+		SysMenuVo sysMenuVo = sysMenuService.getMenuById(menuId);
+		return WrappedResult.successWrapedResult(sysMenuVo);
+	}
+	
+	@RequestMapping(value = "/saveMenuType")
+	public  @ResponseBody WrappedResult saveMenuType(HttpServletResponse response, HttpServletRequest request,
+			@RequestParam  Map<String, String> param)  {
+		SysMenuVo sysMenuVo =  new SysMenuVo();
+		BeanUtil.copyProperties(param, sysMenuVo);			
+		SysMenuVo result = sysMenuService.saveMenuType(sysMenuVo);
+		return WrappedResult.successWrapedResult(result);
+	}
+	
+	@RequestMapping(value = "/deleteByMenuId")
+	public  @ResponseBody WrappedResult deleteByMenuId(HttpServletResponse response, HttpServletRequest request,
+			@RequestParam  Map<String, String> param)  {
+		String menuId = StrUtil.toString(param.get("id"));
+		List<SysMenuVo> list = sysMenuService.getSubMenuByPId(menuId);
+		if(list != null && list.size() > 0){
+			return WrappedResult.failedWrappedResult("存在下级目录不允许删除，请先删除下级！");
+		}
+		sysMenuService.deleteByMenuId(menuId);
+		return WrappedResult.successWrapedResult("删除成功！");
+	}
+	
+	@RequestMapping(value = "/saveMenu")
+	public  @ResponseBody WrappedResult saveMenu(HttpServletResponse response, HttpServletRequest request,
+			@RequestParam  Map<String, String> param)  {
+		SysMenuVo sysMenuVo =  new SysMenuVo();
+		BeanUtil.copyProperties(param, sysMenuVo);			
+		SysMenuVo result = sysMenuService.saveMenu(sysMenuVo);
+		return WrappedResult.successWrapedResult(result);
 	}
 }

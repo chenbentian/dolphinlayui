@@ -95,6 +95,7 @@ public class SysPermissionController {
 					}else {
 						map.put("last",true);
 						map.put("leaf",true);
+						map.put("url",vo.getPermissionPath());
 					}
 				//	map.put("checked",false);
 					map.put("appId",vo.getAppId());

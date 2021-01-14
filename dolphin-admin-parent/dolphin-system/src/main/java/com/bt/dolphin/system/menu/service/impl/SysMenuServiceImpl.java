@@ -19,6 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bt.dolphin.common.util.CoreSeqUtil;
 import com.bt.dolphin.system.menu.api.SysApplicationService;
 import com.bt.dolphin.system.menu.api.SysMenuService;
 import com.bt.dolphin.system.menu.api.SysPermissionService;
@@ -98,7 +99,7 @@ public class SysMenuServiceImpl implements SysMenuService{
 	    	          key = "Platform(menu)-" + (String)appsMap.get(sysMenuVo.getMenuAppId()) + "=>";
 
 	    	          if (!this.conCurrentHashMap.containsKey(key)){
-	    	        	  sysApplicationVo = sysApplicationService.getAppByAppId(sysMenuVo.getMenuAppId());
+	    	        	  sysApplicationVo = sysApplicationService.getAppByAppId(sysMenuVo.getObjAppId());
 	    	            if (null != sysApplicationVo) {
 	    	              this.conCurrentHashMap.put(key, sysApplicationVo);
 	    	            }
@@ -132,5 +133,53 @@ public class SysMenuServiceImpl implements SysMenuService{
 	     }
 		 return menuTreeMap;
 	 }
+
+	@Override
+	public List<SysMenuVo> getSubMenuByPId(String parentId) {
+		// TODO Auto-generated method stub
+		return sysMenuDao.getSubMenuByPId(parentId);
+	}
+
+	@Override
+	public SysMenuVo getMenuById(String menuId) {
+		// TODO Auto-generated method stub
+		return sysMenuDao.getMenuById(menuId);
+	}
+
+	@Override
+	public SysMenuVo saveMenuType(SysMenuVo vo) {
+		// TODO Auto-generated method stub
+		String id = StrUtil.nullToEmpty(vo.getMenuId());
+		if(StrUtil.isEmptyOrUndefined(id)) {//新增
+			vo.setMenuId(CoreSeqUtil.getUuidS());
+			vo.setMenuStatus("01");
+			vo.setMenuKind("MenuFolder");
+			sysMenuDao.insertSysMenu(vo);
+		}else {//修改
+			sysMenuDao.updateSysMenu(vo);
+		}
+		return vo;
+	}
+
+	@Override
+	public void deleteByMenuId(String menuId) {
+		// TODO Auto-generated method stub
+		sysMenuDao.deleteByMenuId(menuId);
+	}
+
+	@Override
+	public SysMenuVo saveMenu(SysMenuVo vo) {
+		// TODO Auto-generated method stub
+		String id = StrUtil.nullToEmpty(vo.getMenuId());
+		if(StrUtil.isEmptyOrUndefined(id)) {//新增
+			vo.setMenuId(CoreSeqUtil.getUuidS());
+			vo.setMenuStatus("01");
+			vo.setMenuKind("MenuItem");
+			sysMenuDao.insertSysMenu(vo);
+		}else {//修改
+			sysMenuDao.updateSysMenu(vo);
+		}
+		return vo;
+	}
 
 }
