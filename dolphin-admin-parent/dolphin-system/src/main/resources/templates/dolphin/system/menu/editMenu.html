@@ -79,6 +79,7 @@ layui.use(['form','element'], function() {
  	function onInitload(){
  		utils.post('/dolphin/system/sysApplication/getAppNameList',{},function(result,status,msg) {
              if (status) {
+            	 $('#menuAppId').append(new Option("",""));
              	 $.each(result, function (index, item) {
  					$('#menuAppId').append(new Option(item.appTitle, item.appId));// 下拉菜单里添加元素
  				});
@@ -92,6 +93,7 @@ layui.use(['form','element'], function() {
  			  var url = "dolphin/system/permission/permissionMain.html";
 			  url = utils.getAllUrl(url);
 			   $.fn.openIframeWin(url,'权限项选择',['300px','540px'],function (){
+				   debugger;
 		         	var backObject = parent.backObject;
 		        	if(backObject){
 		        		form.val("menuFrom",{objId:backObject.nodeId,
@@ -107,7 +109,7 @@ layui.use(['form','element'], function() {
         var id = utils.getParameter('id');
         var menuAppId = utils.getParameter('menuAppId');
         $("#menuAppId").attr("disabled","disabled");
-        $("#objPath").attr("disabled","disabled");
+      //  $("#objPath").attr("disabled","disabled");
         setTimeout(function () {
         	form.val("menuFrom",{menuParentid:pId,menuId:id,editType:editType,menuAppId:menuAppId});
       	}, 1000);

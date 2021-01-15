@@ -38,8 +38,8 @@ layui.extend({
 					url = utils.getAllUrl(url);
 				    $.fn.openIframeWin(url,'新增分类',['300px','260px'],function (){
 						  debugger;
-						  var backParam = window.backParam;
-				        	var backObject = window.backObject;
+						  var backParam = parent.backParam;
+				        	var backObject = parent.backObject;
 				        	if(backObject){
 				        		 if(backParam == "type1" || backParam == "menu1"){
 				        			 menuTree.partialRefreshAdd($div);
@@ -59,8 +59,8 @@ layui.extend({
 					url = utils.getAllUrl(url);
 					 $.fn.openIframeWin(url,'修改分类',['300px','260px'],function (){
 						  debugger;
-						  var backParam = window.backParam;
-				        	var backObject = window.backObject;
+						  var backParam = parent.backParam;
+				        	var backObject = parent.backObject;
 				        	if(backObject){
 				        		 if(backParam == "type1" || backParam == "menu1"){
 				        			 menuTree.partialRefreshAdd($div);
@@ -79,8 +79,8 @@ layui.extend({
 					var url = "dolphin/system/menu/editMenu.html?pId="+node.nodeId+"&editType=1"+"&menuAppId="+node.recordData.appId;
 					url = utils.getAllUrl(url);
 					$.fn.openIframeWin(url,'新增菜单',['600px','300px'],function (){
-						  var backParam = window.backParam;
-				        	var backObject = window.backObject;
+						  var backParam = parent.backParam;
+				        	var backObject = parent.backObject;
 				        	if(backObject){
 				        		 if(backParam == "type1" || backParam == "menu1"){
 				        			 menuTree.partialRefreshAdd($div);
@@ -99,8 +99,8 @@ layui.extend({
 					var url = "dolphin/system/menu/editMenu.html?pId="+node.parentId+"&id="+node.nodeId+"&editType=0"+"&menuAppId="+node.recordData.appId;
 					url = utils.getAllUrl(url);
 					$.fn.openIframeWin(url,'修改菜单',['600px','300px'],function (){
-						  var backParam = window.backParam;
-				        	var backObject = window.backObject;
+						  var backParam = parent.backParam;
+				        	var backObject = parent.backObject;
 				        	if(backObject){
 				        		 if(backParam == "type1" || backParam == "menu1"){
 				        			 menuTree.partialRefreshAdd($div);

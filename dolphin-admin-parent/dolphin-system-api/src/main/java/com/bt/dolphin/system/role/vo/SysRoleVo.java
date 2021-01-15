@@ -11,6 +11,7 @@ public class SysRoleVo implements Serializable {
 	
     private String roleId;
     private String appId;
+    private String appName;
     private String roleName;
     private String roleCode;
     private String roleComment ;
@@ -50,6 +51,12 @@ public class SysRoleVo implements Serializable {
 	}
 	public void setRoleRange(String roleRange) {
 		this.roleRange = roleRange;
+	}
+	public String getAppName() {
+		return appName;
+	}
+	public void setAppName(String appName) {
+		this.appName = appName;
 	}
     
     

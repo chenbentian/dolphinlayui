@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="../../../dolpin/layui/dolphinlayui.css"  media="all">
 </head>
 <body>
-<blockquote class="layui-elem-quote" style="padding:5px;">查询条件</blockquote>
+<blockquote class="layui-elem-quote" style="padding:0px;">查询条件</blockquote>
 	<form class="layui-form" action="" lay-filter="userFrom">
 		<div class="layui-form-item">
 			<div class="layui-inline">
@@ -44,9 +44,13 @@
 			</div>
 		</div>
 	</form>
-	<blockquote class="layui-elem-quote" style="padding:5px;">查询结果</blockquote>
-	<!-- <table class="layui-hide" id="userGrid" lay-filter="user"></table>  -->
-	<table class="layui-table" lay-data="{height:480,url:'',page:{curr:1,limit:20},id:'userGridReload'}" lay-size="sm" lay-filter="userGrid">
+	<blockquote class="layui-elem-quote" style="padding:0px;">查询结果</blockquote>
+	<div class="doUseBtmTable">
+	  <button type="button" class="layui-btn layui-btn-xs" data-type="addBtn"><i class="layui-icon"></i>新增</button>
+	  <button type="button" class="layui-btn layui-btn-xs" data-type="updBtn"><i class="layui-icon"></i>修改</button>
+	  <button type="button" class="layui-btn layui-btn-xs" data-type="delBtn"><i class="layui-icon"></i>删除</button>
+	</div>
+	<table class="layui-table" lay-data="{height:280,url:'',page:{curr:1,limit:20},id:'userGridReload'}" lay-size="sm" lay-filter="userGrid">
 	  <thead>
 	    <tr>
 	      <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
@@ -62,12 +66,6 @@
 	    </tr>
 	  </thead>
 	</table>
-	<div class="doUseBtmTable" style="float:right;margin-right:30px">
-	  <button type="button" class="layui-btn layui-btn-sm" data-type="addBtn"><i class="layui-icon"></i>新增</button>
-	  <button type="button" class="layui-btn layui-btn-sm" data-type="updBtn"><i class="layui-icon"></i>修改</button>
-	  <button type="button" class="layui-btn layui-btn-sm" data-type="delBtn"><i class="layui-icon"></i>删除</button>
-	</div>
-
               
           
 <script src="../../../lib/layui-v2.5.7/layui.js" charset="utf-8"></script>
@@ -130,7 +128,6 @@ layui.use(['table','form','element','layer'], function() {
     //监听行单击事件（双击事件为：rowDouble）
     table.on('row(userGrid)', function(obj){
        var data = obj.data;
-       obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
     });
     
     var $ = layui.$, active = {

@@ -73,9 +73,10 @@ layui.use(['form','element'], function() {
  	
  	onInitload();
  	function onInitload(){
- 		
+ 		debugger;
  		 utils.post('/dolphin/system/sysApplication/getAppNameList',{},function(result,status,msg) {
              if (status) {
+            	 $('#menuAppId').append(new Option("",""));
              	 $.each(result, function (index, item) {
  					$('#menuAppId').append(new Option(item.appTitle, item.appId));// 下拉菜单里添加元素
  				});

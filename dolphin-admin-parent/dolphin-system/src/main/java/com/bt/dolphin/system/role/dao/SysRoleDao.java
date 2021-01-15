@@ -9,8 +9,11 @@
 
 package com.bt.dolphin.system.role.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
+import com.bt.dolphin.system.role.vo.SysRoleCondition;
 import com.bt.dolphin.system.role.vo.SysRoleVo;
 
 /**
@@ -36,4 +39,11 @@ public interface SysRoleDao {
 	 *
 	 */
 	public SysRoleVo getUserRoleByUserNoAndRoleCode(@Param("userNo") String userNo,@Param("roleCode") String roleCode);
+	public SysRoleVo getRoleByRoleId(@Param("roleId") String roleId);
+
+	public List<SysRoleVo> queryRoleList(SysRoleCondition condition);
+	public void insertSysRole(SysRoleVo vo);
+	
+	public void updateSysRole(SysRoleVo vo);
+	public void deleteByRoleId(@Param("roleId") String roleId);
 }

@@ -96,7 +96,7 @@ public class SysMenuServiceImpl implements SysMenuService{
 	    		  
 	    		  if ("MenuItem".equals(sysMenuVo.getMenuKind())) {
 	    			  SysApplicationVo sysApplicationVo = null;
-	    	          key = "Platform(menu)-" + (String)appsMap.get(sysMenuVo.getMenuAppId()) + "=>";
+	    	          key = "Platform(menu)-" + (String)appsMap.get(sysMenuVo.getObjAppId()) + "=>";
 
 	    	          if (!this.conCurrentHashMap.containsKey(key)){
 	    	        	  sysApplicationVo = sysApplicationService.getAppByAppId(sysMenuVo.getObjAppId());

@@ -44,5 +44,6 @@ public class GlobalExceptionHandler {
 		  int status = response.getStatus();
 		  response.setStatus(500);
 		  String stackTrace = getStackTraceString(exception);
+		  System.out.println(stackTrace);
 	  }
 }

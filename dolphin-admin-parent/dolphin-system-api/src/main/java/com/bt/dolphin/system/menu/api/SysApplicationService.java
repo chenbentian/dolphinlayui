@@ -50,5 +50,5 @@ public interface SysApplicationService {
 	 * @return
 	 *
 	 */
-	public SysApplicationVo getAppByAppId(String appName);
+	public SysApplicationVo getAppByAppId(String appId);
 }

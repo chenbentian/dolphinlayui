@@ -27,7 +27,6 @@ layui.extend({
 	var layer = layui.layer
 		, $ = layui.jquery
 		,dtree = layui.dtree;
-	
 	var paramUrl = utils.getParamUrl("/dolphin/system/sysPermission/getSubTree");
 	var toolbarExt = [{
 				toolbarId: "addMu",
@@ -36,7 +35,17 @@ layui.extend({
 				handler: function(node,$div){
 				    var url = "dolphin/system/permission/permissionType.html?pId="+node.nodeId+"&editType=1";
 					url = utils.getAllUrl(url);
-				    openWin(url,'新增分类',['300px','260px'],$div);
+				    $.fn.openIframeWin(url,'新增分类',['300px','260px'],function (){
+					    	var backParam = parent.backParam;
+				        	var backObject = parent.backObject;
+				        	if(backObject){
+				        		 if(backParam == "type1" || backParam == "pers1"){
+				        			premissTree.partialRefreshAdd($div);
+				        		}else if(backParam == "type0" || backParam == "pers0"){
+				        			premissTree.partialRefreshEdit($div,backObject.permissionName);
+				        		}
+				        	}
+					  });
 				}
 			},
 			{
@@ -46,7 +55,17 @@ layui.extend({
 				handler: function(node,$div){
 					var url = "dolphin/system/permission/permissionType.html?pId="+node.parentId+"&id="+node.nodeId+"&editType=0";
 					url = utils.getAllUrl(url);
-					openWin(url,'修改分类',['300px','260px'],$div);
+					 $.fn.openIframeWin(url,'修改分类',['300px','260px'],function (){
+					    	var backParam = parent.backParam;
+				        	var backObject = parent.backObject;
+				        	if(backObject){
+				        		 if(backParam == "type1" || backParam == "pers1"){
+				        			premissTree.partialRefreshAdd($div);
+				        		}else if(backParam == "type0" || backParam == "pers0"){
+				        			premissTree.partialRefreshEdit($div,backObject.permissionName);
+				        		}
+				        	}
+					  });
 				}
 			},
 			{
@@ -56,7 +75,17 @@ layui.extend({
 				handler: function(node,$div){
 					var url = "dolphin/system/permission/editPermission.html?pId="+node.nodeId+"&editType=1";
 					url = utils.getAllUrl(url);
-				    openWin(url,'新增权限项',['660px','300px'],$div);
+				    $.fn.openIframeWin(url,'新增权限项',['660px','300px'],function (){
+				    	var backParam = parent.backParam;
+			        	var backObject = parent.backObject;
+			        	if(backObject){
+			        		 if(backParam == "type1" || backParam == "pers1"){
+			        			premissTree.partialRefreshAdd($div);
+			        		}else if(backParam == "type0" || backParam == "pers0"){
+			        			premissTree.partialRefreshEdit($div,backObject.permissionName);
+			        		}
+			        	}
+				   });
 				}
 			},
 			{
@@ -66,7 +95,17 @@ layui.extend({
 				handler: function(node,$div){
 					var url = "dolphin/system/permission/editPermission.html?pId="+node.parentId+"&id="+node.nodeId+"&editType=0";
 					url = utils.getAllUrl(url);
-					openWin(url,'修改权限项',['660px','300px'],$div);
+					$.fn.openIframeWin(url,'修改权限项',['660px','300px'],function (){
+				    	var backParam = parent.backParam;
+			        	var backObject = parent.backObject;
+			        	if(backObject){
+			        		 if(backParam == "type1" || backParam == "pers1"){
+			        			premissTree.partialRefreshAdd($div);
+			        		}else if(backParam == "type0" || backParam == "pers0"){
+			        			premissTree.partialRefreshEdit($div,backObject.permissionName);
+			        		}
+			        	}
+				   });
 				}
 			},
 			{
@@ -107,10 +146,6 @@ layui.extend({
 	 //	cache: false //当取消节点缓存时，则每次加载子节点都会往服务器发送请求
 	  	toolbarFun:{
 		    loadToolbarBefore: function(buttons, param, $div){
-		    	debugger;
-		      console.log(buttons);
-		      console.log(param);
-		      console.log($div);
 		     /*  if(param.leaf){ // 如果是叶子节点
 		         buttons.addMu = "";  
 		         buttons.updMu = "";
@@ -138,33 +173,6 @@ layui.extend({
 //	  console.log(obj.parentParam); // 当前节点的父节点参数
 	});
 
-	
-	function openWin(url,title,area,div){
-   	  layer.open({
-	        type: 2
-	        ,title: title //不显示标题栏
-	        ,closeBtn: 2
-	        ,area: area
-	        ,shade: 0.3
-	        ,id: 'openWin' //设定一个id，防止重复弹出
-	       // ,btn: ['火速围观', '残忍拒绝']
-	        ,btnAlign: 'c'
-	        ,moveType: 1 //拖拽模式，0或者1
-	        ,content: url
-	        ,end: function(){
-	        	var backParam = window.backParam;
-	        	var backObject = window.backObject;
-	        	if(backObject){
-	        		 if(backParam == "type1" || backParam == "pers1"){
-	        			premissTree.partialRefreshAdd(div);
-	        		}else if(backParam == "type0" || backParam == "pers0"){
-	        			premissTree.partialRefreshEdit(div,backObject.permissionName);
-	        		}
-	        	}
-	        }
-	     });
-   }
-	    
 });
 </script>
 

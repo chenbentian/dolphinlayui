@@ -100,7 +100,7 @@ layui.use(['form','element'], function() {
  	
  	onInitload();
  	function onInitload(){
- 		
+ 		debugger;
  		 utils.post('/dolphin/system/sysApplication/getAppNameList',{},function(result,status,msg) {
              if (status) {
              	 $.each(result, function (index, item) {

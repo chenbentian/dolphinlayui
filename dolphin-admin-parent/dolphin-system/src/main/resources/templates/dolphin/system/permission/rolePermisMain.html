@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="../../../lib/layui-v2.5.7/css/layui.css"  media="all">
+  <link rel="stylesheet" href="../../../dolpin/layui/dolphinlayui.css"  media="all">
+</head>
+<body>
+<blockquote class="layui-elem-quote" style="padding:0px;">查询条件</blockquote>
+	<form class="layui-form" action="" lay-filter="roleFrom">
+		<div class="layui-form-item">	
+				<label class="layui-form-label">权限项:</label>
+			  <div class="layui-input-inline" style="width:410px">
+			      <input type="text" class="layui-input" name="objPath" id="objPath" autocomplete="off">
+			  </div>
+			  <div class="seachPermisDiv">
+			   <button type="button" id="seachPermisBtn" class="layui-btn layui-btn-sm">权限项</button>
+			  </div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">角色名称:</label>
+			  <div class="layui-input-block">
+			    <input type="text" class="layui-input" name="roleName" id="roleName" autocomplete="off">
+			  </div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">角色编码:</label>
+			  <div class="layui-input-block">
+			    <input type="text" class="layui-input" name="roleCode" id="roleCode" autocomplete="off">
+			  </div>
+			</div>
+			<div class="layui-inline">
+			      <button type="button" id="seachBtn" class="layui-btn layui-btn-sm">查询</button>
+			      <button type="button" id="clearBtn" class="layui-btn layui-btn-sm">清空</button>
+			</div>
+		</div>
+	</form>
+	<blockquote class="layui-elem-quote" style="padding:0px;">查询结果</blockquote>
+	<div class="tableBtn">
+	  <button type="button" class="layui-btn layui-btn-xs" data-type="addBtn"><i class="layui-icon"></i>新增</button>
+	  <button type="button" class="layui-btn layui-btn-xs" data-type="updBtn"><i class="layui-icon"></i>修改</button>
+	  <button type="button" class="layui-btn layui-btn-xs" data-type="delBtn"><i class="layui-icon"></i>删除</button>
+	</div>
+	<table class="layui-table" lay-data="{height:480,url:'',page:{curr:1,limit:20},id:'roleGridReload'}" lay-size="sm" lay-filter="roleGrid">
+	  <thead>
+	    <tr>
+	      <th lay-data="{type:'radio', fixed: 'left'}"></th>
+	      <th lay-data="{field:'appName',align:'center',width:'35%'}">应用名称</th>
+	      <th lay-data="{field:'roleName',align:'center',width:'35%'}">角色名称</th>
+	      <th lay-data="{field:'roleCode',align:'center',width:'27%'}">角色编码</th>
+	    </tr>
+	  </thead>
+	</table>
+          
+<script src="../../../lib/layui-v2.5.7/layui.js" charset="utf-8"></script>
+<script src="../../../lib/dolphin/js/layMain.js" charset="utf-8"></script>
+<script src="../../../js/plugins/jquery-2.2.4.min.js" charset="utf-8"></script>
+<script src="../../../lib/dolphin/js/utils.js" charset="utf-8"></script>
+
+
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 --> 
+ 
+<script>
+layui.use(['table','form','element','layer'], function() {
+    var $ = layui.$;
+    var layer = layui.layer;
+    window.layer = layer;
+    var element = layui.element;
+    var table = layui.table;
+    var form = layui.form;
+    roleGridReload();
+    
+    function roleGridReload(){
+    	 //执行重载
+    	var data = form.val('roleFrom');
+		var paramUrl = utils.getParamUrl("dolphin/system/sysRole/roleQuery");
+        table.reload('roleGridReload', {
+          url: paramUrl,
+          page: {
+            curr: 1 //重新从第 1 页开始
+          },
+          where: {
+        	  appId: data.appId,
+        	  roleName: data.roleName,
+        	  roleCode:data.roleCode
+          }
+        });
+    }
+    $('#seachBtn').on('click', function(){
+    	roleGridReload();
+    });
+    
+    //监听行单击事件（双击事件为：rowDouble）
+    table.on('row(roleGrid)', function(obj){
+       var data = obj.data;
+       if(!obj.tr.hasClass("layui-table-click")){
+    	   obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+    	   obj.tr.find('i[class="layui-anim layui-icon"]').trigger("click");
+       }
+       
+    });
+    
+    var $ = layui.$, active = {
+    	addBtn: function(){ 
+    		var url = utils.getAllUrl("dolphin/system/role/editRole.html");
+    		$.fn.openIframeWin(url,'新增角色',['300px','260px'],function (){
+    			var backParam = parent.backParam;
+ 		  		if(backParam == "close"){
+ 		  			parent.backParam = ""; 
+ 		  			roleGridReload();
+ 		  		}
+			});
+ 	    },
+ 	    updBtn: function(){
+ 	      	var checkStatus = table.checkStatus('roleGridReload')
+ 	      	var data = checkStatus.data;
+ 	      	if(data.length == 1){
+ 	      		var url = "dolphin/system/role/editRole.html?roleId="+data[0].roleId;
+ 	    	 	url = utils.getAllUrl(url);
+ 	 		  	$.fn.openIframeWin(url,'修改角色',['300px','260px'],function (){
+ 	 		  		var backParam = parent.backParam;
+ 	 		  		if(backParam == "close"){
+ 	 		  			parent.backParam = ""; 
+ 	 		  			roleGridReload();
+ 	 		  		}
+ 				});
+ 	      	}else {
+ 	    	 	layer.msg("请选中一条记录！", {time: 10000, btn: ['确认!']});
+ 	      	}
+ 	    },
+ 	   delBtn: function(){ //删除系统用户
+ 		  var checkStatus = table.checkStatus('userGridReload')
+	      	var data = checkStatus.data;
+	      	if(data.length == 1){
+	      		 utils.post('/dolphin/system/sysRole/deleteByRoleId',{'roleId':data[0].roleId},function(result,status,msg) {
+	                 if (status) {
+	                	 layer.msg("删除成功！", {time: 10000, btn: ['确认!']});
+	                	 roleGridReload();
+	                 } else {
+	                	 layer.msg(msg, {time: 20000, btn: ['确认!']});
+	                 }
+	             });
+	      	}else {
+	    	 	layer.msg("请选中一条记录！", {time: 10000, btn: ['确认!']});
+	      	}
+ 	    }
+ 	};
+    	  
+ 	$('.tableBtn .layui-btn').on('click', function(){
+ 	   var type = $(this).data('type');
+ 	   active[type] ? active[type].call(this) : '';
+ 	});
+ 	
+ 	onInitload();
+ 	function onInitload(){
+ 		utils.post('/dolphin/system/sysApplication/getAppNameList',{},function(result,status,msg) {
+            if (status) {
+           	 $('#appId').append(new Option("",""));
+            	 $.each(result, function (index, item) {
+					$('#appId').append(new Option(item.appTitle, item.appId));// 下拉菜单里添加元素
+				});
+				form.render("select");
+            } else {
+           	 layer.msg(msg, {time: 1000, btn: ['确认!']});
+            }
+        }) 
+ 	}
+});
+</script>
+
+</body>
+</html>

@@ -8,4 +8,48 @@
 		SELECT r.role_id,r.app_id,r.role_name,r.role_code,u.user_no FROM `sy_role` r, sy_user u,sy_user_role_rela l
 			WHERE  r.role_id = l.role_id AND u.user_id = l.user_id AND r.role_code = #{roleCode}  AND u.user_no = #{userNo}
 	</select>
+	
+	<select id="getRoleByRoleId" parameterType="String" resultType="com.bt.dolphin.system.role.vo.SysRoleVo">
+		  select r.ROLE_ID,r.APP_ID,r.ROLE_NAME,r.ROLE_CODE,r.ROLE_COMMENT,r.ROLE_RANGE from sy_role r 
+			 where r.ROLE_ID = #{roleId}
+	</select>
+	
+	
+	<select id="queryRoleList" resultType="com.bt.dolphin.system.role.vo.SysRoleVo" parameterType="com.bt.dolphin.system.role.vo.SysRoleCondition">
+	   select r.ROLE_ID,r.APP_ID,r.ROLE_NAME,r.ROLE_CODE,r.ROLE_COMMENT,r.ROLE_RANGE from sy_role r 
+		<where>
+		    <if test="appId!=null and appId!=''">
+					and r.APP_ID = #{appId,jdbcType=VARCHAR}
+			</if>
+		    <if test="roleName!=null and roleName!=''">
+					and r.ROLE_NAME = #{roleName,jdbcType=VARCHAR}
+			</if>
+			 <if test="roleCode!=null and roleCode!=''">
+					and r.ROLE_CODE = #{roleCode,jdbcType=VARCHAR}
+			</if>
+		</where>
+    </select>
+    
+    <insert id="insertSysRole" parameterType="com.bt.dolphin.system.role.vo.SysRoleVo">
+    	insert into sy_role(ROLE_ID,APP_ID,ROLE_CODE,ROLE_NAME,ROLE_RANGE,ROLE_COMMENT)
+    			VALUES(#{roleId,jdbcType=VARCHAR},#{appId,jdbcType=VARCHAR},#{roleCode,jdbcType=VARCHAR},
+    			#{roleName,jdbcType=VARCHAR},#{roleRange,jdbcType=VARCHAR},#{roleComment,jdbcType=VARCHAR})
+    </insert>
+    
+    <update id="updateSysRole" parameterType="com.bt.dolphin.system.role.vo.SysRoleVo">
+		update sy_role
+		 <set>
+		 	 ROLE_CODE = #{roleCode,jdbcType=VARCHAR},
+		 	 ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+		 	 ROLE_RANGE = #{roleRange,jdbcType=VARCHAR},
+		 	 ROLE_COMMENT = #{roleComment,jdbcType=VARCHAR}
+		 </set>
+		 where ROLE_ID = #{roleId}
+    </update>
+    
+    <delete id="deleteByRoleId" parameterType="String">
+        delete
+        FROM sy_role
+        where ROLE_ID = #{roleId}
+    </delete>
 </mapper>

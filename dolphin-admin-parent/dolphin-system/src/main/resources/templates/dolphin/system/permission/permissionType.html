@@ -80,7 +80,13 @@ layui.use(['form','element'], function() {
  	
  	onInitload();
  	function onInitload(){
- 		
+ 		if(window.top===window.parent){
+			alert("top = parent");
+		}else if(window.top===window.self){
+			alert("top = self");
+		}else if(window.parent===window.self){
+			alert("parent = self");
+		}
  		 utils.post('/dolphin/system/sysApplication/getAppNameList',{},function(result,status,msg) {
              if (status) {
              	 $.each(result, function (index, item) {

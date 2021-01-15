@@ -90,6 +90,21 @@
 				pathName.substr(1).indexOf('/') + 1);
 		return localhostPaht;
 	}
+	
+	var getWindowOjb = function(){
+		if(window.top===window.self){
+			alert("top = self");
+			return window;
+		}else if(window.top === window.parent){
+			alert("top = parent");
+			return window.parent;
+		}else if(window.parent===window.self){
+			alert("parent = self");
+			return window.parent;
+		}else{
+			return window;
+		}
+	}
 
 	var getParameter = function(name) {
 		name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
@@ -104,6 +119,8 @@
 		getAllUrl : getAllUrl,
 		getRootPath : getRootPath,
 		getParamUrl:getParamUrl,
-		getParameter : getParameter
+		getParameter : getParameter,
+		getWindowOjb: getWindowOjb
+		
 	};
 });

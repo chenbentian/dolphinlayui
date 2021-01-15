@@ -9,6 +9,10 @@
 
 package com.bt.dolphin.system.role.api;
 
+import com.bt.dolphin.common.vo.QueryResultObject;
+import com.bt.dolphin.system.role.vo.SysRoleCondition;
+import com.bt.dolphin.system.role.vo.SysRoleVo;
+
 /**
  *  类描述：系统角色
  * 
@@ -31,4 +35,8 @@ public interface SysRoleService {
 	 *
 	 */
 	public Boolean existUserAdminRole(String userNo);
+	public SysRoleVo getRoleByRoleId(String roleId);
+	public QueryResultObject queryRoleList(SysRoleCondition condition);
+	public void saveSysRole(SysRoleVo vo);
+	public void deleteByRoleId(String roleId);
 }
