@@ -9,6 +9,7 @@
 
 package com.bt.dolphin.system.menu.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -18,9 +19,14 @@ import org.springframework.stereotype.Service;
 
 import com.bt.dolphin.common.constant.PermissionConst;
 import com.bt.dolphin.common.util.CoreSeqUtil;
+import com.bt.dolphin.common.util.ResultUtils;
+import com.bt.dolphin.common.vo.QueryResultObject;
 import com.bt.dolphin.system.menu.api.SysPermissionService;
 import com.bt.dolphin.system.menu.dao.SysPermissionDao;
+import com.bt.dolphin.system.menu.vo.SysPermissionCondition;
 import com.bt.dolphin.system.menu.vo.SysPermissionVo;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 import cn.hutool.core.util.StrUtil;
 
@@ -149,6 +155,46 @@ public class SysPermissionServiceImpl implements SysPermissionService{
 		sysPermissionDao.insertSysPermissionExtend(arrtVo);
 	}
 	
+	
+	@Override
+	public QueryResultObject permisRoleQueryList(SysPermissionCondition condition){
+		int page = condition.getPageBegin()/condition.getRows()+1;
+		PageHelper.startPage(page, condition.getRows());
+		List<SysPermissionVo> result = new ArrayList<SysPermissionVo>();
+		String permisPid = condition.getPermissionId();
+		List<String> permisIdList = new ArrayList<String>();
+		if(StrUtil.isNotEmpty(permisPid)) {
+			this.getItemPermisIdList(permisPid,permisIdList);
+			if(permisIdList.size() > 0) {
+				condition.setPermissionIdList(permisIdList);
+			}
+		}
+		result = sysPermissionDao.permisRoleQueryList(condition);
+		PageInfo<SysPermissionVo> pageInfo = new PageInfo<SysPermissionVo>(result);
+		List<SysPermissionVo> list = pageInfo.getList();
+		return ResultUtils.wrappQueryResult(list, (int) pageInfo.getTotal());
+	}
+	
+	public void getItemPermisIdList(String permisPid,List<String> permisIdList) {
+		if(StrUtil.isNotEmpty(permisPid)) {
+			List<SysPermissionVo> subList = sysPermissionDao.getSubPermissByPId(permisPid);
+			if(subList != null && subList.size() > 0) {
+				for(SysPermissionVo vo : subList) {
+					int isLeaf =  vo.getIsLeaf();
+					String permisType =  vo.getPermissionType();
+					String permisId =  vo.getPermissionId();
+					if(isLeaf > 0) {
+						getItemPermisIdList(permisId,permisIdList);
+					}else {
+						if("2".equals(permisType)) {//1WebFolder 2WebPage 3WebMethod 4WebTabPage 5WebButton  
+							permisIdList.add(permisId);
+						}
+					}
+				}
+			}
+
+		}
+	}
 	
 	
 }

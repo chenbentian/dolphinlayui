@@ -11,48 +11,55 @@
 </head>
 <body>
 <blockquote class="layui-elem-quote" style="padding:0px;">查询条件</blockquote>
-	<form class="layui-form" action="" lay-filter="roleFrom">
+	<form class="layui-form" action="" lay-filter="permisFrom">
+		<input type="hidden" class="layui-input" name="permissionId" id="permissionId">
+		<input type="hidden" class="layui-input" name="queryType" id="queryType">
+		<input type="hidden" class="layui-input" name="roleId" id="roleId">
 		<div class="layui-form-item">	
-				<label class="layui-form-label">权限项:</label>
-			  <div class="layui-input-inline" style="width:410px">
-			      <input type="text" class="layui-input" name="objPath" id="objPath" autocomplete="off">
+			  <div class="layui-inline" style="width:360px">
+				  <label class="layui-form-label">权限目录:</label>
+				  <div class="layui-input-inline" style="width:160px">
+				      <input type="text" class="layui-input" name="permissionName2" id="permissionName2" autocomplete="off">
+				  </div>
+				  <div class="seachPermisDiv" style="margin-top:4px;">
+			  		 <button type="button" id="seachPermisBtn" class="layui-btn layui-btn-sm">权限项</button>
+			  	  </div>
 			  </div>
-			  <div class="seachPermisDiv">
-			   <button type="button" id="seachPermisBtn" class="layui-btn layui-btn-sm">权限项</button>
-			  </div>
+			  <div class="layui-inline" style="float:right;width:100px">
+				  <div class="layui-input-inline">
+				      <button type="button" id="seachBtn" class="layui-btn layui-btn-sm">查询</button>
+				      <button type="button" id="clearBtn" class="layui-btn layui-btn-sm">清空</button>
+				  </div>
+			 </div>
 		</div>
 		<div class="layui-form-item">
-			<div class="layui-inline">
-				<label class="layui-form-label">角色名称:</label>
+			<div class="layui-inline" style="width:250px">
+				<label class="layui-form-label">权限名称:</label>
 			  <div class="layui-input-block">
-			    <input type="text" class="layui-input" name="roleName" id="roleName" autocomplete="off">
+			    <input type="text" class="layui-input" name="permissionName" id="permissionName" autocomplete="off">
 			  </div>
 			</div>
-			<div class="layui-inline">
-				<label class="layui-form-label">角色编码:</label>
+			<div class="layui-inline" style="width:250px">
+				<label class="layui-form-label">权限编码:</label>
 			  <div class="layui-input-block">
-			    <input type="text" class="layui-input" name="roleCode" id="roleCode" autocomplete="off">
+			    <input type="text" class="layui-input" name="permissionCode" id="permissionCode" autocomplete="off">
 			  </div>
 			</div>
-			<div class="layui-inline">
-			      <button type="button" id="seachBtn" class="layui-btn layui-btn-sm">查询</button>
-			      <button type="button" id="clearBtn" class="layui-btn layui-btn-sm">清空</button>
-			</div>
+			
 		</div>
 	</form>
 	<blockquote class="layui-elem-quote" style="padding:0px;">查询结果</blockquote>
 	<div class="tableBtn">
-	  <button type="button" class="layui-btn layui-btn-xs" data-type="addBtn"><i class="layui-icon"></i>新增</button>
-	  <button type="button" class="layui-btn layui-btn-xs" data-type="updBtn"><i class="layui-icon"></i>修改</button>
-	  <button type="button" class="layui-btn layui-btn-xs" data-type="delBtn"><i class="layui-icon"></i>删除</button>
+	  <button type="button" class="layui-btn layui-btn-xs" data-type="addBtn"><i class="layui-icon"></i>分配</button>
+	  <button type="button" class="layui-btn layui-btn-xs" data-type="cancelBtn"><i class="layui-icon"></i>取消</button>
 	</div>
-	<table class="layui-table" lay-data="{height:480,url:'',page:{curr:1,limit:20},id:'roleGridReload'}" lay-size="sm" lay-filter="roleGrid">
+	<table class="layui-table" lay-data="{height:380,url:'',page:{curr:1,limit:20},id:'permisGridReload'}" lay-size="sm" lay-filter="permisGrid">
 	  <thead>
 	    <tr>
-	      <th lay-data="{type:'radio', fixed: 'left'}"></th>
-	      <th lay-data="{field:'appName',align:'center',width:'35%'}">应用名称</th>
-	      <th lay-data="{field:'roleName',align:'center',width:'35%'}">角色名称</th>
-	      <th lay-data="{field:'roleCode',align:'center',width:'27%'}">角色编码</th>
+	      <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
+	      <th lay-data="{field:'permissionName',align:'center',width:'27%'}">权限名称</th>
+	      <th lay-data="{field:'permissionCode',align:'center',width:'27%'}">权限编码</th>
+	      <th lay-data="{field:'permissionPath',align:'center',width:'40%'}">权限路径</th>
 	    </tr>
 	  </thead>
 	</table>
@@ -73,26 +80,34 @@ layui.use(['table','form','element','layer'], function() {
     var element = layui.element;
     var table = layui.table;
     var form = layui.form;
-    roleGridReload();
     
-    function roleGridReload(){
+    function permisGridReload(){
     	 //执行重载
-    	var data = form.val('roleFrom');
-		var paramUrl = utils.getParamUrl("dolphin/system/sysRole/roleQuery");
-        table.reload('roleGridReload', {
+    	var data = form.val('permisFrom');
+    	if(data.roleId == "" || data.roleId == null){
+          //  var roleSel = parent.document.getElementById("roleIframe").contentWindow.roleSelectRowCheck();
+          //  if(!roleSel){
+            	layer.msg("请先选择一条角色记录！", {time: 10000, btn: ['确认!']});
+            	return false;
+         //   }
+    	}
+		var paramUrl = utils.getParamUrl("dolphin/system/sysPermission/permisRoleQueryList");
+        table.reload('permisGridReload', {
           url: paramUrl,
           page: {
             curr: 1 //重新从第 1 页开始
           },
           where: {
-        	  appId: data.appId,
-        	  roleName: data.roleName,
-        	  roleCode:data.roleCode
+        	  permissionId: data.permissionId,
+        	  queryType: data.queryType,
+        	  permissionName: data.permissionName,
+        	  permissionCode: data.permissionCode,
+        	  roleId: data.roleId
           }
         });
     }
     $('#seachBtn').on('click', function(){
-    	roleGridReload();
+    	permisGridReload();
     });
     
     //监听行单击事件（双击事件为：rowDouble）
@@ -105,6 +120,18 @@ layui.use(['table','form','element','layer'], function() {
        
     });
     
+    $('#seachPermisBtn').on('click', function(){
+		  var url = "dolphin/system/permission/permissionMain.html";
+		  url = utils.getAllUrl(url);
+		   $.fn.openIframeWin(url,'权限项选择',['300px','540px'],function (){
+	         	var backObject = parent.backObject;
+	        	if(backObject){
+	        		form.val("permisFrom",{permissionId:backObject.nodeId,
+	        							permissionName2:backObject.context});
+	        	}
+		  }); 
+   });
+    
     var $ = layui.$, active = {
     	addBtn: function(){ 
     		var url = utils.getAllUrl("dolphin/system/role/editRole.html");
@@ -112,11 +139,11 @@ layui.use(['table','form','element','layer'], function() {
     			var backParam = parent.backParam;
  		  		if(backParam == "close"){
  		  			parent.backParam = ""; 
- 		  			roleGridReload();
+ 		  			permisGridReload();
  		  		}
 			});
  	    },
- 	    updBtn: function(){
+ 	   cancelBtn: function(){
  	      	var checkStatus = table.checkStatus('roleGridReload')
  	      	var data = checkStatus.data;
  	      	if(data.length == 1){
@@ -126,28 +153,12 @@ layui.use(['table','form','element','layer'], function() {
  	 		  		var backParam = parent.backParam;
  	 		  		if(backParam == "close"){
  	 		  			parent.backParam = ""; 
- 	 		  			roleGridReload();
+ 	 		  			permisGridReload();
  	 		  		}
  				});
  	      	}else {
  	    	 	layer.msg("请选中一条记录！", {time: 10000, btn: ['确认!']});
  	      	}
- 	    },
- 	   delBtn: function(){ //删除系统用户
- 		  var checkStatus = table.checkStatus('userGridReload')
-	      	var data = checkStatus.data;
-	      	if(data.length == 1){
-	      		 utils.post('/dolphin/system/sysRole/deleteByRoleId',{'roleId':data[0].roleId},function(result,status,msg) {
-	                 if (status) {
-	                	 layer.msg("删除成功！", {time: 10000, btn: ['确认!']});
-	                	 roleGridReload();
-	                 } else {
-	                	 layer.msg(msg, {time: 20000, btn: ['确认!']});
-	                 }
-	             });
-	      	}else {
-	    	 	layer.msg("请选中一条记录！", {time: 10000, btn: ['确认!']});
-	      	}
  	    }
  	};
     	  
@@ -156,19 +167,15 @@ layui.use(['table','form','element','layer'], function() {
  	   active[type] ? active[type].call(this) : '';
  	});
  	
+ 	window.roleSerachSelPermis = function(roleId){
+ 		debugger;
+ 		 form.val("permisFrom",{roleId:roleId,queryType:"dis"});
+ 		 permisGridReload();
+ 	}
+ 	
  	onInitload();
  	function onInitload(){
- 		utils.post('/dolphin/system/sysApplication/getAppNameList',{},function(result,status,msg) {
-            if (status) {
-           	 $('#appId').append(new Option("",""));
-            	 $.each(result, function (index, item) {
-					$('#appId').append(new Option(item.appTitle, item.appId));// 下拉菜单里添加元素
-				});
-				form.render("select");
-            } else {
-           	 layer.msg(msg, {time: 1000, btn: ['确认!']});
-            }
-        }) 
+ 		
  	}
 });
 </script>

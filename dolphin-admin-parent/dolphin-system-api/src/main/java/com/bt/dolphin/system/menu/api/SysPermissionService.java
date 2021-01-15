@@ -11,8 +11,8 @@ package com.bt.dolphin.system.menu.api;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
+import com.bt.dolphin.common.vo.QueryResultObject;
+import com.bt.dolphin.system.menu.vo.SysPermissionCondition;
 import com.bt.dolphin.system.menu.vo.SysPermissionVo;
 
 /**
@@ -50,6 +50,7 @@ public interface SysPermissionService {
 	public void deleteBypermissionId(String permissionId);
 	
 	public SysPermissionVo savePermission(SysPermissionVo vo);
+	public QueryResultObject permisRoleQueryList(SysPermissionCondition condition);
 
 
 }

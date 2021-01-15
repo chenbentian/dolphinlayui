@@ -13,7 +13,7 @@
 <blockquote class="layui-elem-quote" style="padding:0px;">查询条件</blockquote>
 	<form class="layui-form" action="" lay-filter="roleFrom">
 		<div class="layui-form-item">
-		 	<div class="layui-inline">
+		 	<div class="layui-inline" style="width:250px">
 			  <label class="layui-form-label">应用名称:</label>
 			  <div class="layui-input-block">
 			    <select name="appId"  id="appId">
@@ -21,7 +21,7 @@
 			    </select>
 			  </div>
 			</div>
-			<div class="layui-inline">
+			<div class="layui-inline" style="width:250px">
 				<label class="layui-form-label">角色名称:</label>
 			  <div class="layui-input-block">
 			    <input type="text" class="layui-input" name="roleName" id="roleName" autocomplete="off">
@@ -29,7 +29,7 @@
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<div class="layui-inline">
+			<div class="layui-inline" style="width:250px">
 				<label class="layui-form-label">角色编码:</label>
 			  <div class="layui-input-block">
 			    <input type="text" class="layui-input" name="roleCode" id="roleCode" autocomplete="off">
@@ -47,13 +47,13 @@
 	  <button type="button" class="layui-btn layui-btn-xs" data-type="updBtn"><i class="layui-icon"></i>修改</button>
 	  <button type="button" class="layui-btn layui-btn-xs" data-type="delBtn"><i class="layui-icon"></i>删除</button>
 	</div>
-	<table class="layui-table" lay-data="{height:480,url:'',page:{curr:1,limit:20},id:'roleGridReload'}" lay-size="sm" lay-filter="roleGrid">
+	<table class="layui-table" lay-data="{height:400,url:'',page:{curr:1,limit:20},id:'roleGridReload'}" lay-size="sm" lay-filter="roleGrid">
 	  <thead>
 	    <tr>
 	      <th lay-data="{type:'radio', fixed: 'left'}"></th>
-	      <th lay-data="{field:'appName',align:'center',width:'35%'}">应用名称</th>
+	      <th lay-data="{field:'appName',align:'center',width:'34%'}">应用名称</th>
 	      <th lay-data="{field:'roleName',align:'center',width:'35%'}">角色名称</th>
-	      <th lay-data="{field:'roleCode',align:'center',width:'27%'}">角色编码</th>
+	      <th lay-data="{field:'roleCode',align:'center',width:'24%'}">角色编码</th>
 	    </tr>
 	  </thead>
 	</table>
@@ -103,7 +103,9 @@ layui.use(['table','form','element','layer'], function() {
     	   obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
     	   obj.tr.find('i[class="layui-anim layui-icon"]').trigger("click");
        }
-       
+       debugger;
+       //parent.document.frames("permisIframe").roleSerachSelPermis(data.roleId);
+       parent.document.getElementById("permisIframe").contentWindow.roleSerachSelPermis(data.roleId);
     });
     
     var $ = layui.$, active = {
@@ -157,6 +159,16 @@ layui.use(['table','form','element','layer'], function() {
  	   active[type] ? active[type].call(this) : '';
  	});
  	
+	window.roleSelectRowCheck = function(){
+ 		var checkStatus = table.checkStatus('roleGridReload')
+      	var data = checkStatus.data;
+      	if(data.length == 1){
+      		return true;
+      	}else {
+      		return false;
+      	}
+ 	}
+	
  	onInitload();
  	function onInitload(){
  		utils.post('/dolphin/system/sysApplication/getAppNameList',{},function(result,status,msg) {

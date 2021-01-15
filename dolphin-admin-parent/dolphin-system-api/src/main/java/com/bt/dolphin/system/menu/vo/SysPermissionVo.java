@@ -29,7 +29,7 @@ public class SysPermissionVo {
 	private String permissionPath;
 	private String permissionIndex;
 	private String permissionComment;
-	private String isLeaf;
+	private int isLeaf;
 	private String permissionStatus;
 	
 	private String perExId;
@@ -111,11 +111,11 @@ public class SysPermissionVo {
 		this.permissionComment = permissionComment;
 	}
 
-	public String getIsLeaf() {
+	public int getIsLeaf() {
 		return isLeaf;
 	}
 
-	public void setIsLeaf(String isLeaf) {
+	public void setIsLeaf(int isLeaf) {
 		this.isLeaf = isLeaf;
 	}
 

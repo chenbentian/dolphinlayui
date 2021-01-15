@@ -137,7 +137,7 @@ layui.use(['element', 'form', 'layer', 'upload','layedit'], function () {
                 } else {
                     window.location.href = result.data
                 }
-            }, 2000);
+            }, 1000);
 
             layui.data('article', {
                 key: 'content'

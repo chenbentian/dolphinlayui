@@ -25,9 +25,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bt.dolphin.common.controller.QueryController;
+import com.bt.dolphin.common.vo.QueryResultObject;
 import com.bt.dolphin.common.vo.TreeResult;
 import com.bt.dolphin.common.vo.WrappedResult;
 import com.bt.dolphin.system.menu.api.SysPermissionService;
+import com.bt.dolphin.system.menu.vo.SysPermissionCondition;
 import com.bt.dolphin.system.menu.vo.SysPermissionVo;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -44,7 +47,7 @@ import cn.hutool.core.util.StrUtil;
  */
 @Controller
 @RequestMapping(value = "/dolphin/system/sysPermission")
-public class SysPermissionController {
+public class SysPermissionController extends QueryController<SysPermissionCondition>{
 	private static final Logger logger = LoggerFactory.getLogger(SysApplicationController.class);
 
 	@Autowired
@@ -165,5 +168,20 @@ public class SysPermissionController {
 		}
 		sysPermissionService.deleteBypermissionId(permissionId);
 		return WrappedResult.successWrapedResult("删除成功！");
+	}
+	
+	
+	@RequestMapping("/permisRoleQueryList")
+	public @ResponseBody QueryResultObject permisRoleQueryList(HttpServletResponse response,HttpServletRequest request) {
+		SysPermissionCondition condition = this.rCondition2QCondition(request);
+		QueryResultObject resultObject = new QueryResultObject();
+		resultObject = sysPermissionService.permisRoleQueryList(condition);
+		return resultObject;
+	}
+	
+	@Override
+	protected SysPermissionCondition initCondition() {
+		// TODO Auto-generated method stub
+		return new SysPermissionCondition();
 	}
 }

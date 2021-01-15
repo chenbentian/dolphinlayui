@@ -13,8 +13,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.bt.dolphin.system.menu.vo.SysPermissionCondition;
 import com.bt.dolphin.system.menu.vo.SysPermissionVo;
-import com.bt.dolphin.system.user.vo.SysUserVo;
 
 /**
  *  类描述：系统权限项
@@ -55,5 +55,7 @@ public interface SysPermissionDao {
 	public List<SysPermissionVo> getPermissionExtendById(@Param("permissionId") String permissionId);
 	public void insertSysPermissionExtend(SysPermissionVo vo);
 	public void delPermissionExtendById(@Param("permissionId") String permissionId);
+	public List<SysPermissionVo> permisRoleQueryList(SysPermissionCondition condition);
+
 
 }

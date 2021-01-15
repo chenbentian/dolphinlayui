@@ -22,7 +22,8 @@
 	</select>
 	
 	<select id="getSubPermissByPId" parameterType="String" resultType="com.bt.dolphin.system.menu.vo.SysPermissionVo">
-		SELECT p.APP_ID,p.PERMISSION_ID,p.PERMISSION_NAME,p.PERMISSION_PARENTID,p.PERMISSION_CODE,p.PERMISSION_TYPE,p.PERMISSION_PATH FROM `sy_permission` p
+		SELECT p.APP_ID,p.PERMISSION_ID,p.PERMISSION_NAME,p.PERMISSION_PARENTID,p.PERMISSION_CODE,p.PERMISSION_TYPE,p.PERMISSION_PATH,
+		(SELECT count(1) FROM sy_permission b WHERE b.PERMISSION_PARENTID=p.PERMISSION_ID) isLeaf FROM `sy_permission` p
 		 <where>
 		 	   p.PERMISSION_STATUS = '1' and p.PERMISSION_PARENTID = #{pId}
 		 </where>
@@ -66,5 +67,38 @@
         where PERMISSION_ID = #{permissionId}
     </delete>
     
+    <sql id="secharSql">
+    		<if test="permissionIdList!=null">
+					and r.PERMISSION_ID in 
+					 <foreach item="item" collection="permissionIdList" separator="," open="(" close=")" index="">
+				      #{item, jdbcType=VARCHAR}
+				     </foreach>
+			</if>
+		    <if test="permissionName!=null and permissionName!=''">
+					and p.PERMISSION_NAME like CONCAT('%',#{permissionName,jdbcType=VARCHAR},'%')
+			</if>
+			 <if test="permissionCode!=null and permissionCode!=''">
+					and p.PERMISSION_CODE = #{permissionCode,jdbcType=VARCHAR}
+			</if>
+	</sql>
+
+    <select id="permisRoleQueryList" resultType="com.bt.dolphin.system.menu.vo.SysPermissionVo" parameterType="com.bt.dolphin.system.menu.vo.SysPermissionCondition">
+	    SELECT p.APP_ID,p.APP_ID,p.PERMISSION_ID,p.PERMISSION_NAME,p.PERMISSION_PARENTID,p.PERMISSION_CODE,p.PERMISSION_TYPE,p.PERMISSION_PATH,p.PERMISSION_STATUS 
+	    	from sy_permission p where p.PERMISSION_TYPE ='2'
+		 <choose>
+               <when test="queryType =='dis'">
+               	and EXISTS(select 1 from sy_role_permission_rela r where p.PERMISSION_ID = r.PERMISSION_ID 
+               		and r.role_id = #{roleId,jdbcType=VARCHAR})
+                   <include refid="secharSql"/>
+               </when>
+                <when test="queryType =='undis'">
+                  and not EXISTS(select 1 from sy_role_permission_rela r where p.PERMISSION_ID = r.PERMISSION_ID 
+               		and r.role_id = #{roleId,jdbcType=VARCHAR})
+                   <include refid="secharSql"/>
+               </when>
+               <otherwise>
+               </otherwise>
+           </choose>
+    </select>
 	
 </mapper>
