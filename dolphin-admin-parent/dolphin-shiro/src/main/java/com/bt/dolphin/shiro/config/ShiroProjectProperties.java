@@ -25,7 +25,9 @@ public class ShiroProjectProperties {
     private String cacheType = "ehcache";
 
     /** 忽略的路径规则，多个规则使用","逗号隔开 */
-    private String excludes = "";
+    private String unprotectedUrls = "";
+    
+    private String loginUrl = "";
 
 	public Integer getRememberMeTimeout() {
 		return rememberMeTimeout;
@@ -50,13 +52,13 @@ public class ShiroProjectProperties {
 	public void setSessionValidationInterval(Integer sessionValidationInterval) {
 		this.sessionValidationInterval = sessionValidationInterval;
 	}
-
-	public String getExcludes() {
-		return excludes;
+	
+	public String getUnprotectedUrls() {
+		return unprotectedUrls;
 	}
 
-	public void setExcludes(String excludes) {
-		this.excludes = excludes;
+	public void setUnprotectedUrls(String unprotectedUrls) {
+		this.unprotectedUrls = unprotectedUrls;
 	}
 
 	public String getCacheType() {
@@ -67,6 +69,15 @@ public class ShiroProjectProperties {
 		this.cacheType = cacheType;
 	}
 
+	public String getLoginUrl() {
+		return loginUrl;
+	}
+
+	public void setLoginUrl(String loginUrl) {
+		this.loginUrl = loginUrl;
+	}
+	
+	
     
     
 }

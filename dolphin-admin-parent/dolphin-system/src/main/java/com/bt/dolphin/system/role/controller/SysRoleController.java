@@ -58,7 +58,7 @@ public class SysRoleController extends QueryController<SysRoleCondition> {
 	@RequestMapping(value = "/getRoleByRoleId")
 	public  @ResponseBody WrappedResult getRoleByRoleId(HttpServletResponse response, HttpServletRequest request,
 			@RequestParam  Map<String, String> param)  {
-		String roleId = StrUtil.toString(param.get("roleId"));
+		String roleId = StrUtil.nullToEmpty(param.get("roleId"));
 		SysRoleVo sysRoleVo = sysRoleService.getRoleByRoleId(roleId);
 		return WrappedResult.successWrapedResult(sysRoleVo);
 	}

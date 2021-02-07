@@ -3,10 +3,11 @@ layui.use(['element','layer'], function () {
     var layer = layui.layer;
     /* AJAX请求默认选项，处理连接超时问题 */
     $.ajaxSetup({
-        beforeSend: function () {
+        beforeSend: function (request) {
             layer.load(0);
         },
         complete: function (xhr) {
+        	debugger;
             layer.closeAll('loading');
             if (xhr.status === 401) {
                 layer.confirm('session连接超时，是否重新登录？', {
@@ -18,6 +19,8 @@ layui.use(['element','layer'], function () {
                 });
             }else if(xhr.status === 500) {
             	
+            }else if(xhr.status === 403) {
+            	layer.msg('用户存在没有权限数据请求，请联系管理员进行授权');
             }
         }
     });

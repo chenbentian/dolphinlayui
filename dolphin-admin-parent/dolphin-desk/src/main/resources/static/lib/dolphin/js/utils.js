@@ -2,10 +2,7 @@
 	window.utils = factory(window, $);
 
 })(function(window,jQuery) {
-	/**
-	 * 将平台控件from对象属性数据转换成一个json对象数据
-	 * 
-	 */
+	
 	var post = function(url, param, callback, opt) {
 		//debugger;
 		var loading = null;
@@ -21,6 +18,20 @@
 				loading.close();
 			}
 		});
+	}
+	
+	var ajaxPost = function(url,param,callback, opt) {
+		url = getAllUrl(url);
+		$.ajax({
+	        url: url,
+	        type: 'POST',
+	        dataType: 'json',
+	        contentType: 'application/json',
+	        data: JSON.stringify(param),
+	        success: function(result) {
+	        	callback(result.resultValue, result.successful, result.resultHint,result);
+	        }
+	    })
 	}
 
 	var getAllUrl = function(url, isBaseUrl) {
@@ -116,6 +127,7 @@
 
 	return utils = {
 		post : post,
+		ajaxPost:ajaxPost,
 		getAllUrl : getAllUrl,
 		getRootPath : getRootPath,
 		getParamUrl:getParamUrl,

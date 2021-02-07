@@ -11,6 +11,7 @@ package com.bt.dolphin.desk.login.controller;
 
 import java.io.IOException;
 
+import javax.annotation.security.PermitAll;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,7 +53,7 @@ import com.bt.dolphin.system.user.vo.SysUserVo;
  *  History:  2020年8月14日 下午2:14:05   cbt-34201   Created.
  *           
  */
-
+@PermitAll
 @Controller
 @RequestMapping(value="/dolpin/desk")
 public class LoginController implements ErrorController {

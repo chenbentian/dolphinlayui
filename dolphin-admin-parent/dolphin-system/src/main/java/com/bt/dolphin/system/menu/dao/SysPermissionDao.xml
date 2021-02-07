@@ -100,5 +100,52 @@
                </otherwise>
            </choose>
     </select>
+    
+    <insert id="insertPermisRole" parameterType="String">
+    	insert into sy_role_permission_rela(PERMISSION_ID,role_id) 
+    		VALUES(#{permissionId,jdbcType=VARCHAR},#{roleId,jdbcType=VARCHAR})
+    </insert>
+    
+	 <delete id="delPermisRole" parameterType="String">
+        delete FROM sy_role_permission_rela
+        where PERMISSION_ID = #{permissionId} and role_id = #{roleId}
+    </delete>
+    
+    <select id="getUserPermisRela" parameterType="String" resultType="com.bt.dolphin.system.menu.vo.SysPermissionVo">
+		 SELECT r.USER_ID,r.USER_NO,r.PERMISSION_ID,r.PERMISSION_NAME FROM  sy_user_permission_rela r
+		 <where>
+		 	<if test="permissionId!=null and permissionId!=''">
+					and r.PERMISSION_ID = #{permissionId}
+			</if>
+			<if test="userNo !=null and userNo!=''">
+					and r.USER_NO = #{userNo,jdbcType=VARCHAR}
+			</if>
+			<if test="userId !=null and userId!=''">
+					and r.USER_NO = #{userNo,jdbcType=VARCHAR}
+			</if>
+		 </where>
+	</select>
+	
+	 <select id="countUserPermisRelaExist" parameterType="String" resultType="int">
+		SELECT COUNT(1) FROM `sy_user_permission_rela` up
+			WHERE EXISTS(SELECT user_id FROM `sy_user_role_rela` ur WHERE ur.user_id =up.user_id AND  ur.role_id = role_id = #{roleId})
+			AND up.PERMISSION_ID = #{permissionId} and  up.user_id = #{userId}
+	</select>
+	
+	 <insert id="insertRolePermisRela" parameterType="String">
+    	insert into sy_role_permission_rela(PERMISSION_ID,role_id) 
+    		VALUES(#{permissionId,jdbcType=VARCHAR},#{roleId,jdbcType=VARCHAR})
+    </insert>
+    
+   	<insert id="insertUserPermisRela" parameterType="com.bt.dolphin.system.menu.vo.SysPermissionVo">
+    	insert into sy_user_permission_rela(USER_ID,USER_NO,PERMISSION_ID,PERMISSION_NAME,PERMISSION_PATH,APP_ID) 
+    		VALUES(#{userId,jdbcType=VARCHAR},#{userNo,jdbcType=VARCHAR},#{permissionId,jdbcType=VARCHAR},#{permissionName,jdbcType=VARCHAR},
+    		#{permissionPath,jdbcType=VARCHAR},#{appId,jdbcType=VARCHAR})
+    </insert>
+    
+     <delete id="delUserPermisRela" parameterType="String">
+        delete FROM sy_user_permission_rela
+        where PERMISSION_ID = #{permissionId} and USER_ID = #{userId}
+    </delete>
 	
 </mapper>

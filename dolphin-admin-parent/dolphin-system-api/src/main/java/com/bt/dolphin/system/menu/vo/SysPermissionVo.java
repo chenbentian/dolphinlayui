@@ -38,6 +38,9 @@ public class SysPermissionVo {
 	private Boolean normal;//普通业务项
 	private Boolean visible;//菜单业务项
 	private Boolean authorized;//授权业务项
+	
+	private String userId;
+	private String userNo;
 
 	public String getPermissionType() {
 		return permissionType;
@@ -175,6 +178,23 @@ public class SysPermissionVo {
 	public void setPerExId(String perExId) {
 		this.perExId = perExId;
 	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(String userNo) {
+		this.userNo = userNo;
+	}
+	
 	
 	
 }

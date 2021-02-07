@@ -9,6 +9,8 @@
 
 package com.bt.dolphin.common.exception;
 
+import java.nio.file.AccessDeniedException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -43,7 +45,18 @@ public class GlobalExceptionControllerAdvice {
 	public WrappedResult exceptionHandler(HttpServletRequest request, HttpServletResponse response, HandlerMethod handler, Exception exception){
 	    
 		if (this.globalExceptionHandler != null) {
-	    	globalExceptionHandler.handle(request, response, exception);
+	    	globalExceptionHandler.handle(request, response, exception,"500");
+	    }
+	    return WrappedResult.failedWrappedResult(exception.getMessage());
+    }
+	
+	
+	@ExceptionHandler(value =AccessDeniedException.class)
+	@ResponseBody
+	public WrappedResult accessDeniedException(HttpServletRequest request, HttpServletResponse response, HandlerMethod handler, Exception exception){
+	    
+		if (this.globalExceptionHandler != null) {
+	    	globalExceptionHandler.handle(request, response, exception,null);//403
 	    }
 	    return WrappedResult.failedWrappedResult(exception.getMessage());
     }

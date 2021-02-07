@@ -27,6 +27,14 @@
 			 <if test="roleCode!=null and roleCode!=''">
 					and r.ROLE_CODE = #{roleCode,jdbcType=VARCHAR}
 			</if>
+			<if test="selUserId!=null and selUserId!=''">
+				and EXISTS(select 1 from sy_user_role_rela u where u.ROLE_ID = r.ROLE_ID 
+               		and u.user_id = #{selUserId,jdbcType=VARCHAR})
+			</if> 
+			<if test="noSelUserId!=null and noSelUserId!=''">
+				and not EXISTS(select 1 from sy_user_role_rela u where u.ROLE_ID = r.ROLE_ID 
+               		and u.user_id = #{noSelUserId,jdbcType=VARCHAR})
+			</if> 
 		</where>
     </select>
     
@@ -52,4 +60,16 @@
         FROM sy_role
         where ROLE_ID = #{roleId}
     </delete>
+    
+    <select id="getUserRoleRela" parameterType="String" resultType="com.bt.dolphin.system.role.vo.SysRoleVo">
+		  select r.USER_ID,r.ROLE_ID from sy_user_role_rela r 
+		  <where>
+		    <if test="roleId!=null and roleId!=''">
+					and r.ROLE_ID = #{roleId,jdbcType=VARCHAR}
+			</if>
+		    <if test="userId!=null and userId!=''">
+					and r.USER_ID = #{userId,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
 </mapper>

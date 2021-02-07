@@ -92,7 +92,7 @@ layui.use(['element', 'form', 'layer', 'upload','layedit'], function () {
 	      menuId = $(index).children("a").attr("lay-menuId");
 	      tabs(url,menuId);
     }
-  //  window.openTab();
+    window.openTab();
 
     /* 初始化时展开子菜单 */
     $("dd.layui-this").parents(".layui-nav-child").parent()

@@ -46,4 +46,7 @@ public interface SysRoleDao {
 	
 	public void updateSysRole(SysRoleVo vo);
 	public void deleteByRoleId(@Param("roleId") String roleId);
+	
+	public List<SysRoleVo> getUserRoleRela(@Param("roleId") String roleId,@Param("userId") String userId);
+
 }

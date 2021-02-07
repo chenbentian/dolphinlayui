@@ -11,6 +11,7 @@ package com.bt.dolphin.system.menu.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -20,15 +21,21 @@ import org.springframework.stereotype.Service;
 import com.bt.dolphin.common.constant.PermissionConst;
 import com.bt.dolphin.common.util.CoreSeqUtil;
 import com.bt.dolphin.common.util.ResultUtils;
+import com.bt.dolphin.common.util.StringClass;
 import com.bt.dolphin.common.vo.QueryResultObject;
 import com.bt.dolphin.system.menu.api.SysPermissionService;
 import com.bt.dolphin.system.menu.dao.SysPermissionDao;
 import com.bt.dolphin.system.menu.vo.SysPermissionCondition;
 import com.bt.dolphin.system.menu.vo.SysPermissionVo;
+import com.bt.dolphin.system.role.dao.SysRoleDao;
+import com.bt.dolphin.system.role.vo.SysRoleVo;
+import com.bt.dolphin.system.user.dao.SysUserDao;
+import com.bt.dolphin.system.user.vo.SysUserVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import cn.hutool.core.util.StrUtil;
+
 
 /**
  *  类描述：权限项
@@ -45,6 +52,12 @@ public class SysPermissionServiceImpl implements SysPermissionService{
 	
 	@Autowired
 	private SysPermissionDao sysPermissionDao;
+	
+	@Autowired
+	private SysRoleDao sysRoleDao;
+	
+	@Autowired
+	private SysUserDao sysUserDao;
 	
 	/**
 	 * 
@@ -132,13 +145,15 @@ public class SysPermissionServiceImpl implements SysPermissionService{
 			sysPermissionDao.updateSysPermission(vo);
 			sysPermissionDao.delPermissionExtendById(vo.getPermissionId());
 		}
-		this.savePerExtend(PermissionConst.NORMAL, normal, vo.getPermissionId());
-		this.savePerExtend(PermissionConst.AUTHORIZED, authorized, vo.getPermissionId());
-		this.savePerExtend(PermissionConst.VISIBLE, visible, vo.getPermissionId());
-		
-		/*}catch(Exception e) {
-			e.printStackTrace();
-		}*/
+		if(normal != null) {
+			this.savePerExtend(PermissionConst.NORMAL, normal, vo.getPermissionId());
+		}
+		if(authorized != null) {
+			this.savePerExtend(PermissionConst.AUTHORIZED, authorized, vo.getPermissionId());
+		}
+		if(visible != null) {
+			this.savePerExtend(PermissionConst.VISIBLE, visible, vo.getPermissionId());
+		}
 		return vo;
 	}
 	
@@ -196,5 +211,72 @@ public class SysPermissionServiceImpl implements SysPermissionService{
 		}
 	}
 	
+	@Override
+	public void savePermisRole(Map<String, Object> param) {
+		String roleId = (String)param.get("roleId");
+		List<Map> list = (List<Map>)param.get("rowsData"); 
+		if(list != null && list.size() > 0) {
+			for(Map map : list) {
+				String permissionId = StringClass.getString(map.get("permissionId"));
+				sysPermissionDao.insertRolePermisRela(permissionId, roleId);
+			}
+		}
+		
+		List<SysRoleVo> userList = sysRoleDao.getUserRoleRela(roleId, null);
+		if(userList != null && userList.size() > 0) {
+			for(SysRoleVo roleVo : userList) {
+				String userId = StringClass.getString(roleVo.getUserId());
+				if(list != null && list.size() > 0) {
+					for(Map map : list) {
+						String permissionId = StringClass.getString(map.get("permissionId"));
+						int i = sysPermissionDao.countUserPermisRelaExist(permissionId, roleId, userId);
+						if(i<1) {
+							String permissionName = StringClass.getString(map.get("permissionName"));
+							String permissionPath = StringClass.getString(map.get("permissionPath"));
+							String appId = StringClass.getString(map.get("appId"));
+							SysPermissionVo perVo = new SysPermissionVo();
+							perVo.setUserId(userId);
+							SysUserVo userVo = sysUserDao.getUserByUserId(userId);
+							perVo.setUserNo(userVo.getUserNo());
+							perVo.setPermissionId(permissionId);
+							perVo.setPermissionName(permissionName);
+							perVo.setPermissionPath(permissionPath);
+							perVo.setAppId(appId);
+							sysPermissionDao.insertUserPermisRela(perVo);
+						}
+					}
+				}
+				
+			}
+		}
+	}
 	
+	@Override
+	public void delPermisRole(Map<String, Object> param) {
+		String roleId = (String)param.get("roleId");
+		List<Map> list = (List<Map>)param.get("rowsData"); 
+		if(list != null && list.size() > 0) {
+			for(Map map : list) {
+				String permissionId = StringClass.getString(map.get("permissionId"));
+				sysPermissionDao.delPermisRole(permissionId, roleId);
+			}
+		}
+
+		List<SysRoleVo> userList = sysRoleDao.getUserRoleRela(roleId, null);
+		if(userList != null && userList.size() > 0) {
+			for(SysRoleVo roleVo : userList) {
+				String userId = StringClass.getString(roleVo.getUserId());
+				if(list != null && list.size() > 0) {
+					for(Map map : list) {
+						String permissionId = StringClass.getString(map.get("permissionId"));
+						int i = sysPermissionDao.countUserPermisRelaExist(permissionId, roleId, userId);
+						if(i>=1) {
+							sysPermissionDao.delUserPermisRela(permissionId, userId);
+						}
+					}
+				}
+				
+			}
+		}
+	}
 }

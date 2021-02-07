@@ -19,11 +19,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bt.dolphin.common.constant.PermissionConst;
 import com.bt.dolphin.common.util.CoreSeqUtil;
 import com.bt.dolphin.system.menu.api.SysApplicationService;
 import com.bt.dolphin.system.menu.api.SysMenuService;
 import com.bt.dolphin.system.menu.api.SysPermissionService;
 import com.bt.dolphin.system.menu.dao.SysMenuDao;
+import com.bt.dolphin.system.menu.dao.SysPermissionDao;
 import com.bt.dolphin.system.menu.vo.SysApplicationVo;
 import com.bt.dolphin.system.menu.vo.SysMenuVo;
 import com.bt.dolphin.system.menu.vo.SysPermissionVo;
@@ -44,6 +46,8 @@ public class SysMenuServiceImpl implements SysMenuService{
 	
 	@Autowired
 	private SysMenuDao sysMenuDao;
+	@Autowired
+	private SysPermissionDao sysPermissionDao;
 	
 	@Autowired
 	private SysPermissionService sysPermissionService;
@@ -116,13 +120,39 @@ public class SysMenuServiceImpl implements SysMenuService{
 	    	          if (2 == sysMenuVo.getOpenPosition()) {
 	    	              sysMenuVo.setIsOpen(true);
 	    	          }
-
+	    	          
+	    	          Boolean showMenu = false;
+	    	          
 	    	          for (SysPermissionVo sysPermissionVo : permissionlist){
 	    	            if (sysPermissionVo.getPermissionId().equals(sysMenuVo.getObjId())) {
 	    	              menuTreeMap.put(sysMenuVo.getMenuId(), sysMenuVo);
+		    	          showMenu = true;
 	    	              break;
 	    	            }
 	    	          }
+	    	        if(!showMenu) {
+		    	        //普通项，菜单项，不需要授权，可以直接看到菜单
+		    	        List<SysPermissionVo> attrList = sysPermissionDao.getPermissionExtendById(sysMenuVo.getObjId());
+		    	  		if(attrList != null && attrList.size() > 0) {
+		    	  			Boolean normal = false;
+		    	  			Boolean authorized = false;
+		    	  			Boolean visible = false;
+		    	  			for(SysPermissionVo vo : attrList) {
+		    	  				String attrCode  = vo.getAttrCode();
+		    	  				String attrValue  = vo.getAttrValue();
+		    	  				if(PermissionConst.NORMAL.equals(attrCode) && "T".equals(attrValue)) {
+		    	  					normal = true;
+	 	    					}else if(PermissionConst.AUTHORIZED.equals(attrCode) && "T".equals(attrValue)) {
+	 	    						authorized = true;
+		    					}else if(PermissionConst.VISIBLE.equals(attrCode) && "T".equals(attrValue)) {
+		    						visible = true;
+		    					}
+		    	  			}
+		    	  			if(normal && !authorized && visible) {
+			    	              menuTreeMap.put(sysMenuVo.getMenuId(), sysMenuVo);
+	    	  				}
+		    	  		}
+	    	        }
 	    		  } else if ((null != sysMenuVo.getSubMenu()) && ((sysMenuVo.getSubMenu()).size() > 0)) {
 	    			  sysMenuVo.setHref(sysMenuVo.getObjPath());
 	    			  menuTreeMap.put(sysMenuVo.getMenuId(), sysMenuVo);

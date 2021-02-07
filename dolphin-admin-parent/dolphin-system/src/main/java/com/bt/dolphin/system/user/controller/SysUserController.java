@@ -87,7 +87,7 @@ public class SysUserController extends QueryController<SysUserCondition> {
 	@RequestMapping(value = "/getUserByUserId")
 	public  @ResponseBody WrappedResult getUserByUserId(HttpServletResponse response, HttpServletRequest request,
 			@RequestParam  Map<String, String> param)  {
-		String userId = StrUtil.toString(param.get("userId"));
+		String userId = StrUtil.nullToEmpty(param.get("userId"));
 		SysUserVo sysUserVo = sysUserService.getUserByUserId(userId);
 		return WrappedResult.successWrapedResult(sysUserVo);
 	}

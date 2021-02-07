@@ -25,6 +25,8 @@ public class SysRoleCondition extends QueryCondition {
 	private String appId;
 	private String roleName;
 	private String roleCode;
+	private String selUserId;
+	private String noSelUserId;
 	public String getAppId() {
 		return appId;
 	}
@@ -43,6 +45,19 @@ public class SysRoleCondition extends QueryCondition {
 	public void setRoleCode(String roleCode) {
 		this.roleCode = roleCode;
 	}
+	public String getSelUserId() {
+		return selUserId;
+	}
+	public void setSelUserId(String selUserId) {
+		this.selUserId = selUserId;
+	}
+	public String getNoSelUserId() {
+		return noSelUserId;
+	}
+	public void setNoSelUserId(String noSelUserId) {
+		this.noSelUserId = noSelUserId;
+	}
+	
 	
 	
 }

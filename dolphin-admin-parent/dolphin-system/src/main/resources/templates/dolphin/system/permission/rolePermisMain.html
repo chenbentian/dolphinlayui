@@ -25,7 +25,7 @@
 			  		 <button type="button" id="seachPermisBtn" class="layui-btn layui-btn-sm">权限项</button>
 			  	  </div>
 			  </div>
-			  <div class="layui-inline" style="float:right;width:100px">
+			  <div class="layui-inline" style="float:right;">
 				  <div class="layui-input-inline">
 				      <button type="button" id="seachBtn" class="layui-btn layui-btn-sm">查询</button>
 				      <button type="button" id="clearBtn" class="layui-btn layui-btn-sm">清空</button>
@@ -50,8 +50,8 @@
 	</form>
 	<blockquote class="layui-elem-quote" style="padding:0px;">查询结果</blockquote>
 	<div class="tableBtn">
-	  <button type="button" class="layui-btn layui-btn-xs" data-type="addBtn"><i class="layui-icon"></i>分配</button>
-	  <button type="button" class="layui-btn layui-btn-xs" data-type="cancelBtn"><i class="layui-icon"></i>取消</button>
+	  <button type="button" class="layui-btn layui-btn-xs disBtn" data-type="disBtn"><i class="layui-icon"></i>分配</button>
+	  <button type="button" class="layui-btn layui-btn-xs cancelBtn" data-type="cancelBtn"><i class="layui-icon"></i>取消</button>
 	</div>
 	<table class="layui-table" lay-data="{height:380,url:'',page:{curr:1,limit:20},id:'permisGridReload'}" lay-size="sm" lay-filter="permisGrid">
 	  <thead>
@@ -133,32 +133,60 @@ layui.use(['table','form','element','layer'], function() {
    });
     
     var $ = layui.$, active = {
-    	addBtn: function(){ 
-    		var url = utils.getAllUrl("dolphin/system/role/editRole.html");
-    		$.fn.openIframeWin(url,'新增角色',['300px','260px'],function (){
-    			var backParam = parent.backParam;
- 		  		if(backParam == "close"){
- 		  			parent.backParam = ""; 
- 		  			permisGridReload();
- 		  		}
-			});
+    	disBtn: function(){ 
+    		var data = form.val('permisFrom');
+    		var queryType = data.queryType;
+    		debugger;
+    		if(queryType == "undis"){
+     		  	var checkStatus = table.checkStatus('permisGridReload');
+    	      	var rowsData = checkStatus.data;
+    	      	var param = {};
+    	      	param.roleId = data.roleId;
+    	      	param.queryType = data.queryType;
+    	      	param.rowsData = rowsData;
+    	      	 utils.ajaxPost('/dolphin/system/sysPermission/savePermisRole',param,function(result,status,msg) {
+   	                if (status) {
+   	                	layer.msg("保存成功！", {time: 10000, btn: ['确认!']});
+   	                	var index = parent.layer.getFrameIndex(window.name); 
+   	                	parent.backParam =  "undisSel";
+   	                	parent.layer.close(index); 
+   	                } else {
+   	               	 layer.msg(msg, {time: 10000, btn: ['确认!']});
+   	                }
+    	         }) 
+
+    		}else if(queryType == "dis"){
+    			var url = "dolphin/system/permission/rolePermisMain.html?roleId="+data.roleId+"&queryType=undis"
+        		var url = utils.getAllUrl(url);
+        		$.fn.openIframeWin(url,'分配权限',['1000px','600px'],function (){
+        			var backParam = parent.backParam;
+     		  		if(backParam == "undisSel"){
+     		  			parent.backParam = ""; 
+     		  			permisGridReload();
+     		  		}
+    			});
+    		}
+    		
  	    },
  	   cancelBtn: function(){
- 	      	var checkStatus = table.checkStatus('roleGridReload')
- 	      	var data = checkStatus.data;
- 	      	if(data.length == 1){
- 	      		var url = "dolphin/system/role/editRole.html?roleId="+data[0].roleId;
- 	    	 	url = utils.getAllUrl(url);
- 	 		  	$.fn.openIframeWin(url,'修改角色',['300px','260px'],function (){
- 	 		  		var backParam = parent.backParam;
- 	 		  		if(backParam == "close"){
- 	 		  			parent.backParam = ""; 
- 	 		  			permisGridReload();
- 	 		  		}
- 				});
- 	      	}else {
- 	    	 	layer.msg("请选中一条记录！", {time: 10000, btn: ['确认!']});
- 	      	}
+ 		  	var checkStatus = table.checkStatus('permisGridReload');
+	      	var data = checkStatus.data;
+	      	var param = {};
+	      	param.roleId = data.roleId;
+	      	param.queryType = data.queryType;
+	      	param.rowsData = rowsData;
+	      	if(data.length == 1){
+	      		 utils.ajaxPost('/dolphin/system/permission/delPermisRole',param,function(result,status,msg) {
+	                 if (status) {
+	                	 layer.msg("删除成功！", {time: 10000, btn: ['确认!']});
+	                	 permisGridReload();
+	                 } else {
+	                	 layer.msg(msg, {time: 20000, btn: ['确认!']});
+	                 }
+	             });
+	      	}else {
+	    	 	layer.msg("请选中一条记录！", {time: 10000, btn: ['确认!']});
+	      	}
  	    }
  	};
     	  
@@ -175,7 +203,14 @@ layui.use(['table','form','element','layer'], function() {
  	
  	onInitload();
  	function onInitload(){
- 		
+        var queryType = utils.getParameter('queryType');
+        var roleId = utils.getParameter('roleId');
+        if(queryType =="undis"){
+        	 $(".cancelBtn").hide();
+        	 form.val("permisFrom",{roleId:roleId,queryType:"undis"});
+        	 permisGridReload();
+        }
+
  	}
 });
 </script>

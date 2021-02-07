@@ -10,6 +10,7 @@
 package com.bt.dolphin.system.menu.api;
 
 import java.util.List;
+import java.util.Map;
 
 import com.bt.dolphin.common.vo.QueryResultObject;
 import com.bt.dolphin.system.menu.vo.SysPermissionCondition;
@@ -51,6 +52,8 @@ public interface SysPermissionService {
 	
 	public SysPermissionVo savePermission(SysPermissionVo vo);
 	public QueryResultObject permisRoleQueryList(SysPermissionCondition condition);
+	public void savePermisRole(Map<String, Object> param);
+	public void delPermisRole(Map<String, Object> param);
 
 
 }

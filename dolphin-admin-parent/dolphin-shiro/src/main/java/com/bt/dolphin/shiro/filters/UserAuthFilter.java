@@ -15,7 +15,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  */
 public class UserAuthFilter extends AccessControlFilter {
-
+	
+	/**
+	 * 表示是否允许访问；mappedValue 就是[urls]配置中拦截器参数部分，如果允许访问返回 true，否则 false；
+	 * 方法说明：
+	 *
+	 */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         if (isLoginRequest(request, response)) {
@@ -25,7 +30,13 @@ public class UserAuthFilter extends AccessControlFilter {
             return subject.getPrincipal() != null;
         }
     }
-
+    
+    /**
+     * 
+     * 方法说明：表示当访问拒绝时是否已经处理了；如果返回 true 表示需要继续处理；如果返回 false 表示该拦截器实例已经处理了，将直接返回即可。
+     *
+     *
+     */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpRequest = WebUtils.toHttp(request);

@@ -12,6 +12,7 @@ package com.bt.dolphin.desk.login.controller;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ import com.bt.dolphin.system.user.vo.SysUserVo;
  *  History:  2020年8月31日 下午4:21:19   cbt-34201   Created.
  *           
  */
+@PermitAll
 @Controller
 @RequestMapping(value="/dolpin/desk")
 public class DeskController {
@@ -75,7 +77,7 @@ public class DeskController {
      */
     @GetMapping("/picture")
     public void picture(String p, HttpServletResponse response) throws IOException {
-        String defaultPath = "/images/user-picture.jpg";
+        String defaultPath = "/dolpin/image/haitun.gif";
        /* if (!(StringUtils.isEmpty(p) || p.equals(defaultPath))) {
             UploadProjectProperties properties = SpringContextUtil.getBean(UploadProjectProperties.class);
             String fuPath = properties.getFilePath();

@@ -38,11 +38,12 @@ public class GlobalExceptionHandler {
 	    return sw.toString();
 	  }
 	 
-	  public void handle(ServletRequest servletRequest, ServletResponse servletResponse, Exception exception){
+	  public void handle(ServletRequest servletRequest, ServletResponse servletResponse, Exception exception,String status){
 		  HttpServletRequest request = (HttpServletRequest)servletRequest;
 		  HttpServletResponse response = (HttpServletResponse)servletResponse;
-		  int status = response.getStatus();
-		  response.setStatus(500);
+		  if(status != null) {
+			  response.setStatus(Integer.parseInt(status));
+		  }
 		  String stackTrace = getStackTraceString(exception);
 		  System.out.println(stackTrace);
 	  }

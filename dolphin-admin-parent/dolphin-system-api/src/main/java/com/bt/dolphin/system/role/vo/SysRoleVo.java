@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class SysRoleVo implements Serializable {
 	
     private String roleId;
+    private String userId;
     private String appId;
     private String appName;
     private String roleName;
@@ -57,6 +58,12 @@ public class SysRoleVo implements Serializable {
 	}
 	public void setAppName(String appName) {
 		this.appName = appName;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
     
     

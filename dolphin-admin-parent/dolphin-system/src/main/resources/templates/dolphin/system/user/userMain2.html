@@ -12,6 +12,7 @@
 <body>
 <blockquote class="layui-elem-quote" style="padding:0px;">查询条件</blockquote>
 	<form class="layui-form" action="" lay-filter="userFrom">
+		<input type="hidden" class="layui-input" name="selUserId" id="selUserId">
 		<div class="layui-form-item">
 			<div class="layui-inline">
 				<label class="layui-form-label">账号:</label>
@@ -50,7 +51,7 @@
 	  <button type="button" class="layui-btn layui-btn-xs" data-type="updBtn"><i class="layui-icon"></i>修改</button>
 	  <button type="button" class="layui-btn layui-btn-xs" data-type="delBtn"><i class="layui-icon"></i>删除</button>
 	</div>
-	<table class="layui-table" lay-data="{height:280,url:'',page:{curr:1,limit:20},id:'userGridReload'}" lay-size="sm" lay-filter="userGrid">
+	<table class="layui-table" lay-data="{height:200,url:'',page:{curr:1,limit:20},id:'userGridReload'}" lay-size="sm" lay-filter="userGrid">
 	  <thead>
 	    <tr>
 	      <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
@@ -66,7 +67,21 @@
 	    </tr>
 	  </thead>
 	</table>
-              
+    <blockquote class="layui-elem-quote" style="padding:0px;">已分配角色</blockquote>
+	<div class="roleTableBtn">
+	  <button type="button" class="layui-btn layui-btn-xs disBtn" data-type="disBtn"><i class="layui-icon"></i>分配</button>
+	  <button type="button" class="layui-btn layui-btn-xs cancelBtn" data-type="cancelBtn"><i class="layui-icon"></i>取消</button>
+	</div>
+	<table class="layui-table" lay-data="{height:200,url:'',page:{curr:1,limit:20},id:'roleGridReload'}" lay-size="sm" lay-filter="roleGrid">
+	  <thead>
+	    <tr>
+	      <th lay-data="{type:'radio', fixed: 'left'}"></th>
+	      <th lay-data="{field:'appName',align:'center',width:'34%'}">应用名称</th>
+	      <th lay-data="{field:'roleName',align:'center',width:'35%'}">角色名称</th>
+	      <th lay-data="{field:'roleCode',align:'center',width:'24%'}">角色编码</th>
+	    </tr>
+	  </thead>
+	</table>      
           
 <script src="../../../lib/layui-v2.5.7/layui.js" charset="utf-8"></script>
 <script src="../../../lib/dolphin/js/layMain.js" charset="utf-8"></script>
@@ -103,37 +118,44 @@ layui.use(['table','form','element','layer'], function() {
           }
         });
     }
+    
+    
+    function roleGridReload(){
+   	 //执行重载
+   	var data = form.val('userFrom');
+	var paramUrl = utils.getParamUrl("dolphin/system/sysRole/roleQuery");
+       table.reload('roleGridReload', {
+         url: paramUrl,
+         page: {
+           curr: 1 //重新从第 1 页开始
+         },
+         where: {
+        	 selUserId:data.selUserId
+         }
+       });
+   }
+    
     $('#seachBtn').on('click', function(){
     	userGridReload();
     });
     
-    function editUser(url){
-    	 layer.open({
- 	        type: 2
- 	        ,title: '新增系统用户' //不显示标题栏
- 	        ,closeBtn: 2
- 	        ,area: ['300px','400px']
- 	        ,shade: 0.3
- 	        ,id: 'userLayer' //设定一个id，防止重复弹出
- 	       // ,btn: ['火速围观', '残忍拒绝']
- 	        ,btnAlign: 'c'
- 	        ,moveType: 1 //拖拽模式，0或者1
- 	        ,content: url
- 	        ,end: function(){
- 	        	userGridReload();
- 	        }
- 	     });
-    }
-    
     //监听行单击事件（双击事件为：rowDouble）
     table.on('row(userGrid)', function(obj){
        var data = obj.data;
+       form.val("userFrom",{selUserId:data.userId});
+       roleGridReload();
     });
     
-    var $ = layui.$, active = {
+    var active = {
     	addBtn: function(){ //新增系统用户
     		var url = utils.getAllUrl("dolphin/system/user/editUser.html");
-    		editUser(url);
+    		$.fn.openIframeWin(url,'新增系统用户',['300px','400px'],function (){
+    			var backParam = parent.backParam;
+ 		  		if(backParam == "close"){
+ 		  			parent.backParam = ""; 
+ 		  			userGridReload();
+ 		  		}
+			});
  	    },
  	    updBtn: function(){ //修改系统用户
  	      	var checkStatus = table.checkStatus('userGridReload')
@@ -141,7 +163,13 @@ layui.use(['table','form','element','layer'], function() {
  	      	if(data.length == 1){
  	      		var url = "dolphin/system/user/editUser.html?userId="+data[0].userId;
  	    	 	url = utils.getAllUrl(url);
- 	 		    editUser(url);
+ 	    	 	$.fn.openIframeWin(url,'修改系统用户',['300px','400px'],function (){
+ 	    			var backParam = parent.backParam;
+ 	 		  		if(backParam == "close"){
+ 	 		  			parent.backParam = ""; 
+ 	 		  			userGridReload();
+ 	 		  		}
+ 				});
  	      	}else {
  	    	 	layer.msg("请选中一条记录！", {time: 10000, btn: ['确认!']});
  	      	}
@@ -161,7 +189,22 @@ layui.use(['table','form','element','layer'], function() {
 	      	}else {
 	    	 	layer.msg("请选中一条记录！", {time: 10000, btn: ['确认!']});
 	      	}
- 	    }
+ 	    },
+ 	   disBtn:function(){
+ 			var data = form.val('userFrom');
+		  	var url = "dolphin/system/role/roleMain.html?userId="+data.selUserId+"&queryType=nodis"
+			var url = utils.getAllUrl(url);
+			$.fn.openIframeWin(url,'分配权限',['1000px','650px'],function (){
+				var backParam = parent.backParam;
+		  		if(backParam == "undisSel"){
+		  			parent.backParam = ""; 
+		  			permisGridReload();
+		  		}
+			});
+ 	   },
+ 	  cancelBtn:function(){
+ 		  
+ 	  }
  	};
     	  
  	$('.doUseBtmTable .layui-btn').on('click', function(){
@@ -169,8 +212,14 @@ layui.use(['table','form','element','layer'], function() {
  	   active[type] ? active[type].call(this) : '';
  	});
  	
- 	setSelectListData();
- 	function setSelectListData(){
+ 	$('.roleTableBtn .layui-btn').on('click', function(){
+  	   var type = $(this).data('type');
+  	   active[type] ? active[type].call(this) : '';
+  	});
+  	
+ 	
+ 	onInitload();
+ 	function onInitload(){
  		 utils.post('/dolphin/system/sysCode/getCodeList',{'codeType':"userType"},function(result,status,msg) {
              if (status) {
              	 $.each(result, function (index, item) {

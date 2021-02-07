@@ -56,6 +56,12 @@ public interface SysPermissionDao {
 	public void insertSysPermissionExtend(SysPermissionVo vo);
 	public void delPermissionExtendById(@Param("permissionId") String permissionId);
 	public List<SysPermissionVo> permisRoleQueryList(SysPermissionCondition condition);
+	public void insertRolePermisRela(@Param("permissionId") String permissionId,@Param("roleId") String roleId);
+	public void delPermisRole(@Param("permissionId") String permissionId,@Param("roleId") String roleId);
+	public SysPermissionVo getUserPermisRela(@Param("permissionId") String permissionId,@Param("userNo") String userNo);
+	public int countUserPermisRelaExist(@Param("permissionId") String permissionId,@Param("roleId") String roleId,@Param("userId") String userId);
+	public void insertUserPermisRela(SysPermissionVo vo);
+	public void delUserPermisRela(@Param("permissionId") String permissionId,@Param("userId") String userId);
 
 
 }

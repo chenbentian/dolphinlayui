@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="../../../dolpin/layui/dolphinlayui.css"  media="all">
 </head>
 <body>
-<blockquote class="layui-elem-quote" style="padding:5px;"></blockquote>
+<blockquote class="layui-elem-quote" style="padding:0px;"></blockquote>
 	<form class="layui-form" action="" lay-filter="userFrom">
 		<input type="hidden" class="layui-input" name="userId" id="userId">
 		<div class="layui-form-item">
@@ -78,7 +78,7 @@ layui.use(['table','form','element'], function() {
                 if (status) {
                 	layer.msg("保存成功！", {time: 10000, btn: ['确认!']});
                 	var index = parent.layer.getFrameIndex(window.name); 
-                	parent.backParam =  "6666666";
+                	parent.backParam =  "close";
                 	parent.layer.close(index); 
                 } else {
                	 layer.msg(msg, {time: 10000, btn: ['确认!']});
@@ -106,7 +106,6 @@ layui.use(['table','form','element'], function() {
              }
          },{loading:true}) 
          
-         debugger;
          var userId = utils.getParameter('userId');
  		 if(userId != null && userId !=''){
  			 utils.post('/dolphin/system/sysUser/getUserByUserId',{'userId':userId},function(result,status,msg) {

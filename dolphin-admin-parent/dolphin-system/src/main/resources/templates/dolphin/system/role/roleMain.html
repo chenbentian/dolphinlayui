@@ -12,6 +12,7 @@
 <body>
 <blockquote class="layui-elem-quote" style="padding:0px;">查询条件</blockquote>
 	<form class="layui-form" action="" lay-filter="roleFrom">
+		<input type="hidden" class="layui-input" name="noSelUserId" id="noSelUserId">
 		<div class="layui-form-item">
 		 	<div class="layui-inline" style="width:250px">
 			  <label class="layui-form-label">应用名称:</label>
@@ -57,6 +58,10 @@
 	    </tr>
 	  </thead>
 	</table>
+	<div class="doSureBtmTable" style="float:right;margin-right:30px;display: none;">
+	  <button type="button" class="layui-btn layui-btn-sm" data-type="sureBtn"><i class="layui-icon"></i>确认</button>
+	</div>
+	
           
 <script src="../../../lib/layui-v2.5.7/layui.js" charset="utf-8"></script>
 <script src="../../../lib/dolphin/js/layMain.js" charset="utf-8"></script>
@@ -74,7 +79,6 @@ layui.use(['table','form','element','layer'], function() {
     var element = layui.element;
     var table = layui.table;
     var form = layui.form;
-    roleGridReload();
     
     function roleGridReload(){
     	 //执行重载
@@ -88,7 +92,8 @@ layui.use(['table','form','element','layer'], function() {
           where: {
         	  appId: data.appId,
         	  roleName: data.roleName,
-        	  roleCode:data.roleCode
+        	  roleCode:data.roleCode,
+        	  noSelUserId: data.noSelUserId
           }
         });
     }
@@ -103,8 +108,6 @@ layui.use(['table','form','element','layer'], function() {
     	   obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
     	   obj.tr.find('i[class="layui-anim layui-icon"]').trigger("click");
        }
-       debugger;
-       //parent.document.frames("permisIframe").roleSerachSelPermis(data.roleId);
        parent.document.getElementById("permisIframe").contentWindow.roleSerachSelPermis(data.roleId);
     });
     
@@ -151,7 +154,10 @@ layui.use(['table','form','element','layer'], function() {
 	      	}else {
 	    	 	layer.msg("请选中一条记录！", {time: 10000, btn: ['确认!']});
 	      	}
- 	    }
+ 	    },
+ 	   sureBtn:function(){
+ 		   
+ 	   }
  	};
     	  
  	$('.tableBtn .layui-btn').on('click', function(){
@@ -182,6 +188,15 @@ layui.use(['table','form','element','layer'], function() {
            	 layer.msg(msg, {time: 1000, btn: ['确认!']});
             }
         }) 
+        debugger;
+        var userId = utils.getParameter('userId');
+        var queryType = utils.getParameter('queryType');
+        if(queryType == "nodis"){
+        	$(".doSureBtmTable").show();
+        	$(".tableBtn").hide();
+        }
+ 		form.val("roleFrom",{noSelUserId:userId});
+        roleGridReload();
  	}
 });
 </script>

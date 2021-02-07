@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -177,6 +178,20 @@ public class SysPermissionController extends QueryController<SysPermissionCondit
 		QueryResultObject resultObject = new QueryResultObject();
 		resultObject = sysPermissionService.permisRoleQueryList(condition);
 		return resultObject;
+	}
+	
+	@RequestMapping(value = "/savePermisRole")
+	public  @ResponseBody WrappedResult savePermisRole(HttpServletResponse response, HttpServletRequest request,
+			@RequestBody  Map<String, Object> param)  {
+		sysPermissionService.savePermisRole(param);
+		return WrappedResult.successWrapedResult("");
+	}
+	
+	@RequestMapping(value = "/delPermisRole")
+	public  @ResponseBody WrappedResult delPermisRole(HttpServletResponse response, HttpServletRequest request,
+			@RequestBody  Map<String, Object> param)  {
+		sysPermissionService.delPermisRole(param);
+		return WrappedResult.successWrapedResult("");
 	}
 	
 	@Override

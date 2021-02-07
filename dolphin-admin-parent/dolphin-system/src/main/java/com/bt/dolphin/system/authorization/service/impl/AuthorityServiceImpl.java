@@ -1,12 +1,3 @@
-/**
- *
- * @(#) AuthorityServiceImpl.java
- * @Package com.bt.dolphin.system.authorization.service.impl
- * 
- * Copyright © Longshine Corporation. All rights reserved.
- *
- */
-
 package com.bt.dolphin.system.authorization.service.impl;
 
 import javax.transaction.Transactional;
