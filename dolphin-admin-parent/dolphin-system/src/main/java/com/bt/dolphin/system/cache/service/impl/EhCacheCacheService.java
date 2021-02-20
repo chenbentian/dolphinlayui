@@ -10,6 +10,8 @@
 package com.bt.dolphin.system.cache.service.impl;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -31,7 +33,6 @@ import net.sf.ehcache.Element;
  */
 @Service(value="ehCacheCacheService")
 public class EhCacheCacheService  implements ICache,ApplicationContextAware{
-	
 	
 	private EhCacheCacheManager ehCacheCacheManager;
 	private Cache cache;

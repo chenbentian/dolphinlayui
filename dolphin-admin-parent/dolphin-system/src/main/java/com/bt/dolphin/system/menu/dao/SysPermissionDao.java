@@ -44,6 +44,10 @@ public interface SysPermissionDao {
 	
 	public SysPermissionVo getPermissionById(@Param("permissionId") String permissionId);
 	
+	public SysPermissionVo getPermissionByUrlAndAppId(@Param("appId") String appId,@Param("url") String url);
+	public String getPermissionAttrValueByUrlAndCode(@Param("appId") String appId,@Param("url") String url,@Param("attrCode") String attrCode);
+
+	
 	public List<SysPermissionVo> getSubPermissByPId(@Param("pId") String pId);
 	
 	public void insertSysPermission(SysPermissionVo vo);
@@ -62,6 +66,8 @@ public interface SysPermissionDao {
 	public int countUserPermisRelaExist(@Param("permissionId") String permissionId,@Param("roleId") String roleId,@Param("userId") String userId);
 	public void insertUserPermisRela(SysPermissionVo vo);
 	public void delUserPermisRela(@Param("permissionId") String permissionId,@Param("userId") String userId);
+	public int hasPriv(@Param("url") String url,@Param("userNo") String userNo,@Param("appId") String appId);
+
 
 
 }

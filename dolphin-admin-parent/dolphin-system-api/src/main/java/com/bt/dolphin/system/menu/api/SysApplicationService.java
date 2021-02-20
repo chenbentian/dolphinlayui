@@ -51,4 +51,6 @@ public interface SysApplicationService {
 	 *
 	 */
 	public SysApplicationVo getAppByAppId(String appId);
+	
+	public String getAppIdByAppName(String appName);
 }

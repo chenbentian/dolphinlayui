@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DataV</title>
+  <script src="https://unpkg.com/vue"></script>
+  <!--调试版-->
+  <script src="../../../dolpin/datav/dist/datav.map.vue.js"></script>
+  <!--压缩版 生产版本-->
+  <!-- <script src="https://unpkg.com/@jiaminghi/data-view/dist/datav.min.vue.js"></script> -->
+  <style>
+    html, body, #app {
+      width: 100%;
+      height: 100%;
+      margin: 0px;
+      padding: 0px;
+      background-color:#282c34;
+    }
+
+    .border-box-content {
+      color: rgb(66,185,131);
+      font-size: 40px;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <dv-border-box-1>Welcome to DataV
+     <dv-loading>Loading...</dv-loading>
+    </dv-border-box-1>
+    <dv-border-box-11 title="dv-border-box-11">dv-border-box-11
+    <dv-decoration-2 style="width:200px;height:5px;" />
+    </dv-border-box-11>
+  </div>
+
+  <script>
+    var app = new Vue({
+      el: '#app'
+    })
+  </script>
+</body>
+</html>

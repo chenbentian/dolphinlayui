@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,6 +34,8 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 	private IAuthorityService authorityService;
 	
 	private String appName;
+	
+	private Boolean authorityOpen;
 
 	public String getUnprotectedUrls() {
 		return unprotectedUrls;
@@ -51,8 +52,14 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 	public void setAuthorityService(IAuthorityService authorityService) {
 		this.authorityService = authorityService;
 	}
-	
-	
+
+	public Boolean getAuthorityOpen() {
+		return authorityOpen;
+	}
+
+	public void setAuthorityOpen(Boolean authorityOpen) {
+		this.authorityOpen = authorityOpen;
+	}
 
 	public String getAppName() {
 		return appName;
@@ -74,7 +81,10 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		System.out.println("zy");
+		
+		if(authorityOpen != null && !authorityOpen) {
+			return true;
+		}
 		String requestURI = request.getRequestURI();
 		if ((requestURI != null) && (!"".equals(requestURI)) && (!"/".equals(requestURI))) {
 			int index = requestURI.indexOf("?");

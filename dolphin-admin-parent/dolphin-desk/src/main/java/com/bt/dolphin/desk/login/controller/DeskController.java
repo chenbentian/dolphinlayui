@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -91,4 +92,15 @@ public class DeskController {
         Resource resource = new ClassPathResource("static" + defaultPath);
         FileCopyUtils.copy(resource.getInputStream(), response.getOutputStream());
     }
+    
+
+    /**
+     * 退出登录
+     */
+    @GetMapping("/logout")
+    public String logout() {
+        SecurityUtils.getSubject().logout();
+        return "redirect:/dolphin/desk/login/login.html";
+    }
+
 }

@@ -46,5 +46,11 @@ public class SysApplicationServiceImpl implements SysApplicationService{
 		// TODO Auto-generated method stub
 		return sysApplicationDao.getAppByAppId(appId);
 	}
+
+	@Override
+	public String getAppIdByAppName(String appName) {
+		// TODO Auto-generated method stub
+		return sysApplicationDao.getAppIdByAppName(appName);
+	}
 	
 }

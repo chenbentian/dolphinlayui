@@ -42,13 +42,13 @@ public class RedisCacheService implements ICache,ApplicationContextAware{
 	@Override
 	public void put(String key, Object value) {
 		// TODO Auto-generated method stub
-		
+		redisTemplate.opsForValue().set(key, value);
 	}
 
 	@Override
 	public void put(String key, Object value, int paramInt) {
 		// TODO Auto-generated method stub
-		
+		redisTemplate.opsForValue().set(key, value,paramInt);
 	}
 
 	@Override

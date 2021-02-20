@@ -1,12 +1,3 @@
-/**
- *
- * @(#) SysMenuServiceImpl.java
- * @Package com.bt.dolphin.system.menu.service.impl
- * 
- * Copyright © Longshine Corporation. All rights reserved.
- *
- */
-
 package com.bt.dolphin.system.menu.service.impl;
 
 import java.util.ArrayList;

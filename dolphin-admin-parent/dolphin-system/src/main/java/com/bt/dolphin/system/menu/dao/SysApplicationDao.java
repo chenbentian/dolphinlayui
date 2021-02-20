@@ -52,5 +52,5 @@ public interface SysApplicationDao {
 	 */
 	public SysApplicationVo getAppByAppId(@Param("appId") String appId);
 	
-	public SysApplicationVo getAppIdByAppName(@Param("appName") String appName);
+	public String getAppIdByAppName(@Param("appName") String appName);
 }

@@ -2,9 +2,16 @@ package com.bt.dolphin.system.authorization.service.impl;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.bt.dolphin.system.authorization.api.IAuthorityService;
+import com.bt.dolphin.system.cache.api.ICache;
+import com.bt.dolphin.system.menu.api.SysApplicationService;
+import com.bt.dolphin.system.menu.dao.SysPermissionDao;
+import com.bt.dolphin.system.menu.vo.SysPermissionVo;
 
 /**
  * 类描述：
@@ -19,17 +26,26 @@ import com.bt.dolphin.system.authorization.api.IAuthorityService;
 @Transactional
 public class AuthorityServiceImpl implements IAuthorityService {
 
+	@Autowired
+	@Qualifier("redisService")
+	private ICache redisService;
+	
+	@Autowired
+	private SysApplicationService sysApplicationService;
+	
+	@Autowired
+	private SysPermissionDao sysPermissionDao;
+	
 	@Override
 	public boolean hasPrivByUrl(String accountName, String url, String appName) {
-	/*	String appId = this.applicationService.getAppIdByAppName(appName);
-
-		if (this.accountService.isAdmin(accountName)) {
+		String appId = sysApplicationService.getAppIdByAppName(appName);
+		/*if (this.accountService.isAdmin(accountName)) {
 			return true;
-		}
+		}*/
 
 		String authAttrValue = "";
-		if (this.cacheService.containsKey("EU_PERMISSION_ATTRIBUTE_" + appName + "$" + accountName + "$" + url)) {
-			authAttrValue = (String) this.cacheService
+		if (this.redisService.containsKey("DOLPHIN_PERMISSION_ATTRIBUTE_" + appName + "$" + accountName + "$" + url)) {
+			authAttrValue = (String) this.redisService
 					.get("EU_PERMISSION_ATTRIBUTE_" + appName + "$" + accountName + "$" + url);
 
 			if ("T".equals(authAttrValue)) {
@@ -46,31 +62,28 @@ public class AuthorityServiceImpl implements IAuthorityService {
 		authAttrValue = getValidUrlValue(url, appName, "AUTHORIZED");
 
 		if ("F".equals(authAttrValue)) {
-			this.cacheService.put("EU_PERMISSION_ATTRIBUTE_" + appName + "$" + accountName + "$" + url, authAttrValue);
+			this.redisService.put("DOLPHIN_PERMISSION_ATTRIBUTE_" + appName + "$" + accountName + "$" + url, authAttrValue);
 
 			return true;
 		}
-		int count = this.accountPermissionRelaDao.hasPriv(accountName, url, appId);
-
+		
+		int count = sysPermissionDao.hasPriv(accountName, url, appId);
 		boolean rs = count > 0;
-		System.out.println("EU_PERMISSION_ATTRIBUTE_" + appName + "$" + accountName + "$" + url + "has priv:" + rs);
+		System.out.println("DOLPHIN_PERMISSION_ATTRIBUTE_" + appName + "$" + accountName + "$" + url + "  has priv:" + rs);
 
 		if (rs) {
-			this.cacheService.put("EU_PERMISSION_ATTRIBUTE_" + appName + "$" + accountName + "$" + url, "T");
+			this.redisService.put("DOLPHIN_PERMISSION_ATTRIBUTE_" + appName + "$" + accountName + "$" + url, "T");
 		} else {
-			this.cacheService.put("EU_PERMISSION_ATTRIBUTE_" + appName + "$" + accountName + "$" + url, "F");
+			this.redisService.put("DOLPHIN_PERMISSION_ATTRIBUTE_" + appName + "$" + accountName + "$" + url, "F");
 		}
-
-		return rs;*/
-		return true;
+		return rs;
 	}
 
 	public String getValidUrlValue(String url, String appName, String attrCode) {
-		/*String appId = "";
+		String appId = "";
 		if ((attrCode == null) || ("".equals(attrCode))) {
-			appId = this.applicationService.getAppIdByAppName(appName);
-			PermissionBO bo = this.permissionDao.getPermissionByUrlAndAppId(url, appId);
-
+			appId = sysApplicationService.getAppIdByAppName(appName);
+			SysPermissionVo bo = this.sysPermissionDao.getPermissionByUrlAndAppId(url, appId);
 			if ((bo == null) || ("".equals(bo))) {
 				return "F";
 			}
@@ -78,20 +91,19 @@ public class AuthorityServiceImpl implements IAuthorityService {
 		}
 
 		String attrCodeValue = "";
-		if (this.cacheService.containsKey("EU_PERMISSION_ATTRCODE_" + appName + "$" + url + "$" + attrCode)) {
-			attrCodeValue = (String) this.cacheService
-					.get("EU_PERMISSION_ATTRCODE_" + appName + "$" + url + "$" + attrCode);
+		if (this.redisService.containsKey("DOLPHIN_PERMISSION_ATTRCODE_" + appName + "$" + url + "$" + attrCode)) {
+			attrCodeValue = (String) this.redisService
+					.get("DOLPHIN_PERMISSION_ATTRCODE_" + appName + "$" + url + "$" + attrCode);
 		} else {
-			appId = this.applicationService.getAppIdByAppName(appName);
-			attrCodeValue = this.permissionDao.getPermissionAttrValueByUrlAndCode(appId, url, attrCode);
+			appId = sysApplicationService.getAppIdByAppName(appName);
+			attrCodeValue = this.sysPermissionDao.getPermissionAttrValueByUrlAndCode(appId, url, attrCode);
 
 			if (attrCodeValue != null) {
-				this.cacheService.put("EU_PERMISSION_ATTRCODE_" + appName + "$" + url + "$" + attrCode, attrCodeValue);
+				this.redisService.put("DOLPHIN_PERMISSION_ATTRCODE_" + appName + "$" + url + "$" + attrCode, attrCodeValue);
 			}
 		}
 
-		return attrCodeValue;*/
-		return null;
+		return attrCodeValue;
 	}
 
 }

@@ -17,9 +17,23 @@
 	</select>
 	
 	<select id="getPermissionById" parameterType="String" resultType="com.bt.dolphin.system.menu.vo.SysPermissionVo">
-		 SELECT p.APP_ID,p.APP_ID,p.PERMISSION_ID,p.PERMISSION_NAME,p.PERMISSION_PARENTID,p.PERMISSION_CODE,p.PERMISSION_TYPE,p.PERMISSION_PATH,p.PERMISSION_STATUS FROM `sy_permission` p
+		 SELECT p.APP_ID,p.APP_ID,p.PERMISSION_ID,p.PERMISSION_NAME,p.PERMISSION_PARENTID,p.PERMISSION_CODE,p.PERMISSION_TYPE,
+		 p.PERMISSION_PATH,p.PERMISSION_STATUS FROM `sy_permission` p
 		 where  p.PERMISSION_ID = #{permissionId}
 	</select>
+	
+	<select id="getPermissionByUrlAndAppId" parameterType="String" resultType="com.bt.dolphin.system.menu.vo.SysPermissionVo">
+		 SELECT p.APP_ID,p.APP_ID,p.PERMISSION_ID,p.PERMISSION_NAME,p.PERMISSION_PARENTID,p.PERMISSION_CODE,p.PERMISSION_TYPE,
+		 p.PERMISSION_PATH,p.PERMISSION_STATUS FROM `sy_permission` p
+		 where  p.APP_ID = #{appId} and p.PERMISSION_PATH = #{url}
+	</select>
+	
+	<select id="getPermissionAttrValueByUrlAndCode" parameterType="String" resultType="String">
+		SELECT ATTR_VALUE  FROM sy_permission_extend pe WHERE pe.ATTR_CODE = #{attrCode}
+		and EXISTS(SELECT 1 FROM sy_permission p WHERE p.PERMISSION_ID = pe.PERMISSION_ID 
+		AND p.APP_ID = #{appId} and p.PERMISSION_PATH = #{url} )
+	</select>
+	
 	
 	<select id="getSubPermissByPId" parameterType="String" resultType="com.bt.dolphin.system.menu.vo.SysPermissionVo">
 		SELECT p.APP_ID,p.PERMISSION_ID,p.PERMISSION_NAME,p.PERMISSION_PARENTID,p.PERMISSION_CODE,p.PERMISSION_TYPE,p.PERMISSION_PATH,
@@ -147,5 +161,9 @@
         delete FROM sy_user_permission_rela
         where PERMISSION_ID = #{permissionId} and USER_ID = #{userId}
     </delete>
+    
+    <select id="hasPriv" parameterType="String" resultType="int">
+		SELECT COUNT(1) FROM `sy_user_permission_rela` where PERMISSION_PATH = #{url} and USER_NO = #{userNo} and APP_ID = #{appId}
+	</select>
 	
 </mapper>

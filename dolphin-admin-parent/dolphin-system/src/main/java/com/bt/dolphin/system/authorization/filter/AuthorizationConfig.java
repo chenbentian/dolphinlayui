@@ -37,6 +37,9 @@ public class AuthorizationConfig {
 	@Value("${ApplicationName}")
 	private String applicationName;
 	
+	@Value("${dolphin.authorityOpen}")
+	private Boolean authorityOpen;
+	
 	@Autowired
 	private IAuthorityService authorityService;
 
@@ -47,6 +50,7 @@ public class AuthorizationConfig {
 		authorizationInterceptor.setUnprotectedUrls(unprotectedUrls);
 		authorizationInterceptor.setAuthorityService(authorityService);
 		authorizationInterceptor.setAppName(applicationName);
+		authorizationInterceptor.setAuthorityOpen(authorityOpen);
 		return authorizationInterceptor;
 	}
 	
